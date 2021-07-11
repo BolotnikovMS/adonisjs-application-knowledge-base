@@ -53,5 +53,9 @@ export default class User extends BaseModel {
     }
   }
 
-
+  @hasMany(() => Role, {
+    foreignKey: 'id',
+    localKey: 'roleId'
+  })
+  public role: HasMany<typeof Role>
 }
