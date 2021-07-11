@@ -6,7 +6,9 @@ export default class Articles extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-
+      table.string('topic', 255).notNullable()
+      table.text('description').notNullable()
+      table.integer('program_id', 10).notNullable()
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */
