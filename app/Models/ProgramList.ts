@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
+
+import Article from 'App/Models/Article'
 
 export default class ProgramList extends BaseModel {
   @column({ isPrimary: true })
@@ -8,9 +10,26 @@ export default class ProgramList extends BaseModel {
   @column()
   public name: string
 
-  @column.dateTime({ autoCreate: true })
+  @column.dateTime({
+    autoCreate: true,
+    serialize: (value?: DateTime) => {
+      return value ? value.toFormat('HH:mm dd.MM.yyyy') : value
+    }
+  })
   public createdAt: DateTime
 
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  @column.dateTime({
+    autoCreate: true,
+    autoUpdate: true,
+    serialize: (value?: DateTime) => {
+      return value ? value.toFormat('HH:mm dd.MM.yyyy') : value
+    }
+  })
   public updatedAt: DateTime
+
+  @hasMany(() => Article, {
+    foreignKey: 'programId',
+    localKey: 'id'
+  })
+  public article: HasMany<typeof Article>
 }

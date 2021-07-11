@@ -8,7 +8,11 @@ export default class Articles extends BaseSchema {
       table.increments('id')
       table.string('topic', 255).notNullable()
       table.text('description').notNullable()
-      table.integer('program_id', 10).notNullable()
+      table
+        .integer('program_id', 10)
+        .notNullable()
+        .references('program_lists.id')
+        .onDelete('CASCADE')
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */
