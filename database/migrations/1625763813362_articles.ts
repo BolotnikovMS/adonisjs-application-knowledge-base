@@ -10,14 +10,14 @@ export default class Articles extends BaseSchema {
       table.text('description').notNullable()
       table
         .integer('program_id', 10)
+        .index()
         .notNullable()
         .references('program_lists.id')
         .onDelete('CASCADE')
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */
-      table.timestamp('created_at', { useTz: true })
-      table.timestamp('updated_at', { useTz: true })
+      table.timestamps()
     })
   }
 

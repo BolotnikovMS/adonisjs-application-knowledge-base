@@ -12,18 +12,19 @@ export default class UsersSchema extends BaseSchema {
       table.string('email', 255).notNullable()
       table.string('password', 180).notNullable()
       table.string('remember_me_token').nullable()
-      table.integer('role_id', 10).notNullable().defaultTo(2)
       table
-        .integer('role_id').notNullable().defaultTo(2)
-        .references('role.id')
-        .onDelete('CASCADE') // delete post when user is deleted
+        .integer('role_id', 10)
+        .index()
+        .notNullable()
+        .defaultTo(2)
+        .references('roles.id')
+        .onDelete('CASCADE')
 
       table.boolean('active').defaultTo(1)
       /**
        * Uses timestampz for PostgreSQL and DATETIME2 for MSSQL
        */
-      table.timestamp('created_at', { useTz: true }).notNullable()
-      table.timestamp('updated_at', { useTz: true }).notNullable()
+      table.timestamps()
     })
   }
 
