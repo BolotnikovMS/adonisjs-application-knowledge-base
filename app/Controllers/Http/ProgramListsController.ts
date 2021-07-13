@@ -3,12 +3,16 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import ProgramList from 'App/Models/ProgramList'
 
 export default class ProgramListsController {
-  public async index({ view }: HttpContextContract) {
-    const program = await ProgramList.query().preload('article')
+  public async index({ view, request }: HttpContextContract) {
+    const page = request.input('page', 1)
+    const limit = 15
+    const programs = await ProgramList.query().preload('article').paginate(page, limit)
+
+    programs.baseUrl('/list-program/')
 
     return view.render('pages/programs/index', {
       title: 'Список программ',
-      program
+      programs
     })
   }
 
