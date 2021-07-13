@@ -7,8 +7,7 @@ export default class ArticlesController {
     return await Article.all()
   }
 
-  public async create({}: HttpContextContract) {
-  }
+  public async create({}: HttpContextContract) {}
 
   public async store({ request, response }: HttpContextContract) {
     const article = request.only(['topic', 'description', 'program_id'])
@@ -20,14 +19,11 @@ export default class ArticlesController {
     return response.send(`Article with topic ${article.topic} created!`)
   }
 
-  public async show({}: HttpContextContract) {
-  }
+  public async show({}: HttpContextContract) {}
 
-  public async edit({}: HttpContextContract) {
-  }
+  public async edit({}: HttpContextContract) {}
 
-  public async update({}: HttpContextContract) {
-  }
+  public async update({}: HttpContextContract) {}
 
   public async destroy({ params, response }: HttpContextContract) {
     const article = await Article.findOrFail(params.id)

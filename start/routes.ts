@@ -30,9 +30,14 @@ Route.get('/news', async ({ view }) => {
   })
 })
 
-Route.get('/list', 'ProgramListsController.index').as('index.program')
-Route.post('/list/new', 'ProgramListsController.store').as('store.program')
+Route.group(() => {
+  Route.get('/', 'ProgramListsController.index').as('index.program')
+  Route.post('/new', 'ProgramListsController.store').as('store.program')
+  Route.post('/delete/:id', 'ProgramListsController.destroy').as('destroy.program')
+}).prefix('list-program')
 
-Route.get('/article', 'ArticlesController.index').as('index.article')
-Route.post('/article/new', 'ArticlesController.store').as('store.article')
-Route.delete('/article/delete/:id', 'ArticlesController.destroy').as('destroy.article')
+Route.group(() => {
+  Route.get('/', 'ArticlesController.index').as('index.article')
+  Route.post('/new', 'ArticlesController.store').as('store.article')
+  Route.delete('/delete/:id', 'ArticlesController.destroy').as('destroy.article')
+}).prefix('article')
