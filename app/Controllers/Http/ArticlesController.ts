@@ -19,8 +19,15 @@ export default class ArticlesController {
     return response.send(`Article with topic ${article.topic} created!`)
   }
 
-  public async show({ params }: HttpContextContract) {
+  public async show({ response, params }: HttpContextContract) {
     const article = await Article.find(params.id)
+
+    if (article) {
+      return article
+    } else {
+      response.status(404)
+      return response.send('Error! Article is not defined!')
+    }
   }
 
   public async edit({}: HttpContextContract) {}
