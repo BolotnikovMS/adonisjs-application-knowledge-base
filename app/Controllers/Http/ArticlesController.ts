@@ -19,17 +19,24 @@ export default class ArticlesController {
     return response.send(`Article with topic ${article.topic} created!`)
   }
 
-  public async show({}: HttpContextContract) {}
+  public async show({ params }: HttpContextContract) {
+    const article = await Article.find(params.id)
+  }
 
   public async edit({}: HttpContextContract) {}
 
   public async update({}: HttpContextContract) {}
 
   public async destroy({ params, response }: HttpContextContract) {
-    const article = await Article.findOrFail(params.id)
+    const article = await Article.find(params.id)
 
-    await article.delete()
-
-    return response.send(`Article id:${article.id} topic:${article.topic} has been deleted!`)
+    console.log(article)
+    if (article) {
+      await article.delete()
+      return response.send(`Article id:${article.id} topic:${article.topic} has been deleted!`)
+    } else {
+      response.status(404)
+      return response.send(`Error!`)
+    }
   }
 }
