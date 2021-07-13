@@ -3,8 +3,13 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import ProgramList from 'App/Models/ProgramList'
 
 export default class ProgramListsController {
-  public async index({}: HttpContextContract) {
-    return ProgramList.query().preload('article')
+  public async index({ view }: HttpContextContract) {
+    const program = await ProgramList.query().preload('article')
+
+    return view.render('pages/programs/index', {
+      title: 'Список программ',
+      program
+    })
   }
 
   public async create({}: HttpContextContract) {}
