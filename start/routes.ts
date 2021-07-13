@@ -22,7 +22,7 @@ import Route from '@ioc:Adonis/Core/Route'
 
 Route.get('/', async ({ view }) => {
   return view.render('pages/index')
-})
+}).as('index')
 
 Route.group(() => {
   Route.get('/', 'ProgramListsController.index').as('index.program')
