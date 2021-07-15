@@ -1,4 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { schema, rules } from '@ioc:Adonis/Core/Validator'
 
 import ProgramList from 'App/Models/ProgramList'
 
@@ -20,12 +21,42 @@ export default class ProgramListsController {
     return view.render('pages/programs/create', { title: 'Добавить программу' })
   }
 
-  public async store({ request }: HttpContextContract) {
-    const program = request.only(['name'])
+  public async store({ request, response, session }: HttpContextContract) {
+    const validSchema = schema.create({
+      name: schema.string({
+        trim: true,
+        escape: true,
+      },
+        [rules.minLength(2), rules.maxLength(200)]
+      ),
+      description: schema.string.optional({
+        trim: true,
+        escape: true,
+      },
+        [rules.maxLength(500)]
+      ),
+      site: schema.string.optional({
+        trim: true,
+        escape: true,
+      },
+        [rules.maxLength(200)]
+      )
+    })
 
-    if (program) {
-      await ProgramList.create(program)
+    const messages = {
+      'name.required': 'Поле "Название" является обязательным.',
+      'name.minLength': 'Минимальная длинна поля 2 символа.',
+      'name.maxLength': 'Максимальная длинна поля 200 символов.',
+      'description.maxLength': 'Максимальная длинна поля 10 символов.',
+      'site.maxLength': 'Максимальная длинна поля 200 символов.'
     }
+
+    const validatedData = await request.validate({
+      schema: validSchema,
+      messages
+    })
+
+    console.log(validatedData)
   }
 
   public async show({}: HttpContextContract) {}

@@ -10,6 +10,12 @@ export default class ProgramList extends BaseModel {
   @column()
   public name: string
 
+  @column()
+  public description: string
+
+  @column()
+  public site: string
+
   @column.dateTime({
     autoCreate: true,
     serialize: (value?: DateTime) => {

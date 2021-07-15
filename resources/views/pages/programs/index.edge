@@ -36,7 +36,11 @@
         @each((program , i) in programs)
           <tr>
             <th scope="row">{{ i + 1 }}</th>
-            <td>{{ program.name }}</td>
+            <td>
+              <details>
+                <summary>{{ program.name }}</summary>
+              </details>
+            </td>
             <td>
               <a href="#" class="btn btn-success" title="Редактировать">
                 <i class="fas fa-eye"></i>

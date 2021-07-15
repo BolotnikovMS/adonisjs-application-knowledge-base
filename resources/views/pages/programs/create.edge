@@ -17,12 +17,23 @@
       </div>
       <div class="mb-2 row">
         <div class="col-sm-4">
-          <div class="input-group mb-2">
-            <span class="input-group-text col-sm-3" id="number">Кабинет:</span>
-            <input type="text" class="form-control" placeholder="Введите номер кабинета" name="number" aria-label="number" aria-describedby="number" value="{{ flashMessages.get('number') || '' }}" />
+          <div class="form-floating">
+            <textarea class="form-control" style="height: 200px" name="description" placeholder="Leave a comment here" id="floatingTextarea">{{ flashMessages.get('description') || '' }}</textarea>
+            <label for="floatingTextarea">Описание</label>
           </div>
-          @if(flashMessages.has('errors.name'))
-            <span class="text-danger">{{ flashMessages.get('errors.number') }}</span>
+          @if(flashMessages.has('errors.description'))
+            <span class="text-danger">{{ flashMessages.get('errors.description') }}</span>
+          @endif
+        </div>
+      </div>
+      <div class="mb-2 row">
+        <div class="col-sm-4">
+          <div class="input-group mb-2">
+            <span class="input-group-text col-sm-3" id="site">Сайт:</span>
+            <input type="text" class="form-control" placeholder="Введите сайт разработчика" name="site" aria-label="site" aria-describedby="site" value="{{ flashMessages.get('site') || '' }}" />
+          </div>
+          @if(flashMessages.has('errors.site'))
+            <span class="text-danger">{{ flashMessages.get('errors.site') }}</span>
           @endif
         </div>
       </div>
