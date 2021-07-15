@@ -16,7 +16,9 @@ export default class ProgramListsController {
     })
   }
 
-  public async create({}: HttpContextContract) {}
+  public async create({ view }: HttpContextContract) {
+    return view.render('pages/programs/create', { title: 'Добавить программу' })
+  }
 
   public async store({ request }: HttpContextContract) {
     const program = request.only(['name'])
