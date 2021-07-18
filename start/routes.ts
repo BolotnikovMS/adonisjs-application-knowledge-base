@@ -28,7 +28,7 @@ Route.group(() => {
   Route.get('/', 'ProgramListsController.index').as('index.program')
   Route.get('/new', 'ProgramListsController.create').as('create.program')
   Route.post('/new', 'ProgramListsController.store').as('store.program')
-  Route.post('/delete/:id', 'ProgramListsController.destroy').as('destroy.program')
+  Route.get('/delete/:id', 'ProgramListsController.destroy').as('destroy.program')
 }).prefix('list-program')
 
 Route.group(() => {

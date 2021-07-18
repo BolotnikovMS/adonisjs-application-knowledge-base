@@ -67,11 +67,12 @@ export default class ProgramListsController {
 
   public async update({}: HttpContextContract) {}
 
-  public async destroy({ params, response }: HttpContextContract) {
+  public async destroy({ params, response, session }: HttpContextContract) {
     const program = await ProgramList.findOrFail(params.id)
 
     await program.delete()
 
-    return response.send(`Program: id:${program.id} topic:${program.name} has been deleted!`)
+    session.flash('successmessage', `Программа ${program.name} была удалена!`)
+    response.redirect('/list-program/')
   }
 }
