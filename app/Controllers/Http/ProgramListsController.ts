@@ -37,9 +37,8 @@ export default class ProgramListsController {
       ),
       site: schema.string.optional({
         trim: true,
-        escape: true,
       },
-        [rules.maxLength(200)]
+        [rules.maxLength(200), rules.url()]
       )
     })
 
@@ -56,7 +55,10 @@ export default class ProgramListsController {
       messages
     })
 
-    console.log(validatedData)
+    await ProgramList.create(validatedData)
+
+    session.flash('successmessage', `Программа "${validatedData.name}" успешно добавлена в список.`)
+    response.redirect('/list-program/')
   }
 
   public async show({}: HttpContextContract) {}
