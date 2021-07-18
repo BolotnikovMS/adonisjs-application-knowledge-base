@@ -30,7 +30,11 @@ export default class ProgramListsController {
     response.redirect('/list-program/')
   }
 
-  public async show({}: HttpContextContract) {}
+  public async show({ view }: HttpContextContract) {
+    return view.render('pages/programs/show', {
+      title: 'Программа'
+    })
+  }
 
   public async edit({ view, params }: HttpContextContract) {
     const program = await ProgramList.findOrFail(params.id)

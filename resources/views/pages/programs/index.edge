@@ -35,7 +35,7 @@
                 <div>
                   @if(program.site != NULL)
                     <p>
-                      <u><a href="{{ program.site }}" target="_blank">Сайт</a></u>
+                      <u><i class="fas fa-link m-1"></i><a href="{{ program.site }}" target="_blank">Сайт</a></u>
                     </p>
                   @endif
                   @if(program.description != NULL)
@@ -51,7 +51,7 @@
           </div>
         </div>
         <div class="col-1">
-          <a href="#" class="linkSt m-1" title="Просмотр">
+          <a href="{{ route('show.program', {id: program.id}) }}" class="linkSt m-1" title="Просмотр">
             <i class="fas fa-eye"></i>
           </a>
           <a href="{{ route('edit.program', {id: program.id}) }}" class="linkSt m-1" title="Редактировать">
@@ -61,7 +61,9 @@
             <i class="fas fa-trash"></i>
           </a>
         </div>
-        <span class="badge bg-primary rounded-pill">14</span>
+        <span class="badge bg-primary rounded-pill">
+          {{ program.article.length }}
+        </span>
       </li>
     @endeach
   </ol>
