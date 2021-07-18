@@ -52,6 +52,8 @@ export default class ProgramListsController {
       // @ts-ignore
       program.site = validatedData.site
       await program.save()
+    } else {
+      // перенаправка на страницу ошибки
     }
 
     session.flash('successmessage', `Данные об программе "${program.name}" успешно обновлены.`)
