@@ -11,7 +11,7 @@ export default class ProgramList extends BaseModel {
   public name: string
 
   @column()
-  public description: string
+  public description: null
 
   @column()
   public site: string

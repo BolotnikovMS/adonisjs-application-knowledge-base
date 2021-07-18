@@ -45,13 +45,13 @@ export default class ProgramListsController {
     const validatedData = await request.validate(RequestProgramListValidator)
     const program = await ProgramList.findOrFail(params.id)
 
-    console.log(validatedData)
     if (program) {
       program.name = validatedData.name
       // @ts-ignore
-      if (validatedData.description == null) {
+      if (validatedData.description == null || validatedData.description == '') {
         program.description = null
       } else {
+        // @ts-ignore
         program.description = validatedData.description
       }
       // @ts-ignore
