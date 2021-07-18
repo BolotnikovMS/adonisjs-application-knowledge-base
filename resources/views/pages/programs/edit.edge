@@ -18,7 +18,7 @@
       <div class="mb-2 row">
         <div class="col-sm-4">
           <div class="form-floating">
-            <textarea class="form-control" style="height: 200px" name="description" placeholder="Leave a comment here" id="floatingTextarea">{{ program.description }}</textarea>
+            <textarea class="form-control" style="height: 200px" name="description" placeholder="Leave a comment here" id="floatingTextarea">{{ program.description !== null ? program.description : '' }}</textarea>
             <label for="floatingTextarea">Описание</label>
           </div>
           @if(flashMessages.has('errors.description'))
@@ -30,7 +30,7 @@
         <div class="col-sm-4">
           <div class="input-group mb-2">
             <span class="input-group-text col-sm-3" id="site">Сайт:</span>
-            <input type="text" class="form-control" placeholder="Введите сайт разработчика(url)" name="site" aria-label="site" aria-describedby="site" value="{{ program.site }}" />
+            <input type="text" class="form-control" placeholder="Введите сайт разработчика(url)" name="site" aria-label="site" aria-describedby="site" value="{{ program.site !== null ? program.site : '' }}" />
           </div>
           @if(flashMessages.has('errors.site'))
             <span class="text-danger">{{ flashMessages.get('errors.site') }}</span>

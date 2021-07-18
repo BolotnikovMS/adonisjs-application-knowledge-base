@@ -43,12 +43,17 @@ export default class ProgramListsController {
 
   public async update({ params, request, response, session }: HttpContextContract) {
     const validatedData = await request.validate(RequestProgramListValidator)
-    let program = await ProgramList.findOrFail(params.id)
+    const program = await ProgramList.findOrFail(params.id)
 
+    console.log(validatedData)
     if (program) {
       program.name = validatedData.name
       // @ts-ignore
-      program.description = validatedData.description
+      if (validatedData.description == null) {
+        program.description = null
+      } else {
+        program.description = validatedData.description
+      }
       // @ts-ignore
       program.site = validatedData.site
       await program.save()
