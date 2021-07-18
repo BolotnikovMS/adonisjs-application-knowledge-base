@@ -2,12 +2,53 @@
 
 @section('content')
 <div class="container">
-    {{--  Блок с сообщениями  --}}
-    <div class="col-13 mb-1 row">
-    </div>
-    {{--  Конец блока с сообщениями  --}}
   <h3 class="mt-2 mb-4">{{ title }}</h3>
-
-
+    <form class="row" action="{{ route('update.program', {id: program.id}) }}" method="POST">
+      <div class="mb-2 row">
+        <div class="col-sm-4">
+          <div class="input-group mb-2">
+            <span class="input-group-text col-sm-3" id="name">Название:</span>
+            <input type="text" class="form-control" placeholder="Введите название программы" name="name" aria-label="name" aria-describedby="name" value="{{ program.name }}" />
+          </div>
+            @if(flashMessages.has('errors.name'))
+              <span class="text-danger">{{ flashMessages.get('errors.name') }}</span>
+            @endif
+        </div>
+      </div>
+      <div class="mb-2 row">
+        <div class="col-sm-4">
+          <div class="form-floating">
+            <textarea class="form-control" style="height: 200px" name="description" placeholder="Leave a comment here" id="floatingTextarea">{{ program.description }}</textarea>
+            <label for="floatingTextarea">Описание</label>
+          </div>
+          @if(flashMessages.has('errors.description'))
+            <span class="text-danger">{{ flashMessages.get('errors.description') }}</span>
+          @endif
+        </div>
+      </div>
+      <div class="mb-2 row">
+        <div class="col-sm-4">
+          <div class="input-group mb-2">
+            <span class="input-group-text col-sm-3" id="site">Сайт:</span>
+            <input type="text" class="form-control" placeholder="Введите сайт разработчика" name="site" aria-label="site" aria-describedby="site" value="{{ program.site }}" />
+          </div>
+          @if(flashMessages.has('errors.site'))
+            <span class="text-danger">{{ flashMessages.get('errors.site') }}</span>
+          @endif
+        </div>
+      </div>
+      <div class="col-2 mx-auto mb-3">
+        <table>
+          <tr>
+            <th>
+              <a href="{{ route('index.program') }}" class="btn btn-secondary">Отмена</a>
+            </th>
+            <th>
+              <button class="btn btn-success" type="submit">Добавить</button>
+            </th>
+          </tr>
+        </table>
+      </div>
+    </form>
 </div>
 @endsection

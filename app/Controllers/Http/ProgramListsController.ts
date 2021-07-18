@@ -32,9 +32,31 @@ export default class ProgramListsController {
 
   public async show({}: HttpContextContract) {}
 
-  public async edit({}: HttpContextContract) {}
+  public async edit({ view, params }: HttpContextContract) {
+    const program = await ProgramList.findOrFail(params.id)
 
-  public async update({}: HttpContextContract) {}
+    return view.render('pages/programs/edit', {
+      title: 'Редактирование',
+      program
+    })
+  }
+
+  public async update({ params, request, response, session }: HttpContextContract) {
+    const validatedData = await request.validate(RequestProgramListValidator)
+    let program = await ProgramList.findOrFail(params.id)
+
+    if (program) {
+      program.name = validatedData.name
+      // @ts-ignore
+      program.description = validatedData.description
+      // @ts-ignore
+      program.site = validatedData.site
+      await program.save()
+    }
+
+    session.flash('successmessage', `Данные об программе "${program.name}" успешно обновлены.`)
+    response.redirect('/list-program/')
+  }
 
   public async destroy({ params, response, session }: HttpContextContract) {
     const program = await ProgramList.findOrFail(params.id)
