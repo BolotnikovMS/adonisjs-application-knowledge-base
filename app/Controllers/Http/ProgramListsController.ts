@@ -11,8 +11,6 @@ export default class ProgramListsController {
 
     programs.baseUrl('/list-program/')
 
-
-    
     return view.render('pages/programs/index', {
       title: 'Список программ',
       programs
