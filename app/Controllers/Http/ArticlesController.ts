@@ -6,14 +6,16 @@ export default class ArticlesController {
   public async index({}: HttpContextContract) {
   }
 
-  public async create({ view }: HttpContextContract) {
-    return view.render('pages/articles/create', { title: 'Добавить тему' })
+  public async create({ view, request }: HttpContextContract) {
+    const progId = request.params()
+
+    return view.render('pages/articles/create', { title: 'Добавить тему', progId })
   }
 
   public async store({ request, response }: HttpContextContract) {
-    const article = request.all()
+    const idProgram = request.params()
 
-    console.log(article)
+    console.log(idProgram)
     // if (article) {
     //   await Article.create(article)
     // }

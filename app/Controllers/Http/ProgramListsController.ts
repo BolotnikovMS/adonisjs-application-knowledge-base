@@ -48,6 +48,13 @@ export default class ProgramListsController {
     })
   }
 
+  public async createArticle({ view }: HttpContextContract) {
+
+    return view.render('pages/articles/create', {
+      title: 'Добавить тему'
+    })
+  }
+
   public async edit({ view, params }: HttpContextContract) {
     const program = await ProgramList.findOrFail(params.id)
 
