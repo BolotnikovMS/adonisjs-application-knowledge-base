@@ -43,7 +43,7 @@ export default class ProgramListsController {
     programArticles.baseUrl(`/list-program/show/${id}`)
 
     return view.render('pages/programs/show', {
-      title: 'Программа',
+      title: `Программа "${programArticles[0].name}"`,
       programArticles
     })
   }

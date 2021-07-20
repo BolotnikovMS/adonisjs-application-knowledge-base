@@ -2,12 +2,59 @@
 
 @section('content')
 <div class="container">
-    {{--  Блок с сообщениями  --}}
-    <div class="col-13 mb-1 row">
+  {{--  Вывод сообщения  --}}
+  @if(flashMessages.has('successmessage'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      {{ flashMessages.get('successmessage') }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    {{--  Конец блока с сообщениями  --}}
+  @elseif(flashMessages.has('dangermessage'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      {{ flashMessages.get('dangermessage') }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  @endif
+
   <h3 class="mt-2 mb-4">{{ title }}</h3>
 
+  <div class="col-1 mb-2">
+    <a href="{{ route('create.article') }}" class="btn btn-success" title="Добавить тему">
+      <i class="fas fa-plus"></i>
+    </a>
+  </div>
+
+  @each(programArticle in programArticles)
+    @if(programArticle.article.length)
+      @each((article, i) in programArticle.article)
+        <div class="card mb-2">
+          <h5 class="card-header">#teg Instruction</h5>
+          <div class="card-body">
+            <h5 class="card-title">{{ article.topic }}</h5>
+            <p class="card-text">
+              {{{ truncate(article.description, 300) }}}
+            </p>
+          </div>
+          <div class="card-footer text-muted">
+            <div class="row">
+              <div class="col-9">
+                <a href="#" class="btn btn-primary">
+                Подробнее
+                <i class="fas fa-chevron-circle-right"></i>
+                </a>
+              </div>
+              <div class="col-3 p-1">
+                <small class=" text-muted">Дата добавления: </small><small class="text-muted m-2" id="time">{{ article.createdAt }}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      @endeach
+    @else
+      <p class="text-center mt-5">Пока ничего нет... :(</p>
+    @endif
+  @endeach
 
 </div>
+
+<script src="{{ '/js/formatData.js' }}"></script>
 @endsection

@@ -4,10 +4,11 @@ import Article from 'App/Models/Article'
 
 export default class ArticlesController {
   public async index({}: HttpContextContract) {
-    return await Article.all()
   }
 
-  public async create({}: HttpContextContract) {}
+  public async create({ view }: HttpContextContract) {
+    return view.render('pages/articles/create', { title: 'Добавить тему' })
+  }
 
   public async store({ request, response }: HttpContextContract) {
     const article = request.only(['topic', 'description', 'program_id'])

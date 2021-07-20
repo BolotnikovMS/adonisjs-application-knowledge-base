@@ -35,7 +35,8 @@ Route.group(() => {
 }).prefix('list-program')
 
 Route.group(() => {
-  Route.get('/', 'ArticlesController.index').as('index.article')
+  // Route.get('/', 'ArticlesController.index').as('index.article')
+  Route.get('/new', 'ArticlesController.create').as('create.article')
   Route.post('/new', 'ArticlesController.store').as('store.article')
   Route.get('/show/:id', 'ArticlesController.show').as('show.article')
   Route.delete('/delete/:id', 'ArticlesController.destroy').as('destroy.article')
