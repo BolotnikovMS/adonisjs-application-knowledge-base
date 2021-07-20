@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import Article from 'App/Models/Article'
+import RequestArticleValidator from 'App/Validators/RequestArticleValidator'
 
 export default class ArticlesController {
   public async index({}: HttpContextContract) {
@@ -12,16 +13,19 @@ export default class ArticlesController {
     return view.render('pages/articles/create', { title: 'Добавить тему', progId })
   }
 
-  public async store({ request, response }: HttpContextContract) {
+  public async store({ request, response, session }: HttpContextContract) {
     const idProgram = request.params()
+    const validatedData = await request.validate(RequestArticleValidator)
 
+    // @ts-ignore
+    validatedData.program_id = idProgram.id
 
-    console.log(idProgram)
-    // if (article) {
-    //   await Article.create(article)
-    // }
+    if (validatedData) {
+      await Article.create(validatedData)
+    }
 
-    // return response.send(`Article with topic ${article.topic} created!`)
+    session.flash('successmessage', `Тема "${validatedData.topic}" успешно добавлена в список.`)
+    response.redirect('back')
   }
 
   public async show({ response, params }: HttpContextContract) {

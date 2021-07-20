@@ -24,7 +24,9 @@ export default class ProgramListsController {
   public async store({ request, response, session }: HttpContextContract) {
     const validatedData = await request.validate(RequestProgramListValidator)
 
-    await ProgramList.create(validatedData)
+    if (validatedData) {
+      await ProgramList.create(validatedData)
+    }
 
     session.flash('successmessage', `Программа "${validatedData.name}" успешно добавлена в список.`)
     response.redirect('/list-program/')
@@ -45,13 +47,6 @@ export default class ProgramListsController {
     return view.render('pages/programs/show', {
       title: `Программа "${programArticles[0].name}"`,
       programArticles
-    })
-  }
-
-  public async createArticle({ view }: HttpContextContract) {
-
-    return view.render('pages/articles/create', {
-      title: 'Добавить тему'
     })
   }
 
