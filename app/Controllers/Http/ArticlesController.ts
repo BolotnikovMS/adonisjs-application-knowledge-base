@@ -15,6 +15,7 @@ export default class ArticlesController {
   public async store({ request, response }: HttpContextContract) {
     const idProgram = request.params()
 
+
     console.log(idProgram)
     // if (article) {
     //   await Article.create(article)
