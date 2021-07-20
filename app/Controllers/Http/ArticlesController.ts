@@ -11,13 +11,14 @@ export default class ArticlesController {
   }
 
   public async store({ request, response }: HttpContextContract) {
-    const article = request.only(['topic', 'description', 'program_id'])
+    const article = request.all()
 
-    if (article) {
-      await Article.create(article)
-    }
+    console.log(article)
+    // if (article) {
+    //   await Article.create(article)
+    // }
 
-    return response.send(`Article with topic ${article.topic} created!`)
+    // return response.send(`Article with topic ${article.topic} created!`)
   }
 
   public async show({ response, params }: HttpContextContract) {

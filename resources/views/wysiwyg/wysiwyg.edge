@@ -1,0 +1,162 @@
+<table id="panelTable" class="col-12">
+  <tr>
+    <td>
+      <button type="button" data-cmd="undo" class="btn btn-control">
+        <i class="fas fa-undo"></i>
+      </button>
+    </td>
+    <td>
+      <button type="button" data-cmd="redo" class="btn btn-control">
+        <i class="fas fa-redo"></i>
+      </button>
+    </td>
+    <td>
+      <button type="button" data-cmd="removeFormat" class="btn btn-control">
+        <i class="fas fa-remove-format"></i>
+      </button>
+    </td>
+    <td>
+      <button type="button" data-cmd="justifyLeft" class="btn btn-control">
+        <i class="fas fa-align-left"></i>
+      </button>
+    </td>
+    <td>
+      <button type="button" data-cmd="justifyCenter" class="btn btn-control">
+        <i class="fas fa-align-center"></i>
+      </button>
+    </td>
+    <td>
+      <button type="button" data-cmd="justifyFull" class="btn btn-control">
+        <i class="fas fa-align-justify"></i>
+      </button>
+    </td>
+    <td>
+      <button type="button" data-cmd="justifyRight" class="btn btn-control">
+        <i class="fas fa-align-right"></i>
+      </button>
+    </td>
+    <td>
+      <button type="button" data-cmd="bold" class="btn btn-control">
+        <i class="fas fa-bold"></i>
+      </button>
+    </td>
+    <td>
+      <button type="button" data-cmd="italic" class="btn btn-control">
+        <i class="fas fa-italic"></i>
+      </button>
+    </td>
+    <td>
+      <button type="button" data-cmd="underline" class="btn btn-control">
+        <i class="fas fa-underline"></i>
+      </button>
+    </td>
+    <td>
+      <button type="button" data-cmd="strikeThrough" class="btn btn-control">
+        <i class="fas fa-strikethrough"></i>
+      </button>
+    </td>
+    <td>
+      <button type="button" data-cmd="indent" class="btn btn-control">
+        <i class="fas fa-indent"></i>
+      </button>
+    </td>
+    <td>
+      <button type="button" data-cmd="outdent" class="btn btn-control">
+        <i class="fas fa-outdent"></i>
+      </button>
+    </td>
+    <td>
+      <button type="button" data-cmd="subscript" class="btn btn-control">
+        <i class="fas fa-subscript"></i>
+      </button>
+    </td>
+    <td>
+      <button type="button" data-cmd="superscript" class="btn btn-control">
+        <i class="fas fa-superscript"></i>
+      </button>
+    </td>
+    <td>
+      <button type="button" data-cmd="insertOrderedList" class="btn btn-control">
+        <i class="fas fa-list-ol"></i>
+      </button>
+    </td>
+    <td>
+      <button type="button" data-cmd="insertUnorderedList" class="btn btn-control">
+        <i class="fas fa-list-ul"></i>
+      </button>
+    </td>
+    <td>
+      <select class="controlElem" data-cmd="fontName">
+        <option value="Arial">Arial</option>
+        <option value="Comic Sans MS">Comic Sans MS</option>
+        <option value="Courier">Courier</option>
+        <option value="Tahoma">Tahoma</option>
+        <option value="Time New Roman">Time New Roman</option>
+      </select>
+    </td>
+    <td>
+      <div class="m-1">
+        <i class="fas fa-text-height"></i>
+        <select class="controlElem" data-cmd="fontSize">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+        </select>
+      </div>
+    </td>
+    <td>
+      <div class="m-1">
+        <i class="fas fa-heading"></i>
+        <select class="controlElem" data-cmd="formatBlock">
+          <option value="H1">H1</option>
+          <option value="H2">H2</option>
+          <option value="H3">H3</option>
+          <option value="H4">H4</option>
+          <option value="H5">H5</option>
+          <option value="H6">H6</option>
+        </select>
+      </div>
+    </td>
+    <td>
+      <div class="m-1">
+        <i class="fas fa-font"></i>
+        <input type="color" data-cmd="foreColor" class="input controlElem">
+      </div>
+    </td>
+    <td>
+      <div class="m-1">
+        <i class="fas fa-highlighter">
+          <input type="color" data-cmd="hiliteColor" class="input controlElem" />
+        </i>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <button type="button" data-cmd="insertHorizontalRule" class="btn btn-control">
+        <i class="fas fa-grip-lines"></i>
+      </button>
+    </td>
+    <td>
+      <button type="button" data-cmd="insertImage" class="btn btn-control">
+        <i class="fas fa-file-image"></i>
+      </button>
+    </td>
+    <td>
+      <button type="button" data-cmd="createLink" class="btn btn-control">
+        <i class="fas fa-link"></i>
+      </button>
+    </td>
+    <td>
+      <button type="button" data-cmd="showCode" class="btn btn-control" name="active">
+        <i class="fas fa-code"></i>
+      </button>
+    </td>
+  </tr>
+</table>
+
+<iframe class="border border-1 rounded col-12" style="height: 450px" id="output" name="textField"></iframe>
