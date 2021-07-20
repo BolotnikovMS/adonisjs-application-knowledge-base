@@ -7,7 +7,7 @@ export default class Articles extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.string('topic', 255).notNullable()
-      table.text('description').notNullable()
+      table.text('description').nullable()
       table
         .integer('program_id', 10)
         .index()

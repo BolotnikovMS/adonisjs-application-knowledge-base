@@ -18,6 +18,9 @@
   <h3 class="mt-2 mb-4">{{ title }}</h3>
 
   <div class="col-1 mb-2">
+    <a href="{{ route('index.program') }}" class="btn btn-secondary" title="Добавить тему">
+      <i class="fas fa-chevron-left"></i>
+    </a>
     <a href="{{ route('create.article', {id: programArticles[0].id}) }}" class="btn btn-success" title="Добавить тему">
       <i class="fas fa-plus"></i>
     </a>
