@@ -1,6 +1,8 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import Article from 'App/Models/Article'
+import Document from 'App/Models/Document'
+
 import RequestArticleValidator from 'App/Validators/RequestArticleValidator'
 import RequestDocumentValidator from 'App/Validators/RequestDocumentValidator'
 
@@ -33,14 +35,22 @@ export default class ArticlesController {
     const validatedData = await request.validate(RequestDocumentValidator)
 
     // @ts-ignore
-    // validatedData.program_id = idProgram.id
+    validatedData.program_id = idProgram.id
 
-    // if (validatedData) {
-    //   await Article.create(validatedData)
-    // }
+    if (validatedData) {
+      const document = {
+        topic: validatedData.topic,
+        file_name_old: [validatedData.file?.clientName, validatedData.file_1?.clientName, validatedData.file_2?.clientName],
+        file_new_name: [],
+        program_id: idProgram.id
+      }
+
+
+      // await Document.create(validatedData)
+    }
 
     console.log(validatedData)
-    console.log(request.allFiles())
+    // console.log(request.allFiles())
     // console.log(idProgram)
     // session.flash('successmessage', `Файл "${validatedData.topic}" успешно добавлен в список.`)
 
