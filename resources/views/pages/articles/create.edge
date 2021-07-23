@@ -16,11 +16,11 @@
         <div class="mb-2 row">
           <div class="col-sm-4">
             <div class="input-group mb-2">
-              <span class="input-group-text col-sm-3" id="name">Название:</span>
-              <input type="text" class="form-control" placeholder="Введите название файла" name="name" aria-label="name" aria-describedby="name" value="{{ flashMessages.get('name') || '' }}" />
+              <span class="input-group-text col-sm-3" id="topic">Тема:</span>
+              <input type="text" class="form-control" placeholder="Введите тему" name="topic" aria-label="name" aria-describedby="name" value="{{ flashMessages.get('topic') || '' }}" />
             </div>
-            @if(flashMessages.has('errors.name'))
-              <span class="text-danger">{{ flashMessages.get('errors.name') }}</span>
+            @if(flashMessages.has('errors.topic'))
+              <span class="text-danger">{{ flashMessages.get('errors.topic') }}</span>
             @endif
           </div>
         </div>

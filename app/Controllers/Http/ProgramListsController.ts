@@ -7,7 +7,7 @@ export default class ProgramListsController {
   public async index({ view, request }: HttpContextContract) {
     const page = request.input('page', 1)
     const limit = 15
-    const programs = await ProgramList.query().preload('article').paginate(page, limit)
+    const programs = await ProgramList.query().preload('articles').paginate(page, limit)
 
     programs.baseUrl('/list-program/')
 
@@ -39,7 +39,7 @@ export default class ProgramListsController {
     const programArticles = await ProgramList
       .query()
       .where('id', '=', id)
-      .preload('article')
+      .preload('articles')
       .paginate(page, limit)
 
     programArticles.baseUrl(`/list-program/show/${id}`)
