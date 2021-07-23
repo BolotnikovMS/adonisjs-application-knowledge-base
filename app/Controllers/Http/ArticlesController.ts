@@ -44,6 +44,8 @@ export default class ArticlesController {
     // console.log(idProgram)
     // session.flash('successmessage', `Файл "${validatedData.topic}" успешно добавлен в список.`)
 
+
+
     response.redirect('back')
   }
 
