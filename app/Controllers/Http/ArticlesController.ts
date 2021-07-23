@@ -2,10 +2,10 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import Article from 'App/Models/Article'
 import RequestArticleValidator from 'App/Validators/RequestArticleValidator'
+import RequestDocumentValidator from 'App/Validators/RequestDocumentValidator'
 
 export default class ArticlesController {
-  public async index({}: HttpContextContract) {
-  }
+  public async index({}: HttpContextContract) {}
 
   public async create({ view, request }: HttpContextContract) {
     const progId = request.params()
@@ -30,7 +30,7 @@ export default class ArticlesController {
 
   public async storeDocument({ request, response, session }: HttpContextContract) {
     const idProgram = request.params()
-    // const validatedData = await request.validate(RequestArticleValidator)
+    const validatedData = await request.validate(RequestDocumentValidator)
 
     // @ts-ignore
     // validatedData.program_id = idProgram.id
@@ -39,9 +39,11 @@ export default class ArticlesController {
     //   await Article.create(validatedData)
     // }
 
-    // console.log(request.allFiles())
+    console.log(validatedData)
+    console.log(request.allFiles())
     // console.log(idProgram)
     // session.flash('successmessage', `Файл "${validatedData.topic}" успешно добавлен в список.`)
+
     response.redirect('back')
   }
 
