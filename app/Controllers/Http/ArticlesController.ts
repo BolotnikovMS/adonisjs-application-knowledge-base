@@ -28,6 +28,23 @@ export default class ArticlesController {
     response.redirect('back')
   }
 
+  public async storeDocument({ request, response, session }: HttpContextContract) {
+    const idProgram = request.params()
+    // const validatedData = await request.validate(RequestArticleValidator)
+
+    // @ts-ignore
+    // validatedData.program_id = idProgram.id
+
+    // if (validatedData) {
+    //   await Article.create(validatedData)
+    // }
+
+    // console.log(request.allFiles())
+    // console.log(idProgram)
+    // session.flash('successmessage', `Файл "${validatedData.topic}" успешно добавлен в список.`)
+    response.redirect('back')
+  }
+
   public async show({ response, params }: HttpContextContract) {
     const article = await Article.find(params.id)
 

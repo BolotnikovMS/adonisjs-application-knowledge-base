@@ -12,7 +12,7 @@
   </nav>
   <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade show active mt-3" id="nav-file" role="tabpanel" aria-labelledby="nav-file-tab">
-      <form class="row" action="#" method="POST" enctype="multipart/form-data">
+      <form id="formDoc" class="row" action="{{ route('store.document.article', {id: progId.id}) }}" method="POST" enctype="multipart/form-data">
         <div class="mb-2 row">
           <div class="col-sm-4">
             <div class="input-group mb-2">
@@ -24,15 +24,24 @@
             @endif
           </div>
         </div>
+        <div class="group-input-file-add">
+          <div class="mb-2 row">
+            <div class="col-sm-4">
+              <div class="input-group">
+                <input type="file" class="form-control" name="file" id="file" aria-describedby="file" aria-label="Upload">
+              </div>
+                @if(flashMessages.has('errors.file'))
+                  <span class="text-danger">{{ flashMessages.get('errors.file') }}</span>
+                @endif
+            </div>
+          </div>
+        </div>
         <div class="mb-2 row">
           <div class="col-sm-4">
-            <div class="input-group mb-3">
-              <label class="input-group-text" for="fileIn">Файл:</label>
-              <input type="file" class="form-control" name="fileIn">
-            </div>
-            @if(flashMessages.has('errors.fileIn'))
-              <span class="text-danger">{{ flashMessages.get('errors.fileIn') }}</span>
-            @endif
+            <button class="btn btn-outline-secondary" type="button" id="btnAddInputFile" title="Добавить поле">
+              <i class="fas fa-plus-circle"></i>
+              Добавить поле для файла
+            </button>
           </div>
         </div>
         <div class="col-2 mx-auto mb-3">
@@ -85,5 +94,5 @@
 <script src="/js/summernote/lang/summernote-ru-RU.js"></script>
 <script src="/js/summernote/script.js"></script>
 <script src="/js/jquery/jquery-3.6.0.min.js"></script>
-
+<script src="/js/test.js"></script>
 @endsection
