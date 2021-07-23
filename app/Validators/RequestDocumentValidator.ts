@@ -7,6 +7,8 @@ export default class RequestDocumentValidator {
 
   public schema = schema.create({
     topic: schema.string({
+
+
         trim: true,
         escape: true,
       },
