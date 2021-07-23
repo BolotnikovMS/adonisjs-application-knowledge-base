@@ -6,12 +6,18 @@ export default class Documents extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
+      table.string('topic', 255).notNullable()
+      table.string('file_name_old', 255).notNullable()
+      table.string('file_new_name', 255).notNullable()
+      table.string('file_extname', 20).nullable()
+      table
+        .integer('program_id', 10)
+        .index()
+        .notNullable()
+        .references('program_lists.id')
+        .onDelete('CASCADE')
 
-      /**
-       * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
-       */
-      table.timestamp('created_at', { useTz: true })
-      table.timestamp('updated_at', { useTz: true })
+      table.timestamps()
     })
   }
 
