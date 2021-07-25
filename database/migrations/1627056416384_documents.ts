@@ -9,7 +9,7 @@ export default class Documents extends BaseSchema {
       table.string('topic', 255).notNullable()
       table.string('file_name_old', 255).notNullable()
       table.string('file_new_name', 255).notNullable()
-      table.string('file_extname', 20).nullable()
+      table.string('file_extname', 60).nullable()
       table
         .integer('program_id', 10)
         .index()

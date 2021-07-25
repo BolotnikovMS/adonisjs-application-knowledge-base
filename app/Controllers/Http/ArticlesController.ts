@@ -40,23 +40,42 @@ export default class ArticlesController {
       await validatedData.file?.move(Application.publicPath('uploads/documents'), {
         name: `${new Date().getTime()}.${validatedData.file.extname}`
       })
+      await validatedData.file_1?.move(Application.publicPath('uploads/documents'), {
+        name: `${new Date().getTime()}.${validatedData.file_1.extname}`
+      })
+      await validatedData.file_2?.move(Application.publicPath('uploads/documents'), {
+        name: `${new Date().getTime()}.${validatedData.file_2.extname}`
+      })
+      await validatedData.file_3?.move(Application.publicPath('uploads/documents'), {
+        name: `${new Date().getTime()}.${validatedData.file_3.extname}`
+      })
 
       const document = {
         topic: validatedData.topic,
-        file_name_old: `${validatedData.file?.clientName}, ${validatedData.file_1?.clientName}, ${validatedData.file_2?.clientName}, ${validatedData.file_3?.clientName}, ${validatedData.file_4?.clientName}`,
+        file_name_old: `${validatedData.file?.clientName}`,
         file_new_name: `${validatedData.file?.fileName}`,
         file_extname: `${validatedData.file?.extname}`,
         program_id: idProgram.id,
       }
 
-      await Document.create(document)
+      ifNotEmpty(document, validatedData.file_1?.clientName, validatedData.file_1?.fileName, validatedData.file_1?.extname)
+      ifNotEmpty(document, validatedData.file_2?.clientName, validatedData.file_2?.fileName, validatedData.file_2?.extname)
+      ifNotEmpty(document, validatedData.file_3?.clientName, validatedData.file_3?.fileName, validatedData.file_3?.extname)
 
-      console.log(document)
+      await Document.create(document)
     }
 
-    console.log(validatedData)
-    // console.log(request.allFiles())
-    // session.flash('successmessage', `Файл "${validatedData.topic}" успешно добавлен в список.`)
+    function ifNotEmpty(obj, str1, str2, str3) {
+      if (str1 && str2 && str3) {
+        return (
+          (obj.file_name_old += `, ${str1}`),
+          (obj.file_new_name += `, ${str2}`),
+          (obj.file_extname += `, ${str3}`)
+        )
+      }
+    }
+
+    session.flash('successmessage', `Файл "${validatedData.topic}" успешно добавлен в список.`)
 
     response.redirect('back')
   }
