@@ -1,4 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Application from '@ioc:Adonis/Core/Application'
 
 import Article from 'App/Models/Article'
 import Document from 'App/Models/Document'
@@ -7,8 +8,6 @@ import RequestArticleValidator from 'App/Validators/RequestArticleValidator'
 import RequestDocumentValidator from 'App/Validators/RequestDocumentValidator'
 
 export default class ArticlesController {
-  public async index({}: HttpContextContract) {}
-
   public async create({ view, request }: HttpContextContract) {
     const progId = request.params()
 
@@ -38,23 +37,26 @@ export default class ArticlesController {
     validatedData.program_id = idProgram.id
 
     if (validatedData) {
+      await validatedData.file?.move(Application.publicPath('uploads/documents'), {
+        name: `${new Date().getTime()}.${validatedData.file.extname}`
+      })
+
       const document = {
         topic: validatedData.topic,
-        file_name_old: [validatedData.file?.clientName, validatedData.file_1?.clientName, validatedData.file_2?.clientName],
-        file_new_name: [],
-        program_id: idProgram.id
+        file_name_old: `${validatedData.file?.clientName}, ${validatedData.file_1?.clientName}, ${validatedData.file_2?.clientName}, ${validatedData.file_3?.clientName}, ${validatedData.file_4?.clientName}`,
+        file_new_name: `${validatedData.file?.fileName}`,
+        file_extname: `${validatedData.file?.extname}`,
+        program_id: idProgram.id,
       }
 
+      await Document.create(document)
 
-      // await Document.create(validatedData)
+      console.log(document)
     }
 
     console.log(validatedData)
     // console.log(request.allFiles())
-    // console.log(idProgram)
     // session.flash('successmessage', `Файл "${validatedData.topic}" успешно добавлен в список.`)
-
-
 
     response.redirect('back')
   }
