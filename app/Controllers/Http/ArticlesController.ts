@@ -78,10 +78,14 @@ export default class ArticlesController {
   }
 
   public async show({ view, request, response, params }: HttpContextContract) {
-    const article = await Article.findOrFail(params.id)
+    const article = await Article.find(params.id)
 
     if (article) {
-      article.url = request.headers().referer
+      if (request.headers().referer) {
+        article.url = request.headers().referer
+      } else {
+        article.url = '/list-program'
+      }
 
       return view.render('pages/articles/show', {
         title: `Просмотр статьи "${article.topic}"`,
