@@ -1,11 +1,11 @@
-import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Application from '@ioc:Adonis/Core/Application'
+import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
+import Application from "@ioc:Adonis/Core/Application";
 
-import Article from 'App/Models/Article'
-import Document from 'App/Models/Document'
+import Article from "App/Models/Article";
+import Document from "App/Models/Document";
 
-import RequestArticleValidator from 'App/Validators/RequestArticleValidator'
-import RequestDocumentValidator from 'App/Validators/RequestDocumentValidator'
+import RequestArticleValidator from "App/Validators/RequestArticleValidator";
+import RequestDocumentValidator from "App/Validators/RequestDocumentValidator";
 
 export default class ArticlesController {
   public async create({ view, request }: HttpContextContract) {
@@ -77,11 +77,16 @@ export default class ArticlesController {
     response.redirect('back')
   }
 
-  public async show({ response, params }: HttpContextContract) {
-    const article = await Article.find(params.id)
+  public async show({ view, request, response, params }: HttpContextContract) {
+    const article = await Article.findOrFail(params.id)
 
     if (article) {
-      return article
+      article.url = request.headers().referer
+
+      return view.render('pages/articles/show', {
+        title: `Просмотр статьи "${article.topic}"`,
+        article
+      })
     } else {
       response.status(404)
       return response.send('Error! Article is not defined!')
