@@ -67,8 +67,8 @@ export default class ArticlesController {
       }
     }
 
-    function uploadFile(file) {
-      file?.move(Application.publicPath('uploads/documents'), {
+    async function uploadFile(file) {
+      await file?.move(Application.publicPath('uploads/documents'), {
         name: `${new Date().getTime()}.${file.extname}`
       })
     }
