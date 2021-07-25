@@ -28,10 +28,6 @@ export default class RequestDocumentValidator {
       size: '15mb',
       extnames: ['jpg', 'png', 'jpeg', 'bmp', 'pdf', 'docx', 'doc', 'docm', 'docx', 'xlsx', 'xls', 'xlsm', 'xlsb', 'xml']
     }),
-    file_4: schema.file.optional({
-      size: '15mb',
-      extnames: ['jpg', 'png', 'jpeg', 'bmp', 'pdf', 'docx', 'doc', 'docm', 'docx', 'xlsx', 'xls', 'xlsm', 'xlsb', 'xml']
-    }),
   })
 
   public messages = {
@@ -46,7 +42,5 @@ export default class RequestDocumentValidator {
     'file_2.file.extname': 'Загружаемый файл должен иметь одно из следующих расширений: {{ options.extnames }}',
     'file_3.size': 'Загружаемый файл больше 15мб.',
     'file_3.file.extname': 'Загружаемый файл должен иметь одно из следующих расширений: {{ options.extnames }}',
-    'file_4.size': 'Загружаемый файл больше 15мб.',
-    'file_4.file.extname': 'Загружаемый файл должен иметь одно из следующих расширений: {{ options.extnames }}',
   }
 }
