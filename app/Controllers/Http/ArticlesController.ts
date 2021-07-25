@@ -37,18 +37,10 @@ export default class ArticlesController {
     validatedData.program_id = idProgram.id
 
     if (validatedData) {
-      await validatedData.file?.move(Application.publicPath('uploads/documents'), {
-        name: `${new Date().getTime()}.${validatedData.file.extname}`
-      })
-      await validatedData.file_1?.move(Application.publicPath('uploads/documents'), {
-        name: `${new Date().getTime()}.${validatedData.file_1.extname}`
-      })
-      await validatedData.file_2?.move(Application.publicPath('uploads/documents'), {
-        name: `${new Date().getTime()}.${validatedData.file_2.extname}`
-      })
-      await validatedData.file_3?.move(Application.publicPath('uploads/documents'), {
-        name: `${new Date().getTime()}.${validatedData.file_3.extname}`
-      })
+      await uploadFile(validatedData.file)
+      await uploadFile(validatedData.file_1)
+      await uploadFile(validatedData.file_2)
+      await uploadFile(validatedData.file_3)
 
       const document = {
         topic: validatedData.topic,
@@ -73,6 +65,12 @@ export default class ArticlesController {
           (obj.file_extname += `, ${str3}`)
         )
       }
+    }
+
+    function uploadFile(file) {
+      file?.move(Application.publicPath('uploads/documents'), {
+        name: `${new Date().getTime()}.${file.extname}`
+      })
     }
 
     session.flash('successmessage', `Файл "${validatedData.topic}" успешно добавлен в список.`)
