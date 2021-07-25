@@ -73,8 +73,7 @@ export default class ArticlesController {
       })
     }
 
-    session.flash('successmessage', `Файл "${validatedData.topic}" успешно добавлен в список.`)
-
+    session.flash('successmessage', `Тема "${validatedData.topic}" успешно добавлена в список.`)
     response.redirect('back')
   }
 
