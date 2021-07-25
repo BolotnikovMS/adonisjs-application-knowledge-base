@@ -27,8 +27,8 @@
   </div>
 
   @each(programArticle in programArticles)
-    @if(programArticle.articles.length)
-      @each((article, i) in programArticle.articles)
+    @if(programArticle.articles.length || programArticle.documents.length)
+      @each((article) in programArticle.articles)
         <div class="card mb-2">
           <h5 class="card-header">#teg Instruction</h5>
           <div class="card-body">
@@ -47,6 +47,39 @@
               </div>
               <div class="col-3 p-1">
                 <small class=" text-muted">Дата добавления: </small><small class="text-muted m-2" id="time">{{ article.createdAt }}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      @endeach
+
+      @each((document) in programArticle.documents)
+        <div class="card mb-2">
+          <h5 class="card-header">#teg Instruction</h5>
+          <div class="card-body">
+            <h5 class="card-title">{{ document.topic }}</h5>
+            <p class="card-text">
+              <ol class="list-group  mb-2">
+                @set('docFileNameOlds', document.file_name_old.split(', '))
+                @set('docFileNameNews', document.file_new_name.split(', '))
+                @if(docFileNameNews.length > 0)
+                  @each((docFileNameNew, j) in docFileNameNews)
+                    <ul>{{ j + 1 + '. ' + docFileNameNew}}
+                       {{--
+                       <a href="{{ '/uploads/documents/' + document.file_name }}" style="color: black; margin-left: 25px;" title="Просмотр файла в браузере">
+                         <i class="fas fa-eye"></i>
+                       </a>
+                       --}}
+                    </ul>
+                  @endeach
+                @endif
+              </ol>
+            </p>
+          </div>
+          <div class="card-footer text-muted">
+            <div class="row">
+              <div class="col-3 p-1">
+                <small class=" text-muted">Дата добавления: </small><small class="text-muted m-2" id="time">{{ document.createdAt }}</small>
               </div>
             </div>
           </div>

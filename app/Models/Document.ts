@@ -18,7 +18,7 @@ export default class Document extends BaseModel {
   public file_extname: string
 
   @column()
-  public program_id: number
+  public programId: number
 
   @column.dateTime({
     autoCreate: true,
