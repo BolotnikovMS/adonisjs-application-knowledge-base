@@ -1,6 +1,8 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import ProgramList from 'App/Models/ProgramList'
+import Question from 'App/Models/Question'
+
 import RequestProgramListValidator from 'App/Validators/RequestProgramListValidator'
 
 export default class ProgramListsController {
@@ -32,17 +34,19 @@ export default class ProgramListsController {
     response.redirect('/list-program/')
   }
 
-  public async show({ request, view, params }: HttpContextContract) {
-    const id = params.id
-    const programArticles = await ProgramList
+  public async show({ view, params }: HttpContextContract) {
+    // const programs = await ProgramList.query().orderBy('id', 'desc').limit(1)
+    const progId = params.id
+    const questions = await Question
       .query()
-      .where('id', '=', id)
+      .where('program_id', '=', progId)
       .preload('articles')
       .preload('documents')
 
     return view.render('pages/programs/show', {
-      title: `Программа "${programArticles[0].name}"`,
-      programArticles
+      title: `Программа "1"`,
+      questions,
+      progId
     })
   }
 

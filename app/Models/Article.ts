@@ -6,13 +6,13 @@ export default class Article extends BaseModel {
   public id: number
 
   @column()
-  public topic: string
+  public programId: number
+
+  @column()
+  public questionId: number
 
   @column()
   public description: string
-
-  @column()
-  public programId: string
 
   @column.dateTime({
     autoCreate: true,

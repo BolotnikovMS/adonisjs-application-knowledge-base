@@ -1,7 +1,9 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
+import Article from 'App/Models/Article'
+import Document from 'App/Models/Document'
 
-export default class Document extends BaseModel {
+export default class Question extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
@@ -9,22 +11,13 @@ export default class Document extends BaseModel {
   public programId: number
 
   @column()
-  public questionId: number
-
-  @column()
-  public file_name_old: string
-
-  @column()
-  public file_new_name: string
-
-  @column()
-  public file_extname: string
+  public description: string
 
   @column.dateTime({
     autoCreate: true,
     serialize: (value?: DateTime) => {
       return value ? value.toFormat('HH:mm dd.MM.yyyy') : value
-    }
+    },
   })
   public createdAt: DateTime
 
@@ -33,7 +26,19 @@ export default class Document extends BaseModel {
     autoUpdate: true,
     serialize: (value?: DateTime) => {
       return value ? value.toFormat('HH:mm dd.MM.yyyy') : value
-    }
+    },
   })
   public updatedAt: DateTime
+
+  @hasMany(() => Article, {
+    foreignKey: 'questionId',
+    localKey: 'id',
+  })
+  public articles: HasMany<typeof Article>
+
+  @hasMany(() => Document, {
+    foreignKey: 'questionId',
+    localKey: 'id',
+  })
+  public documents: HasMany<typeof Document>
 }

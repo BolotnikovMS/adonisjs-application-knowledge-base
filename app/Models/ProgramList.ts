@@ -3,6 +3,7 @@ import { BaseModel, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 
 import Article from 'App/Models/Article'
 import Document from 'App/Models/Document'
+import Question from 'App/Models/Question'
 
 export default class ProgramList extends BaseModel {
   @column({ isPrimary: true })
@@ -46,5 +47,9 @@ export default class ProgramList extends BaseModel {
   })
   public documents: HasMany<typeof Document>
 
-
+  @hasMany(() => Question, {
+    foreignKey: 'programId',
+    localKey: 'id'
+  })
+  public questions: HasMany<typeof Question>
 }

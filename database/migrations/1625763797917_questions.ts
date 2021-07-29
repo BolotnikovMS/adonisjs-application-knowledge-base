@@ -1,7 +1,7 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
-export default class Articles extends BaseSchema {
-  protected tableName = 'articles'
+export default class Questions extends BaseSchema {
+  protected tableName = 'questions'
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
@@ -12,14 +12,11 @@ export default class Articles extends BaseSchema {
         .notNullable()
         .references('program_lists.id')
         .onDelete('CASCADE')
-      table
-        .integer('question_id', 10)
-        .index()
-        .notNullable()
-        .references('questions.id')
-        .onDelete('CASCADE')
-      table.text('description').nullable()
+      table.text('description')
 
+      /**
+       * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
+       */
       table.timestamps()
     })
   }

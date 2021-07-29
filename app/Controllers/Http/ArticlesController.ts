@@ -1,11 +1,12 @@
-import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
-import Application from "@ioc:Adonis/Core/Application";
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Application from '@ioc:Adonis/Core/Application'
 
-import Article from "App/Models/Article";
-import Document from "App/Models/Document";
+import Question from 'App/Models/Question'
+import Article from 'App/Models/Article'
+import Document from 'App/Models/Document'
 
-import RequestArticleValidator from "App/Validators/RequestArticleValidator";
-import RequestDocumentValidator from "App/Validators/RequestDocumentValidator";
+import RequestArticleValidator from 'App/Validators/RequestArticleValidator'
+import RequestDocumentValidator from 'App/Validators/RequestDocumentValidator'
 
 export default class ArticlesController {
   public async create({ view, request }: HttpContextContract) {
@@ -16,17 +17,33 @@ export default class ArticlesController {
 
   public async store({ request, response, session }: HttpContextContract) {
     const idProgram = request.params()
-    const validatedData = await request.validate(RequestArticleValidator)
+    const validatedDataQuestion = await request.validate(RequestArticleValidator)
 
-    // @ts-ignore
-    validatedData.program_id = idProgram.id
+    if (validatedDataQuestion) {
+      // @ts-ignore
+      validatedDataQuestion.program_id = idProgram.id
+      console.log(validatedDataQuestion)
 
-    if (validatedData) {
-      await Article.create(validatedData)
+      // await Question.create()
     }
 
-    session.flash('successmessage', `Тема "${validatedData.topic}" успешно добавлена в список.`)
-    response.redirect('back')
+    const question = await Question.query()
+
+    const article = request.only(['description'])
+
+    // @ts-ignore
+    article.program_id = idProgram.id
+
+    console.log(article)
+    console.log(question)
+
+    return question
+    // if (validatedData) {
+    //   await Article.create(validatedData)
+    // }
+    //
+    // session.flash('successmessage', `Тема "${validatedData.topic}" успешно добавлена в список.`)
+    // response.redirect('back')
   }
 
   public async storeDocument({ request, response, session }: HttpContextContract) {
@@ -50,9 +67,24 @@ export default class ArticlesController {
         program_id: idProgram.id,
       }
 
-      ifNotEmpty(document, validatedData.file_1?.clientName, validatedData.file_1?.fileName, validatedData.file_1?.extname)
-      ifNotEmpty(document, validatedData.file_2?.clientName, validatedData.file_2?.fileName, validatedData.file_2?.extname)
-      ifNotEmpty(document, validatedData.file_3?.clientName, validatedData.file_3?.fileName, validatedData.file_3?.extname)
+      ifNotEmpty(
+        document,
+        validatedData.file_1?.clientName,
+        validatedData.file_1?.fileName,
+        validatedData.file_1?.extname
+      )
+      ifNotEmpty(
+        document,
+        validatedData.file_2?.clientName,
+        validatedData.file_2?.fileName,
+        validatedData.file_2?.extname
+      )
+      ifNotEmpty(
+        document,
+        validatedData.file_3?.clientName,
+        validatedData.file_3?.fileName,
+        validatedData.file_3?.extname
+      )
 
       await Document.create(document)
     }
@@ -69,7 +101,7 @@ export default class ArticlesController {
 
     async function uploadFile(file) {
       await file?.move(Application.publicPath('uploads/documents'), {
-        name: `${new Date().getTime()}.${file.extname}`
+        name: `${new Date().getTime()}.${file.extname}`,
       })
     }
 
@@ -89,7 +121,7 @@ export default class ArticlesController {
 
       return view.render('pages/articles/show', {
         title: `Просмотр статьи "${article.topic}"`,
-        article
+        article,
       })
     } else {
       response.status(404)
