@@ -5,8 +5,8 @@ import Question from 'App/Models/Question'
 import Article from 'App/Models/Article'
 import Document from 'App/Models/Document'
 
-import RequestArticleValidator from 'App/Validators/RequestArticleValidator'
 import RequestDocumentValidator from 'App/Validators/RequestDocumentValidator'
+import RequestQuestionValidator from 'App/Validators/RequestQuestionValidator'
 
 export default class ArticlesController {
   public async create({ view, request }: HttpContextContract) {
@@ -17,23 +17,23 @@ export default class ArticlesController {
 
   public async store({ request, response, session }: HttpContextContract) {
     const idProgram = request.params()
-    const validatedDataQuestion = await request.validate(RequestArticleValidator)
+    const validatedDataQuestion = await request.validate(RequestQuestionValidator)
 
     if (validatedDataQuestion) {
       // @ts-ignore
       validatedDataQuestion.program_id = idProgram.id
 
       await Question.create(validatedDataQuestion)
+
+      const idQuestion = await Question.query().orderBy('id', 'desc').limit(1)
+      const article = request.only(['description'])
+
+      // @ts-ignore
+      article.question_id = idQuestion[0].id
+      article.program_id = idProgram.id
+
+      await Article.create(article)
     }
-
-    const idQuestion = await Question.query().orderBy('id', 'desc').limit(1)
-    const article = request.only(['description'])
-
-    // @ts-ignore
-    article.question_id = idQuestion[0].id
-    article.program_id = idProgram.id
-
-    await Article.create(article)
 
     session.flash('successmessage', `Тема "${validatedDataQuestion.description_question}" успешно добавлена в список.`)
     response.redirect('back')
