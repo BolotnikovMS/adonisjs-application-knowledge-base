@@ -9,7 +9,7 @@ export default class ProgramListsController {
   public async index({ view, request }: HttpContextContract) {
     const page = request.input('page', 1)
     const limit = 15
-    const programs = await ProgramList.query().preload('articles').paginate(page, limit)
+    const programs = await ProgramList.query().preload('questions').paginate(page, limit)
 
     programs.baseUrl('/list-program/')
 
@@ -35,17 +35,17 @@ export default class ProgramListsController {
   }
 
   public async show({ view, params }: HttpContextContract) {
-    const progId = params.id
+    const programId = params.id
     const questions = await Question
       .query()
-      .where('program_id', '=', progId)
+      .where('program_id', '=', programId)
       .preload('articles')
       .preload('documents')
 
     return view.render('pages/programs/show', {
       title: `Программа "1"`,
       questions,
-      progId
+      programId
     })
   }
 
