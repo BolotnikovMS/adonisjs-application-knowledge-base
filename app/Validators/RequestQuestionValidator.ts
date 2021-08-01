@@ -1,8 +1,8 @@
 import { rules, schema } from "@ioc:Adonis/Core/Validator";
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class RequestArticleValidator {
-  constructor(protected ctx: HttpContextContract) {
+export default class RequestQuestionValidator {
+  constructor (protected ctx: HttpContextContract) {
   }
 
 	/*
@@ -45,8 +45,9 @@ export default class RequestArticleValidator {
 	 *
 	 */
   public messages = {
-    'topic.required': 'Поле "Тема" является обязательным.',
-    'topic.minLength': 'Минимальная длинна поля 2 символа.',
-    'topic.maxLength': 'Максимальная длинна поля 700 символов.',
+    'description_question.required': 'Поле "Тема" является обязательным.',
+    'description_question.minLength': 'Минимальная длинна поля 2 символа.',
+    'description_question.maxLength': 'Максимальная длинна поля 700 символов.',
+
   }
 }

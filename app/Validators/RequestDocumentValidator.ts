@@ -6,12 +6,6 @@ export default class RequestDocumentValidator {
   }
 
   public schema = schema.create({
-    topic: schema.string({
-        trim: true,
-        escape: true,
-      },
-      [rules.minLength(2), rules.maxLength(240)]
-    ),
     file: schema.file.optional({
       size: '15mb',
       extnames: ['jpg', 'png', 'jpeg', 'bmp', 'pdf', 'docx', 'doc', 'docm', 'docx', 'xlsx', 'xls', 'xlsm', 'xlsb', 'xml']
@@ -31,9 +25,6 @@ export default class RequestDocumentValidator {
   })
 
   public messages = {
-    'topic.required': 'Поле "Тема" является обязательным.',
-    'topic.minLength': 'Минимальная длинна поля 2 символа.',
-    'topic.maxLength': 'Максимальная длинна поля 240 символов.',
     'file.size': 'Загружаемый файл больше 15мб.',
     'file.file.extname': 'Загружаемый файл должен иметь одно из следующих расширений: {{ options.extnames }}',
     'file_1.size': 'Загружаемый файл больше 15мб.',
