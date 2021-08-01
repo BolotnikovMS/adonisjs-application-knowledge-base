@@ -22,28 +22,21 @@ export default class ArticlesController {
     if (validatedDataQuestion) {
       // @ts-ignore
       validatedDataQuestion.program_id = idProgram.id
-      console.log(validatedDataQuestion)
 
-      // await Question.create()
+      await Question.create(validatedDataQuestion)
     }
 
-    const question = await Question.query()
-
+    const idQuestion = await Question.query().orderBy('id', 'desc').limit(1)
     const article = request.only(['description'])
 
     // @ts-ignore
+    article.question_id = idQuestion[0].id
     article.program_id = idProgram.id
 
-    console.log(article)
-    console.log(question)
+    await Article.create(article)
 
-    return question
-    // if (validatedData) {
-    //   await Article.create(validatedData)
-    // }
-    //
-    // session.flash('successmessage', `Тема "${validatedData.topic}" успешно добавлена в список.`)
-    // response.redirect('back')
+    session.flash('successmessage', `Тема "${validatedDataQuestion.description_question}" успешно добавлена в список.`)
+    response.redirect('back')
   }
 
   public async storeDocument({ request, response, session }: HttpContextContract) {

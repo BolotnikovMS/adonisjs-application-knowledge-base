@@ -25,7 +25,7 @@ export default class RequestArticleValidator {
 	 *    ```
 	 */
   public schema = schema.create({
-    topic: schema.string({
+    description_question: schema.string({
         trim: true,
         escape: true,
       },

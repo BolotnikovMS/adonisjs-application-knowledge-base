@@ -35,7 +35,6 @@ export default class ProgramListsController {
   }
 
   public async show({ view, params }: HttpContextContract) {
-    // const programs = await ProgramList.query().orderBy('id', 'desc').limit(1)
     const progId = params.id
     const questions = await Question
       .query()

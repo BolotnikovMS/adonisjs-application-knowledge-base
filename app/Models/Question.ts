@@ -11,7 +11,7 @@ export default class Question extends BaseModel {
   public programId: number
 
   @column()
-  public description: string
+  public description_question: string
 
   @column.dateTime({
     autoCreate: true,

@@ -80,11 +80,11 @@
       <form action="{{ route('store.article', {id: progId.id}) }}" method="POST" enctype="multipart/form-data">
         <div class="mb-3">
           <div class="form-floating">
-            <textarea class="form-control" name="topic" placeholder="Введите тему..." id="topic" style="height: 100px">{{ flashMessages.get('topic') || '' }}</textarea>
-            <label for="topic">Тема</label>
+            <textarea class="form-control" name="description_question" placeholder="Введите тему..." id="description_question" style="height: 100px">{{ flashMessages.get('description_question') || '' }}</textarea>
+            <label for="description_question">Тема</label>
           </div>
-          @if(flashMessages.has('errors.topic'))
-            <span class="text-danger">{{ flashMessages.get('errors.topic') }}</span>
+          @if(flashMessages.has('errors.description_question'))
+            <span class="text-danger">{{ flashMessages.get('errors.description_question') }}</span>
           @endif
         </div>
 
