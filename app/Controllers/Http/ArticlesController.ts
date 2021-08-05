@@ -1,12 +1,13 @@
-import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Application from '@ioc:Adonis/Core/Application'
+import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
+import { cuid } from "@ioc:Adonis/Core/Helpers";
+import Application from "@ioc:Adonis/Core/Application";
 
-import Question from 'App/Models/Question'
-import Article from 'App/Models/Article'
-import Document from 'App/Models/Document'
+import Question from "App/Models/Question";
+import Article from "App/Models/Article";
+import Document from "App/Models/Document";
 
-import RequestDocumentValidator from 'App/Validators/RequestDocumentValidator'
-import RequestQuestionValidator from 'App/Validators/RequestQuestionValidator'
+import RequestDocumentValidator from "App/Validators/RequestDocumentValidator";
+import RequestQuestionValidator from "App/Validators/RequestQuestionValidator";
 
 export default class ArticlesController {
   public async create({ view, request }: HttpContextContract) {
@@ -38,6 +39,18 @@ export default class ArticlesController {
       response.redirect('back')
     } else {
       console.log('Error 404')
+    }
+  }
+
+  public async upload({ request }: HttpContextContract) {
+    if (request.ajax()) {
+      const file = await request.file('image')
+
+      await file?.move(Application.publicPath('uploads/article/img'), {
+        name: `${cuid()}.${file.extname}`
+      })
+
+      return { fileUrl: file?.filePath, fileName: file?.fileName }
     }
   }
 
