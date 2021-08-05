@@ -50,7 +50,7 @@ export default class ArticlesController {
         name: `${cuid()}.${file.extname}`
       })
 
-      return { fileUrl: file?.filePath, fileName: file?.fileName }
+      return { fileName: file?.fileName }
     }
   }
 
