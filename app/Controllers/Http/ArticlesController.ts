@@ -63,7 +63,6 @@ export default class ArticlesController {
         name: `${cuid()}.${file.extname}`
       })
 
-      console.log(file)
       return { fileName: file?.fileName, clientName: file?.clientName }
     }
   }
