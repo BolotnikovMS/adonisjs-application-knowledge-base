@@ -45,13 +45,13 @@ export default class ArticlesController {
 
   public async upload({ request }: HttpContextContract) {
     if (request.ajax()) {
-      const file = await request.file('image')
+      const file = await request.file('file')
 
-      await file?.move(Application.publicPath('uploads/article/img'), {
+      await file?.move(Application.publicPath('uploads/article/file'), {
         name: `${cuid()}.${file.extname}`
       })
 
-      return { fileName: file?.fileName }
+      return { fileName: file?.fileName, clientName: file?.clientName }
     }
   }
 
