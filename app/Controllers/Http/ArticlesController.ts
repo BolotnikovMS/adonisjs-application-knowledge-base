@@ -18,6 +18,7 @@ export default class ArticlesController {
 
   public async store({ request, response, session }: HttpContextContract) {
     const idProgram = request.params()
+    console.log(request.allFiles())
     const validatedDataQuestion = await request.validate(RequestQuestionValidator)
 
     if (validatedDataQuestion) {
@@ -51,6 +52,19 @@ export default class ArticlesController {
       })
 
       return { fileName: file?.fileName }
+    }
+  }
+
+  public async uploadFile({ request }: HttpContextContract) {
+    if (request.ajax()) {
+      const file = await request.file('file')
+
+      await file?.move(Application.publicPath('uploads/article/file'), {
+        name: `${cuid()}.${file.extname}`
+      })
+
+      console.log(file)
+      return { fileName: file?.fileName, clientName: file?.clientName }
     }
   }
 

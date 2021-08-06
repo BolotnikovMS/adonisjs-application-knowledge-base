@@ -39,6 +39,7 @@ Route.group(() => {
   Route.get('/show/:id/new-article', 'ArticlesController.create').as('create.article')
   Route.post('/show/:id/new-article', 'ArticlesController.store').as('store.article')
   Route.post('/summernote-upload', 'ArticlesController.upload').as('upload.summernote')
+  Route.post('/summernote-upload-file', 'ArticlesController.uploadFile')
 
   Route.post('/show/:id/new-article/doc', 'ArticlesController.storeDocument').as('store.document.article')
   Route.get('/show/:id', 'ArticlesController.show').as('show.article')
