@@ -1,13 +1,14 @@
-import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
-import { cuid } from "@ioc:Adonis/Core/Helpers";
-import Application from "@ioc:Adonis/Core/Application";
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { cuid } from '@ioc:Adonis/Core/Helpers'
+import Application from '@ioc:Adonis/Core/Application'
 
-import Question from "App/Models/Question";
-import Article from "App/Models/Article";
-import Document from "App/Models/Document";
+import Question from 'App/Models/Question'
+import Article from 'App/Models/Article'
+import Document from 'App/Models/Document'
 
-import RequestDocumentValidator from "App/Validators/RequestDocumentValidator";
-import RequestQuestionValidator from "App/Validators/RequestQuestionValidator";
+import RequestDocumentValidator from 'App/Validators/RequestDocumentValidator'
+import RequestQuestionValidator from 'App/Validators/RequestQuestionValidator'
+import RequestFileValidator from 'App/Validators/RequestFileValidator'
 
 export default class ArticlesController {
   public async create({ view, request }: HttpContextContract) {
@@ -18,14 +19,13 @@ export default class ArticlesController {
 
   public async store({ request, response, session }: HttpContextContract) {
     const idProgram = request.params()
-    console.log(request.allFiles())
     const validatedDataQuestion = await request.validate(RequestQuestionValidator)
 
     if (validatedDataQuestion) {
       // @ts-ignore
       validatedDataQuestion.program_id = idProgram.id
 
-      await Question.create(validatedDataQuestion)
+      // await Question.create(validatedDataQuestion)
 
       const idQuestion = await Question.query().orderBy('id', 'desc').limit(1)
       const article = request.only(['description'])
@@ -34,36 +34,33 @@ export default class ArticlesController {
       article.question_id = idQuestion[0].id
       article.program_id = idProgram.id
 
-      await Article.create(article)
+      // await Article.create(article)
 
-      session.flash('successmessage', `Тема "${validatedDataQuestion.description_question}" успешно добавлена в список.`)
+      session.flash(
+        'successmessage',
+        `Тема "${validatedDataQuestion.description_question}" успешно добавлена в список.`
+      )
       response.redirect('back')
     } else {
       console.log('Error 404')
     }
   }
 
-  public async upload({ request }: HttpContextContract) {
+  public async upload({ request, response }: HttpContextContract) {
+    /*
+      Structure
+      validate data
+     */
     if (request.ajax()) {
+      const validatedFile = await request.validate(RequestFileValidator)
+
       const file = await request.file('file')
 
       await file?.move(Application.publicPath('uploads/article/file'), {
-        name: `${cuid()}.${file.extname}`
+        name: `${cuid()}.${file.extname}`,
       })
 
-      return { fileName: file?.fileName, clientName: file?.clientName }
-    }
-  }
-
-  public async uploadFile({ request }: HttpContextContract) {
-    if (request.ajax()) {
-      const file = await request.file('file')
-
-      await file?.move(Application.publicPath('uploads/article/file'), {
-        name: `${cuid()}.${file.extname}`
-      })
-
-      return { fileName: file?.fileName, clientName: file?.clientName }
+      return { fileName: file?.fileName, clientName: file?.clientName, status: response.getStatus() }
     }
   }
 
@@ -92,7 +89,7 @@ export default class ArticlesController {
           file_new_name: `${validatedDataDocument.file?.fileName}`,
           file_extname: `${validatedDataDocument.file?.extname}`,
           program_id: idProgram.id,
-          question_id: idQuestion[0].id
+          question_id: idQuestion[0].id,
         }
 
         ifNotEmpty(
@@ -117,7 +114,10 @@ export default class ArticlesController {
         await Document.create(document)
       }
 
-      session.flash('successmessage', `Тема "${validatedDataQuestion.description_question}" успешно добавлена в список.`)
+      session.flash(
+        'successmessage',
+        `Тема "${validatedDataQuestion.description_question}" успешно добавлена в список.`
+      )
       response.redirect('back')
     } else {
       console.log('Error 404')
