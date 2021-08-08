@@ -40,5 +40,5 @@ Route.group(() => {
   Route.post('/show/:id/new-article', 'ArticlesController.store').as('store.article')
   Route.post('/summernote-upload', 'ArticlesController.upload').as('upload.summernote')
   Route.get('/show/:id', 'ArticlesController.show').as('show.article')
-  Route.delete('/delete/:id', 'ArticlesController.destroy').as('destroy.article')
+  Route.get('/delete/:id', 'ArticlesController.destroy').as('destroy.question')
 }).prefix('article')

@@ -97,16 +97,23 @@ export default class ArticlesController {
 
   public async update({}: HttpContextContract) {}
 
-  public async destroy({ params, response }: HttpContextContract) {
-    const article = await Article.find(params.id)
+  public async destroy({ params, response, view, session }: HttpContextContract) {
+    const question = await Question.find(params.id)
 
-    console.log(article)
-    if (article) {
-      await article.delete()
-      return response.send(`Article id:${article.id} topic: has been deleted!`)
+    if (question) {
+      const article = await Article.query().where('question_id', '=', question?.id)
+
+      await article[0].delete()
+      await question.delete()
+
+      session.flash('successmessage', `Вопрос ${question.description_question.slice(0, 50) + '...'} был удален!`)
+      response.redirect('back')
     } else {
       response.status(404)
-      return response.send(`Error!`)
+
+      return view.render('pages/error/404', {
+        title: 'Error 404'
+      })
     }
   }
 }
