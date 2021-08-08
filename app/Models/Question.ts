@@ -1,7 +1,6 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import Article from 'App/Models/Article'
-import Document from 'App/Models/Document'
 
 export default class Question extends BaseModel {
   @column({ isPrimary: true })
@@ -35,10 +34,4 @@ export default class Question extends BaseModel {
     localKey: 'id',
   })
   public articles: HasMany<typeof Article>
-
-  @hasMany(() => Document, {
-    foreignKey: 'questionId',
-    localKey: 'id',
-  })
-  public documents: HasMany<typeof Document>
 }

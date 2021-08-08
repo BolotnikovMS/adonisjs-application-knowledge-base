@@ -40,7 +40,6 @@ export default class ProgramListsController {
       .query()
       .where('program_id', '=', programId)
       .preload('articles')
-      .preload('documents')
 
     return view.render('pages/programs/show', {
       title: `Программа "1"`,

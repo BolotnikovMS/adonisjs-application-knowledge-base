@@ -4,9 +4,7 @@ import Application from '@ioc:Adonis/Core/Application'
 
 import Question from 'App/Models/Question'
 import Article from 'App/Models/Article'
-import Document from 'App/Models/Document'
 
-import RequestDocumentValidator from 'App/Validators/RequestDocumentValidator'
 import RequestQuestionValidator from 'App/Validators/RequestQuestionValidator'
 import RequestFileValidator from 'App/Validators/RequestFileValidator'
 
@@ -25,7 +23,7 @@ export default class ArticlesController {
       // @ts-ignore
       validatedDataQuestion.program_id = idProgram.id
 
-      // await Question.create(validatedDataQuestion)
+      await Question.create(validatedDataQuestion)
 
       const idQuestion = await Question.query().orderBy('id', 'desc').limit(1)
       const article = request.only(['description'])
@@ -34,7 +32,7 @@ export default class ArticlesController {
       article.question_id = idQuestion[0].id
       article.program_id = idProgram.id
 
-      // await Article.create(article)
+      await Article.create(article)
 
       session.flash(
         'successmessage',
@@ -49,89 +47,21 @@ export default class ArticlesController {
   public async upload({ request }: HttpContextContract) {
     if (request.ajax()) {
       const validatedFile = await request.validate(RequestFileValidator)
-      console.log(validatedFile)
+      let path
 
-      await validatedFile.file?.move(Application.publicPath('uploads/article/file'), {
+      if (validatedFile.file?.type === 'application') {
+        path = 'uploads/article/file'
+      } else if (validatedFile.file?.type === 'image') {
+        path = 'uploads/article/img'
+      } else {
+        path = 'uploads/article/other'
+      }
+
+      await validatedFile.file?.move(Application.publicPath(path), {
         name: `${cuid()}.${validatedFile.file.extname}`,
       })
 
       return { fileName: validatedFile.file?.fileName, clientName: validatedFile.file?.clientName }
-    }
-  }
-
-  public async storeDocument({ request, response, session }: HttpContextContract) {
-    const idProgram = request.params()
-    const validatedDataQuestion = await request.validate(RequestQuestionValidator)
-    const validatedDataDocument = await request.validate(RequestDocumentValidator)
-
-    if (validatedDataQuestion) {
-      // @ts-ignore
-      validatedDataQuestion.program_id = idProgram.id
-
-      await Question.create(validatedDataQuestion)
-
-      const emptyValidatedDataDocument = Object.keys(validatedDataDocument).length === 0
-
-      if (!emptyValidatedDataDocument) {
-        await uploadFile(validatedDataDocument.file)
-        await uploadFile(validatedDataDocument.file_1)
-        await uploadFile(validatedDataDocument.file_2)
-        await uploadFile(validatedDataDocument.file_3)
-
-        const idQuestion = await Question.query().orderBy('id', 'desc').limit(1)
-        const document = {
-          file_name_old: `${validatedDataDocument.file?.clientName}`,
-          file_new_name: `${validatedDataDocument.file?.fileName}`,
-          file_extname: `${validatedDataDocument.file?.extname}`,
-          program_id: idProgram.id,
-          question_id: idQuestion[0].id,
-        }
-
-        ifNotEmpty(
-          document,
-          validatedDataDocument.file_1?.clientName,
-          validatedDataDocument.file_1?.fileName,
-          validatedDataDocument.file_1?.extname
-        )
-        ifNotEmpty(
-          document,
-          validatedDataDocument.file_2?.clientName,
-          validatedDataDocument.file_2?.fileName,
-          validatedDataDocument.file_2?.extname
-        )
-        ifNotEmpty(
-          document,
-          validatedDataDocument.file_3?.clientName,
-          validatedDataDocument.file_3?.fileName,
-          validatedDataDocument.file_3?.extname
-        )
-
-        await Document.create(document)
-      }
-
-      session.flash(
-        'successmessage',
-        `Тема "${validatedDataQuestion.description_question}" успешно добавлена в список.`
-      )
-      response.redirect('back')
-    } else {
-      console.log('Error 404')
-    }
-
-    function ifNotEmpty(obj, str1, str2, str3) {
-      if (str1 && str2 && str3) {
-        return (
-          (obj.file_name_old += `, ${str1}`),
-          (obj.file_new_name += `, ${str2}`),
-          (obj.file_extname += `, ${str3}`)
-        )
-      }
-    }
-
-    async function uploadFile(file) {
-      await file?.move(Application.publicPath('uploads/documents'), {
-        name: `${new Date().getTime()}.${file.extname}`,
-      })
     }
   }
 
@@ -145,6 +75,7 @@ export default class ArticlesController {
         article.url = '/list-program'
       }
 
+      return article
       return view.render('pages/articles/show', {
         title: `Просмотр статьи "${article.topic}"`,
         article,

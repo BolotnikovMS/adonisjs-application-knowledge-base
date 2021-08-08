@@ -18,12 +18,43 @@
 
   <nav>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-      <button class="nav-link active" id="nav-file-tab" data-bs-toggle="tab" data-bs-target="#nav-file" type="button" role="tab" aria-controls="nav-file" aria-selected="true">Файл</button>
-      <button class="nav-link" id="nav-editor-tab" data-bs-toggle="tab" data-bs-target="#nav-editor" type="button" role="tab" aria-controls="nav-editor" aria-selected="false">Текстовый редактор</button>
+      <button class="nav-link active" id="nav-editor-tab" data-bs-toggle="tab" data-bs-target="#nav-editor" type="button" role="tab" aria-controls="nav-editor" aria-selected="true">Текстовый редактор</button>
+      <button class="nav-link" id="nav-file-tab" data-bs-toggle="tab" data-bs-target="#nav-file" type="button" role="tab" aria-controls="nav-file" aria-selected="false">Файл</button>
     </div>
   </nav>
   <div class="tab-content" id="nav-tabContent">
-    <div class="tab-pane fade show active mt-3" id="nav-file" role="tabpanel" aria-labelledby="nav-file-tab">
+    <div class="tab-pane fade show active mt-3" id="nav-editor" role="tabpanel" aria-labelledby="nav-editor-tab">
+      <form action="{{ route('store.article', {id: progId.id}) }}" method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+          <div class="form-floating">
+            <textarea class="form-control" name="description_question" placeholder="Введите тему..." id="description_question" style="height: 100px">{{ flashMessages.get('description_question') || '' }}</textarea>
+            <label for="description_question">Тема</label>
+          </div>
+          @if(flashMessages.has('errors.description_question'))
+            <span class="text-danger">{{ flashMessages.get('errors.description_question') }}</span>
+          @endif
+        </div>
+
+        <div class="form-floating mb-4">
+          <textarea id="description" data-url="{{ route('upload.summernote') }}" name="description"></textarea>
+        </div>
+
+        <div class="col-2 mx-auto mb-3">
+          <table>
+            <tr>
+              <th>
+                <a href="{{ route('show.program', {id: progId.id}) }}" class="btn btn-secondary">Отмена</a>
+              </th>
+              <th>
+                <button class="btn btn-success" id="btnSend">Добавить</button>
+              </th>
+            </tr>
+          </table>
+        </div>
+      </form>
+     </div>
+
+    <div class="tab-pane fade mt-3" id="nav-file" role="tabpanel" aria-labelledby="nav-file-tab">
       <div style="border: 1px solid silver; margin-bottom: 10px; padding: 10px">
         <p><span style="color: red;">
           Можно добавить 4 файлов. Ограничение по расширению файлов: 'jpg', 'png', 'jpeg', 'bmp', 'pdf', 'docx', 'doc', 'docm', 'docx', 'xlsx', 'xls', 'xlsm', 'xlsb', 'xml'.
@@ -59,37 +90,6 @@
             </button>
           </div>
         </div>
-        <div class="col-2 mx-auto mb-3">
-          <table>
-            <tr>
-              <th>
-                <a href="{{ route('show.program', {id: progId.id}) }}" class="btn btn-secondary">Отмена</a>
-              </th>
-              <th>
-                <button class="btn btn-success" id="btnSend">Добавить</button>
-              </th>
-            </tr>
-          </table>
-        </div>
-      </form>
-    </div>
-
-    <div class="tab-pane fade mt-3" id="nav-editor" role="tabpanel" aria-labelledby="nav-editor-tab">
-      <form action="{{ route('store.article', {id: progId.id}) }}" method="POST" enctype="multipart/form-data">
-        <div class="mb-3">
-          <div class="form-floating">
-            <textarea class="form-control" name="description_question" placeholder="Введите тему..." id="description_question" style="height: 100px">{{ flashMessages.get('description_question') || '' }}</textarea>
-            <label for="description_question">Тема</label>
-          </div>
-          @if(flashMessages.has('errors.description_question'))
-            <span class="text-danger">{{ flashMessages.get('errors.description_question') }}</span>
-          @endif
-        </div>
-
-        <div class="form-floating mb-4">
-          <textarea id="description" data-url="{{ route('upload.summernote') }}" name="description"></textarea>
-        </div>
-
         <div class="col-2 mx-auto mb-3">
           <table>
             <tr>
