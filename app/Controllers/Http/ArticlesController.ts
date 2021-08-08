@@ -103,7 +103,7 @@ export default class ArticlesController {
     console.log(article)
     if (article) {
       await article.delete()
-      return response.send(`Article id:${article.id} topic:${article.topic} has been deleted!`)
+      return response.send(`Article id:${article.id} topic: has been deleted!`)
     } else {
       response.status(404)
       return response.send(`Error!`)

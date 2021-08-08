@@ -34,12 +34,16 @@ export default class ProgramListsController {
     response.redirect('/list-program/')
   }
 
-  public async show({ view, params }: HttpContextContract) {
+  public async show({ view, params, request }: HttpContextContract) {
     const programId = params.id
-    const questions = await Question
-      .query()
+    const page = request.input('page', 1)
+    const limit = 10
+    const questions = await Question.query()
       .where('program_id', '=', programId)
       .preload('articles')
+      .paginate(page, limit)
+
+    questions.baseUrl(`/list-program/show/${programId}`)
 
     return view.render('pages/programs/show', {
       title: `Программа "1"`,

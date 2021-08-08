@@ -8,7 +8,7 @@ export default class RequestFileValidator {
   public schema = schema.create({
     file: schema.file.optional({
       size: '25mb',
-      extnames: ['jpg', 'png', 'jpeg', 'bmp', 'pdf', 'docx', 'doc', 'docm', 'docx', 'xlsx', 'xls', 'xlsm', 'xlsb', 'xml', 'mp4', 'mp3', 'mpeg']
+      extnames: ['zip', 'jpg', 'png', 'jpeg', 'bmp', 'pdf', 'docx', 'doc', 'docm', 'docx', 'xlsx', 'xls', 'xlsm', 'xlsb', 'xml', 'mp4', 'mp3', 'mpeg']
     })
   })
 
