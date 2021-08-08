@@ -46,21 +46,16 @@ export default class ArticlesController {
     }
   }
 
-  public async upload({ request, response }: HttpContextContract) {
-    /*
-      Structure
-      validate data
-     */
+  public async upload({ request }: HttpContextContract) {
     if (request.ajax()) {
       const validatedFile = await request.validate(RequestFileValidator)
+      console.log(validatedFile)
 
-      const file = await request.file('file')
-
-      await file?.move(Application.publicPath('uploads/article/file'), {
-        name: `${cuid()}.${file.extname}`,
+      await validatedFile.file?.move(Application.publicPath('uploads/article/file'), {
+        name: `${cuid()}.${validatedFile.file.extname}`,
       })
 
-      return { fileName: file?.fileName, clientName: file?.clientName, status: response.getStatus() }
+      return { fileName: validatedFile.file?.fileName, clientName: validatedFile.file?.clientName }
     }
   }
 
