@@ -69,20 +69,27 @@ export default class ArticlesController {
     const article = await Article.find(params.id)
 
     if (article) {
+      const question = await Question.query().where('id', '=', article.questionId)
+
+      article.topic = question[0].description_question
+
       if (request.headers().referer) {
         article.url = request.headers().referer
       } else {
         article.url = '/list-program'
       }
 
-      return article
+      // return article
       return view.render('pages/articles/show', {
         title: `Просмотр статьи "${article.topic}"`,
         article,
       })
     } else {
       response.status(404)
-      return response.send('Error! Article is not defined!')
+
+      return view.render('pages/error/404', {
+        title: 'Error 404'
+      })
     }
   }
 
