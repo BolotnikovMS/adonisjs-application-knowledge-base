@@ -88,8 +88,27 @@ export default class ArticlesController {
     }
   }
 
-  public async edit({ view, params }: HttpContextContract) {
+  public async edit({ view, params, request, response }: HttpContextContract) {
+    const question = await Question.query().where('id', '=', params.id).preload('articles')
 
+    if (question.length) {
+      if (request.headers().referer) {
+        question.url = request.headers().referer
+      } else {
+        question.url = '/list-program'
+      }
+
+      return view.render('pages/articles/edit', {
+        title: `Редактирование статьи "${question[0].description_question.slice(0, 10)}"`,
+        question,
+      })
+    } else {
+      response.status(404)
+
+      return view.render('pages/error/404', {
+        title: 'Error 404'
+      })
+    }
   }
 
   public async update({}: HttpContextContract) {}
