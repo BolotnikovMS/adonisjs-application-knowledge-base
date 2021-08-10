@@ -106,7 +106,7 @@ export default class ArticlesController {
       await article[0].delete()
       await question.delete()
 
-      session.flash('successmessage', `Вопрос ${question.description_question.slice(0, 50) + '...'} был удален!`)
+      session.flash('successmessage', `Вопрос ${question.description_question.slice(0, 60) + '...'} был удален!`)
       response.redirect('back')
     } else {
       response.status(404)
