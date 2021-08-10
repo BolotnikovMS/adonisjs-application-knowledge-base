@@ -16,36 +16,34 @@
 
     <h3 class="mt-2 mb-4">{{ title }}</h3>
 
-    <div class="tab-pane fade show active mt-3" id="nav-editor" role="tabpanel" aria-labelledby="nav-editor-tab">
-      <form action="{{ route('store.article', {id: progId.id}) }}" method="POST" enctype="multipart/form-data">
-        <div class="mb-3">
-          <div class="form-floating">
-            <textarea class="form-control" name="description_question" placeholder="Введите тему..." id="description_question" style="height: 100px">{{ flashMessages.get('description_question') || '' }}</textarea>
-            <label for="description_question">Тема</label>
-          </div>
-          @if(flashMessages.has('errors.description_question'))
-            <span class="text-danger">{{ flashMessages.get('errors.description_question') }}</span>
-          @endif
+    <form action="{{ route('store.article', {id: progId.id}) }}" method="POST" enctype="multipart/form-data">
+      <div class="mb-3">
+        <div class="form-floating">
+          <textarea class="form-control" name="description_question" placeholder="Введите тему..." id="description_question" style="height: 100px">{{ flashMessages.get('description_question') || '' }}</textarea>
+          <label for="description_question">Тема</label>
         </div>
+        @if(flashMessages.has('errors.description_question'))
+          <span class="text-danger">{{ flashMessages.get('errors.description_question') }}</span>
+        @endif
+      </div>
 
-        <div class="form-floating mb-4">
-          <textarea id="description" data-url="{{ route('upload.summernote') }}" name="description"></textarea>
-        </div>
+      <div class="form-floating mb-4">
+        <textarea id="description" data-url="{{ route('upload.summernote') }}" name="description"></textarea>
+      </div>
 
-        <div class="col-2 mx-auto mb-3">
-          <table>
-            <tr>
-              <th>
-                <a href="{{ route('show.program', {id: progId.id}) }}" class="btn btn-secondary">Отмена</a>
-              </th>
-              <th>
-                <button class="btn btn-success" id="btnSend">Добавить</button>
-              </th>
-            </tr>
-          </table>
-        </div>
-      </form>
-    </div>
+      <div class="col-2 mx-auto mb-3">
+        <table>
+          <tr>
+            <th>
+              <a href="{{ route('show.program', {id: progId.id}) }}" class="btn btn-secondary">Отмена</a>
+            </th>
+            <th>
+              <button class="btn btn-success" id="btnSend">Добавить</button>
+            </th>
+          </tr>
+        </table>
+      </div>
+    </form>
   </div>
 
 <script src="/js/jquery/jquery-3.6.0.min.js"></script>

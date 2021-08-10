@@ -41,5 +41,6 @@ Route.group(() => {
   Route.post('/summernote-upload', 'ArticlesController.upload').as('upload.summernote')
   Route.get('/show/:id', 'ArticlesController.show').as('show.question.article')
   Route.get('edit/:id', 'ArticlesController.edit').as('edit.question.article')
+  Route.post('edit/:id', 'ArticlesController.update').as('update.question.article')
   Route.get('/delete/:id', 'ArticlesController.destroy').as('destroy.question.article')
 }).prefix('article')

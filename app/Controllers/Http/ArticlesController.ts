@@ -111,7 +111,9 @@ export default class ArticlesController {
     }
   }
 
-  public async update({}: HttpContextContract) {}
+  public async update({ params, request, response, session }: HttpContextContract) {
+    console.log(request)
+  }
 
   public async destroy({ params, response, view, session }: HttpContextContract) {
     const question = await Question.find(params.id)
