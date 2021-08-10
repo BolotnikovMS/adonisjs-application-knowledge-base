@@ -66,34 +66,37 @@ export default class ArticlesController {
   }
 
   public async show({ view, request, response, params }: HttpContextContract) {
-    const article = await Article.find(params.id)
+    // const article = await Article.find(params.id)
+    const question = await Question.query().where('id', '=', params.id).preload('articles')
 
-    if (article) {
-      const question = await Question.query().where('id', '=', article.questionId)
+    // if (article) {
+    //   const question = await Question.query().where('id', '=', article.questionId)
+    //
+    //   article.topic = question[0].description_question
+    //
+    //   if (request.headers().referer) {
+    //     article.url = request.headers().referer
+    //   } else {
+    //     article.url = '/list-program'
+    //   }
 
-      article.topic = question[0].description_question
-
-      if (request.headers().referer) {
-        article.url = request.headers().referer
-      } else {
-        article.url = '/list-program'
-      }
-
-      // return article
-      return view.render('pages/articles/show', {
-        title: `Просмотр статьи "${article.topic}"`,
-        article,
-      })
-    } else {
-      response.status(404)
-
-      return view.render('pages/error/404', {
-        title: 'Error 404'
-      })
-    }
+      return question
+    //   return view.render('pages/articles/show', {
+    //     title: `Просмотр статьи "${article.topic}"`,
+    //     article,
+    //   })
+    // } else {
+    //   response.status(404)
+    //
+    //   return view.render('pages/error/404', {
+    //     title: 'Error 404'
+    //   })
+    // }
   }
 
-  public async edit({}: HttpContextContract) {}
+  public async edit({ view, params }: HttpContextContract) {
+
+  }
 
   public async update({}: HttpContextContract) {}
 

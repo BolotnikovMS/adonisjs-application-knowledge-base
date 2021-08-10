@@ -37,7 +37,7 @@
           <div class="card-footer text-muted">
             <div class="row">
               <div class="col-9">
-                <a href="{{ route('show.article', {id: article.id}) }}" class="btn btn-primary" title="Подробнее">
+                <a href="{{ route('show.question.article', {id: question.id}) }}" class="btn btn-primary" title="Подробнее">
                   Подробнее
                   <i class="fas fa-chevron-circle-right"></i>
                 </a>
@@ -45,7 +45,7 @@
                   Редактировать
                   <i class="fas fa-pen"></i>
                 </a>
-                <a href="{{ route('destroy.question', {id: question.id}) }}" class="btn btn-danger" title="Удалить">
+                <a href="{{ route('destroy.question.article', {id: question.id}) }}" class="btn btn-danger" title="Удалить">
                   Удалить
                   <i class="fas fa-trash-alt"></i>
                 </a>
