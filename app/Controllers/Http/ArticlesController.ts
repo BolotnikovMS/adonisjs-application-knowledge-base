@@ -111,10 +111,9 @@ export default class ArticlesController {
     }
   }
 
-  public async update({ params, request, response, session }: HttpContextContract) {
+  public async update({ params, request, response, session, view }: HttpContextContract) {
     const question = await Question.findOrFail(params.id)
     const validatedDataQuestion = await request.validate(RequestQuestionValidator)
-    const { description } = request.only(['description'])
 
     if (question) {
       question.description_question = validatedDataQuestion.description_question
@@ -122,6 +121,7 @@ export default class ArticlesController {
       await question.save()
 
       let article = await Article.query().where('question_id', '=', params.id)
+      const { description } = request.only(['description'])
 
       article[0].description = description
 
@@ -129,10 +129,15 @@ export default class ArticlesController {
 
       session.flash(
         'successmessage',
-        `Тема "${validatedDataQuestion.description_question}" успешно добавлена в список.`
+        `Тема "${validatedDataQuestion.description_question}" успешно обновлена.`
       )
       response.redirect('back')
+    } else {
+      response.status(404)
 
+      return view.render('pages/error/404', {
+        title: 'Error 404'
+      })
     }
   }
 
