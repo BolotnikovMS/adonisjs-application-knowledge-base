@@ -112,7 +112,28 @@ export default class ArticlesController {
   }
 
   public async update({ params, request, response, session }: HttpContextContract) {
-    console.log(request)
+    const question = await Question.findOrFail(params.id)
+    const validatedDataQuestion = await request.validate(RequestQuestionValidator)
+    const { description } = request.only(['description'])
+
+    if (question) {
+      question.description_question = validatedDataQuestion.description_question
+
+      await question.save()
+
+      let article = await Article.query().where('question_id', '=', params.id)
+
+      article[0].description = description
+
+      await article[0].save()
+
+      session.flash(
+        'successmessage',
+        `Тема "${validatedDataQuestion.description_question}" успешно добавлена в список.`
+      )
+      response.redirect('back')
+
+    }
   }
 
   public async destroy({ params, response, view, session }: HttpContextContract) {
