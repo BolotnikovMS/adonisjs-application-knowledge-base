@@ -27,16 +27,22 @@ export default class ProgramListsController {
     const validatedData = await request.validate(RequestProgramListValidator)
 
     if (validatedData) {
+      let program = {}
+
       for (const validatedDataKey in validatedData) {
         if (validatedData[validatedDataKey]) {
-          await ProgramList.create(validatedData)
-
-          session.flash('successmessage', `Программа "${validatedData.name}" успешно добавлена в список.`)
-          response.redirect('/list-program/')
-        } else {
-          session.flash('dangermessage', `Введенно пустое значение.`)
-          response.redirect('/list-program/')
+          program[validatedDataKey] = validatedData[validatedDataKey]
         }
+      }
+
+      if (Object.keys(program).length === 0) {
+        session.flash('dangermessage', `Введенно пустое значение в поле название.`)
+        response.redirect('/list-program/')
+      } else {
+        await ProgramList.create(program)
+
+        session.flash('successmessage', `Программа "${validatedData.name}" успешно добавлена в список.`)
+        response.redirect('/list-program/')
       }
     } else {
       response.status(404)
@@ -74,12 +80,12 @@ export default class ProgramListsController {
     })
   }
 
-  public async update({ params, request, response, session }: HttpContextContract) {
+  public async update({ params, request, response, session, view }: HttpContextContract) {
     const validatedData = await request.validate(RequestProgramListValidator)
     const program = await ProgramList.findOrFail(params.id)
 
     if (program) {
-      program.name = validatedData.name
+      program.name = validatedData?.name.trim()
       // @ts-ignore
       if (validatedData.description == null || validatedData.description == '') {
         program.description = null
@@ -91,7 +97,11 @@ export default class ProgramListsController {
       program.site = validatedData.site
       await program.save()
     } else {
-      // перенаправка на страницу ошибки
+      response.status(404)
+
+      return view.render('pages/error/404', {
+        title: 'Error 404'
+      })
     }
 
     session.flash('successmessage', `Данные об программе "${program.name}" успешно обновлены.`)
