@@ -23,15 +23,28 @@ export default class ProgramListsController {
     return view.render('pages/programs/create', { title: 'Добавить программу' })
   }
 
-  public async store({ request, response, session }: HttpContextContract) {
+  public async store({ request, response, session, view }: HttpContextContract) {
     const validatedData = await request.validate(RequestProgramListValidator)
 
     if (validatedData) {
-      await ProgramList.create(validatedData)
-    }
+      for (const validatedDataKey in validatedData) {
+        if (validatedData[validatedDataKey]) {
+          await ProgramList.create(validatedData)
 
-    session.flash('successmessage', `Программа "${validatedData.name}" успешно добавлена в список.`)
-    response.redirect('/list-program/')
+          session.flash('successmessage', `Программа "${validatedData.name}" успешно добавлена в список.`)
+          response.redirect('/list-program/')
+        } else {
+          session.flash('dangermessage', `Введенно пустое значение.`)
+          response.redirect('/list-program/')
+        }
+      }
+    } else {
+      response.status(404)
+
+      return view.render('pages/error/404', {
+        title: 'Error 404'
+      })
+    }
   }
 
   public async show({ view, params, request }: HttpContextContract) {

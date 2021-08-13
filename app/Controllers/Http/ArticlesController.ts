@@ -113,9 +113,10 @@ export default class ArticlesController {
 
   public async update({ params, request, response, session, view }: HttpContextContract) {
     const question = await Question.findOrFail(params.id)
-    const validatedDataQuestion = await request.validate(RequestQuestionValidator)
 
     if (question) {
+      const validatedDataQuestion = await request.validate(RequestQuestionValidator)
+
       question.description_question = validatedDataQuestion.description_question
 
       await question.save()
