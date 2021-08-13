@@ -4,6 +4,7 @@ import ProgramList from 'App/Models/ProgramList'
 import Question from 'App/Models/Question'
 
 import RequestProgramListValidator from 'App/Validators/RequestProgramListValidator'
+import { afterSave } from "@ioc:Adonis/Lucid/Orm";
 
 export default class ProgramListsController {
   public async index({ view, request }: HttpContextContract) {
@@ -39,10 +40,15 @@ export default class ProgramListsController {
         session.flash('dangermessage', `Введенно пустое значение в поле название.`)
         response.redirect('/list-program/')
       } else {
-        await ProgramList.create(program)
+        if (program.hasOwnProperty('name')) {
+          await ProgramList.create(program)
 
-        session.flash('successmessage', `Программа "${validatedData.name}" успешно добавлена в список.`)
-        response.redirect('/list-program/')
+          session.flash('successmessage', `Программа "${validatedData.name}" успешно добавлена в список.`)
+          response.redirect('/list-program/')
+        } else {
+          session.flash('dangermessage', `Введенно пустое значение в поле название.`)
+          response.redirect('/list-program/')
+        }
       }
     } else {
       response.status(404)
@@ -84,18 +90,32 @@ export default class ProgramListsController {
     const validatedData = await request.validate(RequestProgramListValidator)
     const program = await ProgramList.findOrFail(params.id)
 
-    if (program) {
-      program.name = validatedData?.name.trim()
-      // @ts-ignore
-      if (validatedData.description == null || validatedData.description == '') {
-        program.description = null
-      } else {
-        // @ts-ignore
-        program.description = validatedData.description
+    if (program && validatedData) {
+      for (const validatedDataKey in validatedData) {
+        if (!validatedData[validatedDataKey]) {
+          delete validatedData[validatedDataKey]
+        }
       }
-      // @ts-ignore
-      program.site = validatedData.site
-      await program.save()
+
+      if (Object.keys(validatedData).length === 0) {
+        session.flash('dangermessage', `Введенно пустое значение в поле название.`)
+        response.redirect('/list-program/')
+      } else {
+        if (validatedData.hasOwnProperty('name')) {
+          program.name = validatedData.name
+          // @ts-ignore
+          program.description = validatedData.description
+          // @ts-ignore
+          program.site = validatedData.site
+
+          await program.save()
+          session.flash('successmessage', `Данные об программе "${validatedData.name}" успешно обновлены.`)
+          response.redirect('/list-program/')
+        } else {
+          session.flash('dangermessage', `Введенно пустое значение в поле название.`)
+          response.redirect('/list-program/')
+        }
+      }
     } else {
       response.status(404)
 
@@ -103,9 +123,6 @@ export default class ProgramListsController {
         title: 'Error 404'
       })
     }
-
-    session.flash('successmessage', `Данные об программе "${program.name}" успешно обновлены.`)
-    response.redirect('/list-program/')
   }
 
   public async destroy({ params, response, session }: HttpContextContract) {
