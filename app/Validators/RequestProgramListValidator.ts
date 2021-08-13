@@ -12,9 +12,6 @@ export default class RequestProgramListValidator {
       [
         rules.minLength(2),
         rules.maxLength(200),
-        rules.alpha({
-          allow: ['space', 'underscore', 'dash'],
-        }),
       ]
     ),
     description: schema.string.optional({
@@ -23,9 +20,6 @@ export default class RequestProgramListValidator {
       },
       [
         rules.maxLength(500),
-        rules.alpha({
-        allow: ['space', 'underscore', 'dash'],
-        }),
       ]
     ),
     site: schema.string.optional({
