@@ -15,7 +15,7 @@ export default class ArticlesController {
     return view.render('pages/articles/create', { title: 'Добавить тему', progId })
   }
 
-  public async store({ request, response, session }: HttpContextContract) {
+  public async store({ request, response, session, view }: HttpContextContract) {
     const idProgram = request.params()
     const validatedDataQuestion = await request.validate(RequestQuestionValidator)
 
@@ -53,7 +53,11 @@ export default class ArticlesController {
         response.redirect('back')
       }
     } else {
-      console.log('Error 404')
+      response.status(404)
+
+      return view.render('pages/error/404', {
+        title: 'Error 404'
+      })
     }
   }
 
@@ -130,22 +134,38 @@ export default class ArticlesController {
     if (question) {
       const validatedDataQuestion = await request.validate(RequestQuestionValidator)
 
-      question.description_question = validatedDataQuestion.description_question
+      for (const validatedDataQuestionKey in validatedDataQuestion) {
+        if (!validatedDataQuestion[validatedDataQuestionKey]) {
+          delete validatedDataQuestion[validatedDataQuestionKey]
+        }
+      }
 
-      await question.save()
+      if (Object.keys(validatedDataQuestion).length === 0) {
+        session.flash('dangermessage', `Введенно пустое значение в поле тема.`)
+        response.redirect('back')
+      } else {
+        if (validatedDataQuestion.hasOwnProperty('description_question')) {
+          question.description_question = validatedDataQuestion.description_question
 
-      let article = await Article.query().where('question_id', '=', params.id)
-      const { description } = request.only(['description'])
+          await question.save()
 
-      article[0].description = description
+          let article = await Article.query().where('question_id', '=', params.id)
+          const { description } = request.only(['description'])
 
-      await article[0].save()
+          article[0].description = description
 
-      session.flash(
-        'successmessage',
-        `Тема "${validatedDataQuestion.description_question}" успешно обновлена.`
-      )
-      response.redirect('back')
+          await article[0].save()
+
+          session.flash(
+            'successmessage',
+            `Тема "${validatedDataQuestion.description_question}" успешно обновлена.`
+          )
+          response.redirect('back')
+        } else {
+          session.flash('dangermessage', `Введенно пустое значение в поле тема.`)
+          response.redirect('back')
+        }
+      }
     } else {
       response.status(404)
 

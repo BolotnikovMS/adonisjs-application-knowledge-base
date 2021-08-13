@@ -12,7 +12,7 @@ export default class Questions extends BaseSchema {
         .notNullable()
         .references('program_lists.id')
         .onDelete('CASCADE')
-      table.text('description')
+      table.text('description_question').notNullable()
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

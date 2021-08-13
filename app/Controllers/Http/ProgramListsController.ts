@@ -86,10 +86,11 @@ export default class ProgramListsController {
   }
 
   public async update({ params, request, response, session, view }: HttpContextContract) {
-    const validatedData = await request.validate(RequestProgramListValidator)
     const program = await ProgramList.findOrFail(params.id)
 
-    if (program && validatedData) {
+    if (program) {
+      const validatedData = await request.validate(RequestProgramListValidator)
+
       for (const validatedDataKey in validatedData) {
         if (!validatedData[validatedDataKey]) {
           delete validatedData[validatedDataKey]
