@@ -38,7 +38,7 @@ export default class ProgramListsController {
 
       if (Object.keys(program).length === 0) {
         session.flash('dangermessage', `Введенно пустое значение в поле название.`)
-        response.redirect('/list-program/')
+        response.redirect('/list-program/new')
       } else {
         if (program.hasOwnProperty('name')) {
           await ProgramList.create(program)
@@ -47,7 +47,7 @@ export default class ProgramListsController {
           response.redirect('/list-program/')
         } else {
           session.flash('dangermessage', `Введенно пустое значение в поле название.`)
-          response.redirect('/list-program/')
+          response.redirect('/list-program/new')
         }
       }
     } else {
@@ -113,7 +113,7 @@ export default class ProgramListsController {
           response.redirect('/list-program/')
         } else {
           session.flash('dangermessage', `Введенно пустое значение в поле название.`)
-          response.redirect('/list-program/')
+          response.redirect(`/list-program/edit/${params.id}`)
         }
       }
     } else {
@@ -125,12 +125,20 @@ export default class ProgramListsController {
     }
   }
 
-  public async destroy({ params, response, session }: HttpContextContract) {
+  public async destroy({ params, response, session, view }: HttpContextContract) {
     const program = await ProgramList.findOrFail(params.id)
 
-    await program.delete()
+    if (program) {
+      await program.delete()
 
-    session.flash('successmessage', `Программа ${program.name} была удалена!`)
-    response.redirect('/list-program/')
+      session.flash('successmessage', `Программа ${program.name} была удалена!`)
+      response.redirect('/list-program/')
+    } else {
+      response.status(404)
+
+      return view.render('pages/error/404', {
+        title: 'Error 404'
+      })
+    }
   }
 }
