@@ -27,23 +27,10 @@ export default class ProgramListsController {
     const validatedData = await request.validate(RequestProgramListValidator)
 
     if (validatedData) {
-      let program = {}
+      await ProgramList.create(validatedData)
 
-      for (const validatedDataKey in validatedData) {
-        if (validatedData[validatedDataKey]) {
-          program[validatedDataKey] = validatedData[validatedDataKey]
-        }
-      }
-
-      if (Object.keys(program).length === 0) {
-        session.flash('dangermessage', `Введенно пустое значение в поле название.`)
-        response.redirect('/list-program/')
-      } else {
-        await ProgramList.create(program)
-
-        session.flash('successmessage', `Программа "${validatedData.name}" успешно добавлена в список.`)
-        response.redirect('/list-program/')
-      }
+      session.flash('successmessage', `Программа "${validatedData.name}" успешно добавлена в список.`)
+      response.redirect('/list-program/')
     } else {
       response.status(404)
 

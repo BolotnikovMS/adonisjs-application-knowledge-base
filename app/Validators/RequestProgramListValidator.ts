@@ -9,13 +9,24 @@ export default class RequestProgramListValidator {
         trim: true,
         escape: true,
       },
-      [rules.minLength(2), rules.maxLength(200)]
+      [
+        rules.minLength(2),
+        rules.maxLength(200),
+        rules.alpha({
+          allow: ['space', 'underscore', 'dash'],
+        }),
+      ]
     ),
     description: schema.string.optional({
         trim: true,
         escape: true,
       },
-      [rules.maxLength(500)]
+      [
+        rules.maxLength(500),
+        rules.alpha({
+        allow: ['space', 'underscore', 'dash'],
+        }),
+      ]
     ),
     site: schema.string.optional({
         trim: true,
