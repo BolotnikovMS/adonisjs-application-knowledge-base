@@ -13,7 +13,11 @@
       <h4 class="m-3">{{ question[0].description_question }}</h4>
       <hr>
       <div class="m-2 p-2">
-        {{{ question[0].articles[0].description }}}
+        @if(question[0].articles[0].description)
+          {{{ question[0].articles[0].description }}}
+        @else
+          <p class="text-center mt-5">Пока нет описания решения проблемы. :(</p>
+        @endif
       </div>
     </div>
   </div>

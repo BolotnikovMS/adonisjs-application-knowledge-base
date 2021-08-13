@@ -4,7 +4,6 @@ import ProgramList from 'App/Models/ProgramList'
 import Question from 'App/Models/Question'
 
 import RequestProgramListValidator from 'App/Validators/RequestProgramListValidator'
-import { afterSave } from "@ioc:Adonis/Lucid/Orm";
 
 export default class ProgramListsController {
   public async index({ view, request }: HttpContextContract) {

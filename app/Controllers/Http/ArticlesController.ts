@@ -20,25 +20,38 @@ export default class ArticlesController {
     const validatedDataQuestion = await request.validate(RequestQuestionValidator)
 
     if (validatedDataQuestion) {
-      // @ts-ignore
-      validatedDataQuestion.program_id = idProgram.id
+      let question: any = {
+        program_id: idProgram.id
+      }
 
-      await Question.create(validatedDataQuestion)
+      for (const validatedDataQuestionKey in validatedDataQuestion) {
+        if (validatedDataQuestion[validatedDataQuestionKey]) {
+          question[validatedDataQuestionKey] = validatedDataQuestion[validatedDataQuestionKey]
+        }
+      }
 
-      const idQuestion = await Question.query().orderBy('id', 'desc').limit(1)
-      const article = request.only(['description'])
+      if (question.hasOwnProperty('description_question')) {
+        await Question.create(question)
 
-      // @ts-ignore
-      article.question_id = idQuestion[0].id
-      article.program_id = idProgram.id
+        const idQuestion = await Question.query().orderBy('id', 'desc').limit(1)
+        const article = request.only(['description'])
 
-      await Article.create(article)
+        // @ts-ignore
+        article.question_id = idQuestion[0].id
+        // @ts-ignore
+        article.program_id = idProgram.id
 
-      session.flash(
-        'successmessage',
-        `Тема "${validatedDataQuestion.description_question}" успешно добавлена в список.`
-      )
-      response.redirect('back')
+        await Article.create(article)
+
+        session.flash(
+          'successmessage',
+          `Тема "${validatedDataQuestion.description_question}" успешно добавлена в список.`
+        )
+        response.redirect('back')
+      } else {
+        session.flash('dangermessage', `Введенно пустое значение в поле тема.`)
+        response.redirect('back')
+      }
     } else {
       console.log('Error 404')
     }
@@ -83,7 +96,7 @@ export default class ArticlesController {
       response.status(404)
 
       return view.render('pages/error/404', {
-        title: 'Error 404'
+        title: 'Error 404',
       })
     }
   }
@@ -106,7 +119,7 @@ export default class ArticlesController {
       response.status(404)
 
       return view.render('pages/error/404', {
-        title: 'Error 404'
+        title: 'Error 404',
       })
     }
   }
@@ -137,7 +150,7 @@ export default class ArticlesController {
       response.status(404)
 
       return view.render('pages/error/404', {
-        title: 'Error 404'
+        title: 'Error 404',
       })
     }
   }
@@ -151,13 +164,16 @@ export default class ArticlesController {
       await article[0].delete()
       await question.delete()
 
-      session.flash('successmessage', `Вопрос ${question.description_question.slice(0, 60) + '...'} был удален!`)
+      session.flash(
+        'successmessage',
+        `Вопрос ${question.description_question.slice(0, 60) + '...'} был удален!`
+      )
       response.redirect('back')
     } else {
       response.status(404)
 
       return view.render('pages/error/404', {
-        title: 'Error 404'
+        title: 'Error 404',
       })
     }
   }
