@@ -161,25 +161,26 @@ export default class ProgramListsController {
 
     const search = validateData.search.split(' ')
     let searchResult
-    let test: string = ''
+    let searchStr: string = ''
 
     await search.forEach((part) => {
-      test += `${part} `
+      searchStr += `${part} `
     })
 
     if (search.length >= 1) {
       searchResult = await ProgramList.query()
         .where((query) => {
           query
-            .where('name', 'like', `%${test}%`)
-            .orWhere('name', 'like', `%${test}`)
-            .orWhere('name', 'like', `${test}%`)
+            .where('name', 'like', `%${searchStr}%`)
+            .orWhere('name', 'like', `%${searchStr}`)
+            .orWhere('name', 'like', `${searchStr}%`)
         })
     }
 
     return view.render('pages/programs/search', {
       title: 'Результаты поиска',
-      searchResult
+      searchResult,
+      searchStr
     })
   }
 }
