@@ -167,10 +167,19 @@ export default class ProgramListsController {
       test += `${part} `
     })
 
-    searchResult = await ProgramList.query()
-      .where((query) => {
-      query.where('name', 'like', `%${test}%`)
-    })
+    if (search.length >= 1) {
+      searchResult = await ProgramList.query()
+        .where((query) => {
+          query
+            .where('name', 'like', `%${test}%`)
+            .orWhere('name', 'like', `%${test}`)
+            .orWhere('name', 'like', `${test}%`)
+        })
+    }
 
+    return view.render('pages/programs/search', {
+      title: 'Результаты поиска',
+      searchResult
+    })
   }
 }
