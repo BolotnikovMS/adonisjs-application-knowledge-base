@@ -32,6 +32,7 @@ Route.group(() => {
   Route.get('/edit/:id', 'ProgramListsController.edit').as('edit.program')
   Route.post('/edit/:id', 'ProgramListsController.update').as('update.program')
   Route.get('/delete/:id', 'ProgramListsController.destroy').as('destroy.program')
+  Route.get('/search', 'ProgramListsController.search').as('search.program')
 }).prefix('list-program')
 
 Route.group(() => {

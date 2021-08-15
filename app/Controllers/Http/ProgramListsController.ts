@@ -1,9 +1,11 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { schema, rules } from '@ioc:Adonis/Core/Validator'
 
 import ProgramList from 'App/Models/ProgramList'
 import Question from 'App/Models/Question'
 
 import RequestProgramListValidator from 'App/Validators/RequestProgramListValidator'
+import Database from '@ioc:Adonis/Lucid/Database'
 
 export default class ProgramListsController {
   public async index({ view, request }: HttpContextContract) {
@@ -140,5 +142,35 @@ export default class ProgramListsController {
         title: 'Error 404'
       })
     }
+  }
+
+  public async search({ request, view }: HttpContextContract) {
+    const validSchema = schema.create({
+      search: schema.string({trim: true, escape: true}, [
+        rules.minLength(3)
+      ])
+    })
+    const messages = {
+      'search.required': 'Поле является обязательным.',
+      'search.minLength': 'Минимальная длинна поля 3 символа.',
+    }
+    const validateData = await request.validate({
+      schema: validSchema,
+      messages: messages
+    })
+
+    const search = validateData.search.split(' ')
+    let searchResult
+    let test: string = ''
+
+    await search.forEach((part) => {
+      test += `${part} `
+    })
+
+    searchResult = await ProgramList.query()
+      .where((query) => {
+      query.where('name', 'like', `%${test}%`)
+    })
+
   }
 }
