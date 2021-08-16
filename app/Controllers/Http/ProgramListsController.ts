@@ -64,6 +64,7 @@ export default class ProgramListsController {
     const programId = params.id
     const page = request.input('page', 1)
     const limit = 10
+    const program = await ProgramList.findOrFail(programId)
     const questions = await Question.query()
       .where('program_id', '=', programId)
       .preload('articles')
@@ -72,7 +73,7 @@ export default class ProgramListsController {
     questions.baseUrl(`/list-program/show/${programId}`)
 
     return view.render('pages/programs/show', {
-      title: `Программа "1"`,
+      title: `Программа "${program.name}"`,
       questions,
       programId
     })
