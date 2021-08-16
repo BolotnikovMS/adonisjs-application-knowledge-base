@@ -52,7 +52,7 @@
           </div>
           <div class="card-footer text-muted">
             <div class="row">
-              <div class="col-9">
+              <div class="col-9 p-1">
                 <a href="{{ route('show.question.article', {id: question.id}) }}" class="btn btn-primary" title="Подробнее">
                   Подробнее
                   <i class="fas fa-chevron-circle-right"></i>
@@ -66,8 +66,13 @@
                   <i class="fas fa-trash-alt"></i>
                 </a>
               </div>
-              <div class="col-3 p-1">
-                <small class=" text-muted">Дата добавления: </small><small class="text-muted m-2" id="time">{{ article.createdAt }}</small>
+              <div class="col-3">
+                <div>
+                  <small class=" text-muted">Дата добавления: </small><small class="text-muted m-2" id="time">{{ question.createdAt }}</small>
+                </div>
+                <div>
+                  <small class=" text-muted">Дата обновления: </small><small class="text-muted m-2" id="time">{{ question.updatedAt }}</small>
+                </div>
               </div>
             </div>
           </div>
