@@ -17,13 +17,29 @@
 
   <h3 class="mt-2 mb-4">{{ title }}</h3>
 
-  <div class="col-1 mb-2">
-    <a href="{{ route('index.program') }}" class="btn btn-secondary" title="Обратно к списку программ">
-      <i class="fas fa-chevron-left"></i>
-    </a>
-    <a href="{{ route('create.article', {id: programId}) }}" class="btn btn-success" title="Добавить тему">
-      <i class="fas fa-plus"></i>
-    </a>
+  <div class="row">
+    <div class="col-7 mb-2">
+      <a href="{{ route('index.program') }}" class="btn btn-secondary" title="Обратно к списку программ">
+        <i class="fas fa-chevron-left"></i>
+      </a>
+      <a href="{{ route('create.article', {id: programId}) }}" class="btn btn-success" title="Добавить тему">
+        <i class="fas fa-plus"></i>
+      </a>
+    </div>
+    <div class="col-5 mb-2">
+      <form action="{{ route('search.question') }}" method="GET">
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="fas fa-search"></i>
+          </span>
+          <input type="text" class="form-control" name="search" placeholder="Поиск вопроса" aria-label="search" aria-describedby="search" value="{{ flashMessages.get('search') || '' }}">
+          <button class="btn btn-light border" type="submit">Поиск</button>
+        </div>
+        @if(flashMessages.has('errors.search'))
+          <span class="text-danger">{{ flashMessages.get('errors.search') }}</span>
+        @endif
+      </form>
+    </div>
   </div>
 
   @if(questions.length)

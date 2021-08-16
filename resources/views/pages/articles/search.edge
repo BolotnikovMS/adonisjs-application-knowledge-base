@@ -1,0 +1,33 @@
+@layout('layout/master')
+
+@section('content')
+<div class="container">
+
+  <h3 class="mt-2 mb-4">{{ title }} по запросу "{{ searchStr }}"</h3>
+
+  @if(searchResult.length)
+    <ol class="list-group list-group-numbered mb-5">
+      @each((result , i) in searchResult)
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+          <div class="ms-2 me-auto col-10">
+            {{ result.description_question }}
+          </div>
+          <div class="col-1">
+            <a href="{{ route('show.question.article', {id: result.id}) }}" class="linkSt m-1" title="Просмотр">
+              <i class="fas fa-eye"></i>
+            </a>
+            <a href="{{ route('edit.question.article', {id: result.id}) }}" class="linkSt m-1" title="Редактировать">
+              <i class="fas fa-pen"></i>
+            </a>
+            <a href="{{ route('destroy.question.article', {id: result.id}) }}" class="linkSt m-1" title="Удалить">
+              <i class="fas fa-trash"></i>
+            </a>
+          </div>
+        </li>
+      @endeach
+    </ol>
+  @else
+    <p class="text-center mt-5">Ничего не найдено... :(</p>
+  @endif
+</div>
+@endsection

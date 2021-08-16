@@ -45,4 +45,6 @@ Route.group(() => {
   Route.get('edit/:id', 'ArticlesController.edit').as('edit.question.article')
   Route.post('edit/:id', 'ArticlesController.update').as('update.question.article')
   Route.get('/delete/:id', 'ArticlesController.destroy').as('destroy.question.article')
+
+  Route.get('/search', 'SearchesController.searchInQuestion').as('search.question')
 }).prefix('article')
