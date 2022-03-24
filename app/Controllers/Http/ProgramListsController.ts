@@ -1,11 +1,9 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { schema, rules } from '@ioc:Adonis/Core/Validator'
 
 import ProgramList from 'App/Models/ProgramList'
 import Question from 'App/Models/Question'
 
 import RequestProgramListValidator from 'App/Validators/RequestProgramListValidator'
-import Database from '@ioc:Adonis/Lucid/Database'
 
 export default class ProgramListsController {
   public async index({ view, request }: HttpContextContract) {
@@ -16,7 +14,7 @@ export default class ProgramListsController {
     programs.baseUrl('/list-program/')
 
     return view.render('pages/programs/index', {
-      title: 'Список программ',
+      title: 'Категорий',
       programs
     })
   }

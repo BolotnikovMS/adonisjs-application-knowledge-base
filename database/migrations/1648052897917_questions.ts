@@ -7,12 +7,14 @@ export default class Questions extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table
-        .integer('program_id', 10)
+        .integer('category_id', 10)
+        .unsigned()
         .index()
         .notNullable()
-        .references('program_lists.id')
+        .references('categories.id')
         .onDelete('CASCADE')
-      table.text('description_question').notNullable()
+      table.string('topic_question', 255).nullable()
+      table.text('description_question')
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

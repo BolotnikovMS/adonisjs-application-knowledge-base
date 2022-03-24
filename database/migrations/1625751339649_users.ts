@@ -5,21 +5,21 @@ export default class UsersSchema extends BaseSchema {
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id').primary()
+      table.increments('id')
+      table
+        .integer('role_id', 10)
+        .unsigned()
+        .index()
+        .notNullable()
+        .defaultTo(2)
+        .references('roles.id')
+        .onDelete('CASCADE')
       table.string('surname', 255).notNullable()
       table.string('name', 255).notNullable()
       table.string('lastname', 255).notNullable()
       table.string('email', 255).notNullable()
       table.string('password', 180).notNullable()
       table.string('remember_me_token').nullable()
-      table
-        .integer('role_id', 10)
-        .index()
-        .notNullable()
-        .defaultTo(2)
-        .references('roles.id')
-        .onDelete('CASCADE')
-
       table.boolean('active').defaultTo(1)
       /**
        * Uses timestampz for PostgreSQL and DATETIME2 for MSSQL

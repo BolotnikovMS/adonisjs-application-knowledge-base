@@ -7,13 +7,15 @@ export default class Articles extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table
-        .integer('program_id', 10)
+        .integer('category_id', 10)
+        .unsigned()
         .index()
         .notNullable()
-        .references('program_lists.id')
+        .references('categories.id')
         .onDelete('CASCADE')
       table
         .integer('question_id', 10)
+        .unsigned()
         .index()
         .notNullable()
         .references('questions.id')

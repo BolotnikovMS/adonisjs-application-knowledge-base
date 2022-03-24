@@ -25,6 +25,25 @@ Route.get('/', async ({ view }) => {
 }).as('index')
 
 Route.group(() => {
+  Route.get('/', 'WorkingDirectionsController.index').as('index.workings')
+  Route.get('/new', 'WorkingDirectionsController.create').as('create.working')
+  Route.post('/store', 'WorkingDirectionsController.store').as('store.working')
+  Route.get('/show/:id', 'WorkingDirectionsController.show').as('show.working')
+}).prefix('working-directions')
+
+Route.group(() => {
+  // Route.get('/', 'CategoriesController.index').as('index.categories')
+  Route.get('/new/:workingDirId', 'CategoriesController.create').as('create.category')
+  Route.post('/store/:workingDirId', 'CategoriesController.store').as('store.category')
+}).prefix('categories')
+
+Route.group(() => {
+  Route.get('/show/:id', 'CategoriesController.show').as('show.category')
+  Route.get('/show-one/:id', 'QuestionsController.show').as('show.question')
+  Route.get('/new', 'QuestionsController.create').as('create.question')
+}).prefix('questions')
+
+Route.group(() => {
   Route.get('/', 'ProgramListsController.index').as('index.program')
   Route.get('/new', 'ProgramListsController.create').as('create.program')
   Route.post('/new', 'ProgramListsController.store').as('store.program')

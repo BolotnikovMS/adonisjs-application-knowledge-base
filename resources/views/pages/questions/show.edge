@@ -1,0 +1,29 @@
+@layout('layout/master')
+
+@section('content')
+<div class="container">
+    {{--  Блок с сообщениями  --}}
+    <div class="col-13 mb-1 row">
+    </div>
+    {{--  Конец блока с сообщениями  --}}
+  <h3 class="mt-2 mb-4">{{ title }}</h3>
+
+  <div class="mb-2 row">
+    <div class="m-2 border border-1 rounded">
+      <h4 class="m-3">{{ question.topic_question }}</h4>
+      <hr>
+      <div class="m-2 p-2">
+        @if(question.description_question)
+          {{{ question.description_question }}}
+        @else
+          <p class="text-center mt-5">Пока нет описания решения проблемы. :(</p>
+        @endif
+      </div>
+    </div>
+  </div>
+
+  <div class="col-2 mx-auto mb-3">
+    <a href="{{ question.url }}" class="btn btn-secondary">Вернуться обратно</a>
+  </div>
+</div>
+@endsection
