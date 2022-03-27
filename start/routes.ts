@@ -25,34 +25,32 @@ Route.get('/', async ({ view }) => {
 }).as('index')
 
 Route.group(() => {
-  Route.get('/', 'WorkingDirectionsController.index').as('index.workings')
-  Route.get('/new', 'WorkingDirectionsController.create').as('create.working')
-  Route.post('/store', 'WorkingDirectionsController.store').as('store.working')
-  Route.get('/show/:id', 'WorkingDirectionsController.show').as('show.working')
+  Route.get('/', 'WorkingDirectionsController.index').as('working_directions.index')
+  Route.get('/new', 'WorkingDirectionsController.create').as('working_directions.create')
+  Route.post('/store', 'WorkingDirectionsController.store').as('working_directions.store')
+  Route.get('/categories/:id', 'WorkingDirectionsController.show').as('working_directions.show')
+  Route.get('/edit/:id', 'WorkingDirectionsController.edit').as('working_directions.edit')
+  Route.post('/edit/:id', 'WorkingDirectionsController.update').as('working_directions.update')
+  Route.get('/delete/:id', 'WorkingDirectionsController.destroy').as('working_directions.destroy')
 }).prefix('working-directions')
 
 Route.group(() => {
   // Route.get('/', 'CategoriesController.index').as('index.categories')
-  Route.get('/new/:workingDirId', 'CategoriesController.create').as('create.category')
-  Route.post('/store/:workingDirId', 'CategoriesController.store').as('store.category')
+  Route.get('/new/:workingDirId', 'CategoriesController.create').as('category.create')
+  Route.post('/store/:workingDirId', 'CategoriesController.store').as('category.store')
+  Route.get('/questions/:id', 'CategoriesController.show').as('category.show')
+  Route.get('/edit/:id', 'CategoriesController.edit').as('category.edit')
+  Route.post('/edit/:id', 'CategoriesController.update').as('category.update')
+  Route.get('/delete/:id', 'CategoriesController.destroy').as('category.destroy')
 }).prefix('categories')
 
 Route.group(() => {
-  Route.get('/show/:id', 'CategoriesController.show').as('show.category')
   Route.get('/show-one/:id', 'QuestionsController.show').as('show.question')
   Route.get('/new', 'QuestionsController.create').as('create.question')
 }).prefix('questions')
 
 Route.group(() => {
-  Route.get('/', 'ProgramListsController.index').as('index.program')
-  Route.get('/new', 'ProgramListsController.create').as('create.program')
-  Route.post('/new', 'ProgramListsController.store').as('store.program')
-  Route.get('/show/:id', 'ProgramListsController.show').as('show.program')
-  Route.get('/edit/:id', 'ProgramListsController.edit').as('edit.program')
-  Route.post('/edit/:id', 'ProgramListsController.update').as('update.program')
-  Route.get('/delete/:id', 'ProgramListsController.destroy').as('destroy.program')
-
-  Route.get('/search', 'SearchesController.searchInProgram').as('search.program')
+   Route.get('/search', 'SearchesController.searchInProgram').as('search.program')
 }).prefix('list-program')
 
 Route.group(() => {

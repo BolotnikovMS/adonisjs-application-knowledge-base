@@ -3,12 +3,18 @@
 @section('content')
 <div class="container">
   <h3 class="mt-2 mb-4">{{ title }}</h3>
-    <form class="row" action="{{ route('store.category', {workingDirId: workingDirId}) }}" method="POST">
+    <form class="row" action="{{route(settings.route, {id: settings.workingId})}}" method="POST">
       <div class="mb-2 row">
         <div class="col-sm-4">
           <div class="input-group mb-2">
             <span class="input-group-text col-sm-3" id="name">Название:</span>
-            <input type="text" class="form-control" placeholder="Введите название направления" name="name" aria-label="name" aria-describedby="name" value="{{ flashMessages.get('name') || '' }}" />
+            <input
+              type="text"
+              class="form-control" placeholder="Введите название категории"
+              name="name" aria-label="name"
+              aria-describedby="name"
+              value="{{ working ? working.name : '' }}"
+            />
           </div>
             @if(flashMessages.has('errors.name'))
               <span class="text-danger">{{ flashMessages.get('errors.name') }}</span>
@@ -19,10 +25,10 @@
         <table>
           <tr>
             <th>
-              <a href="/working-directions/show/{{workingDirId}}" class="btn btn-secondary">Отмена</a>
+              <a href="{{ route('working_directions.index') }}" class="btn btn-secondary">Отмена</a>
             </th>
             <th>
-              <button class="btn btn-success" type="submit">Добавить</button>
+              <button class="btn btn-success" type="submit">{{settings.operationType}}</button>
             </th>
           </tr>
         </table>

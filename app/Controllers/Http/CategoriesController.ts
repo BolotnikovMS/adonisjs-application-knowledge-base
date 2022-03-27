@@ -1,5 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import RequestProgramListValidator from 'App/Validators/RequestProgramListValidator'
+
+import WorkingDirectionValidator from 'App/Validators/WorkingDirectionValidator'
 
 import Category from 'App/Models/Category'
 
@@ -7,60 +8,98 @@ export default class CategoriesController {
   public async index ({}: HttpContextContract) {
   }
 
-  public async create ({view, request}: HttpContextContract) {
-    return view.render('pages/categories/create', {title: 'Добавить категорию', workingDirId: request.params().workingDirId})
+  public async create ({view, params}: HttpContextContract) {
+    return view.render('pages/categories/form', {
+      title: 'Добавить категорию',
+      settings: {
+        route: 'category.store',
+        operationType: 'Добавить',
+        paramsId: {
+          workingDirId: params.workingDirId
+        }
+      }
+    })
   }
 
-  public async store ({request, response, session, view}: HttpContextContract) {
-    const validatedData = await request.validate(RequestProgramListValidator)
+  public async store ({request, response, params, session}: HttpContextContract) {
+    const validatedData = await request.validate(WorkingDirectionValidator)
 
     if (validatedData) {
       let category = {
-        working_direction_id: request.params().workingDirId
+        working_direction_id: params.workingDirId,
+        ...validatedData
       }
 
-      for (const validatedDataKey in validatedData) {
-        if (validatedData[validatedDataKey]) {
-          category[validatedDataKey] = validatedData[validatedDataKey]
-        }
-      }
+      await Category.create(category)
 
-      if (Object.keys(category).length === 0) {
-        session.flash('dangermessage', `Введенно пустое значение в поле название.`)
-        response.redirect('/list-program/new')
-      } else {
-        if (category.hasOwnProperty('name')) {
-          await Category.create(category)
+      session.flash('successmessage', `Направление "${category.name}" успешно добавлено в список.`)
+      response.redirect().toRoute('WorkingDirectionsController.show', {id: params.workingDirId})
+    }
+  }
 
-          session.flash('successmessage', `Программа "${validatedData.name}" успешно добавлена в список.`)
-          response.redirect('back')
-        } else {
-          session.flash('dangermessage', `Введенно пустое значение в поле название.`)
-          response.redirect('/list-program/new')
-        }
-      }
+  public async show ({response, params, view}: HttpContextContract) {
+    // const category = await Category.query().where('id', '=', params.id).preload('questions')
+    const category = await Category.find(params.id)
+
+    if (category) {
+      await category.load('questions')
+
+      // return category
+      return view.render('pages/categories/show', {
+        title: `Список вопросов по теме: "${category.name}"`,
+        category
+      })
     } else {
       response.status(404)
 
-      return view.render('pages/error/404', {
-        title: 'Error 404'
+      return view.render('pages/error/404', {title: 'Error 404'})
+    }
+  }
+
+  public async edit ({view, params}: HttpContextContract) {
+    const category = await Category.find(params.id)
+
+    // return category
+    if (category) {
+      return view.render('pages/categories/form', {
+        title: 'Редактирование',
+        settings: {
+          route: 'category.update',
+          operationType: 'Сохранить',
+          paramsId: {
+            id: params.id,
+            workingDirId: category?.working_direction_id
+          }
+        },
+        category
       })
     }
   }
 
-  public async show ({request, view}: HttpContextContract) {
-    const categoryID = request.params()
-    const category = await Category.query().where('id', '=', categoryID.id).preload('questions')
+  public async update ({request, response, params, session}: HttpContextContract) {
+    const category = await Category.find(params.id)
 
-    return view.render('pages/questions/index', {title: 'Список вопросов', category: category})
+    if (category) {
+      const validatedData = await request.validate(WorkingDirectionValidator)
+
+      category.name = validatedData.name
+
+      await category.save()
+      session.flash('successmessage', `Данные "${category.name}" успешно обновлены.`)
+      response.redirect().toRoute('WorkingDirectionsController.show', {id: category.working_direction_id})
+    }
   }
 
-  public async edit ({}: HttpContextContract) {
-  }
+  public async destroy ({params, response, session}: HttpContextContract) {
+    const category = await Category.find(params.id)
 
-  public async update ({}: HttpContextContract) {
-  }
+    if (category) {
+      await category.delete()
 
-  public async destroy ({}: HttpContextContract) {
+      session.flash('successmessage', `Тема ${category.name} была удалена!`)
+      response.redirect().toRoute('WorkingDirectionsController.show', {id: category.working_direction_id})
+    } else {
+      console.log('Error')
+    }
   }
 }
