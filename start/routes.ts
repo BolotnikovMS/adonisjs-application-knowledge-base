@@ -45,8 +45,8 @@ Route.group(() => {
 }).prefix('categories')
 
 Route.group(() => {
-  Route.get('/show-one/:id', 'QuestionsController.show').as('show.question')
-  Route.get('/new', 'QuestionsController.create').as('create.question')
+  Route.get('/show-one/:id', 'QuestionsController.show').as('question.show')
+  Route.get('/new', 'QuestionsController.create').as('question.create')
 }).prefix('questions')
 
 Route.group(() => {

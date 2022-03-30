@@ -22,7 +22,7 @@
       <a href="{{ route('working_directions.show', {id: category.working_direction_id}) }}" class="btn btn-secondary" title="Обратно к списку тем">
         <i class="fas fa-chevron-left"></i>
       </a>
-      <a href="#" class="btn btn-success" title="Добавить вопрос">
+      <a href="{{ route('question.create') }}" class="btn btn-success" title="Добавить вопрос">
         <i class="fas fa-plus"></i>
       </a>
     </div>
@@ -35,7 +35,7 @@
           <div class="card-footer text-muted">
             <div class="row">
               <div class="col-9 p-1">
-                <a href="#" class="btn btn-primary" title="Подробнее">
+                <a href="{{ route('question.show', {id: question.id}) }}" class="btn btn-primary" title="Подробнее">
                   Подробнее
                   <i class="fas fa-chevron-circle-right"></i>
                 </a>
