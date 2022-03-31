@@ -19,9 +19,12 @@
 
   <div class="row">
     <div class="col-7 mb-2">
-      <a href="{{ route('working_directions.create') }}" class="btn btn-success" title="Добавить новый пункт">
+      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalForm" title="Добавить направление">
         <i class="fas fa-plus"></i>
-      </a>
+      </button>
+      {{--  <a href="{{ route('working_directions.create') }}" class="btn btn-success" title="Добавить новый пункт" >
+        <i class="fas fa-plus"></i>
+      </a>  --}}
     </div>
     {{--  <div class="col-5 mb-2">
       <form action="" method="GET">
@@ -50,7 +53,12 @@
               </div>
             </a>
           </div>
-          <div class="btn-group">
+          <div class="ms-2">
+            <span class="badge bg-primary rounded-pill" title="Количество тем">
+              {{working.categories.length}}
+            </span>
+          </div>
+          <div class="btn-group ms-2">
             <button class="btn-menu-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               &hellip;
             </button>
@@ -61,9 +69,6 @@
               {{--  <li><a class="dropdown-item delete" href="#"><i class="fas fa-trash m-1"></i>Удалить</a></li>  --}}
             </ul>
           </div>
-          <span class="badge bg-primary rounded-pill" title="Количество тем">
-            {{working.categories.length}}
-          </span>
         </li>
       @endeach
     </ol>
@@ -72,5 +77,11 @@
   @endif
 </div>
 
-<script src="{{ '/js/test.js' }}"></script>
+<!-- Modal -->
+@!component('components/modalFormAdd', {
+  routeParams: 'working_directions.store',
+  operationType: 'Добавить',
+  placeholderText: 'Введите название направления'
+})
+
 @endsection

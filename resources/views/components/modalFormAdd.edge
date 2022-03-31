@@ -1,0 +1,33 @@
+<div class="modal fade" id="modalForm" tabindex="-1" aria-labelledby="modalFormLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalFormLabel">Добавить направление</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="row form-add" action="{{route(routeParams, workingDirId)}}" method="POST">
+          <div class="mb-2 row">
+              <div class="input-group mb-2">
+                <span class="input-group-text col-sm-3" id="name">Название:</span>
+                <input
+                  type="text"
+                  class="form-control" placeholder="{{ placeholderText }}"
+                  name="name" aria-label="name"
+                  aria-describedby="name"
+                  value="{{ working ? working.name : '' }}"
+                />
+              </div>
+              <span id="error-message" class="text-danger"></span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+            <button id="testBtn" class="btn btn-success" type="submit">{{operationType}}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{{ '/js/modalFormAdd.js' }}"></script>
