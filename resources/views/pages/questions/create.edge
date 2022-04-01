@@ -16,26 +16,26 @@
 
     <h3 class="mt-2 mb-4">{{ title }}</h3>
 
-    <form action="" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('question.store', {id: idCategory}) }}" method="POST" enctype="multipart/form-data">
       <div class="mb-3">
         <div class="form-floating">
-          <textarea class="form-control" name="description_question" placeholder="Введите тему..." id="description_question" style="height: 100px">{{ flashMessages.get('description_question') || '' }}</textarea>
-          <label for="description_question">Тема</label>
+          <textarea class="form-control" name="question" id="question" style="height: 100px">{{ flashMessages.get('question') || '' }}</textarea>
+          <label for="question">Описание вопроса</label>
         </div>
-        @if(flashMessages.has('errors.description_question'))
-          <span class="text-danger">{{ flashMessages.get('errors.description_question') }}</span>
+        @if(flashMessages.has('errors.question'))
+          <span class="text-danger">{{ flashMessages.get('errors.question') }}</span>
         @endif
       </div>
 
       <div class="form-floating mb-4">
-        <textarea id="description" data-url="" name="description"></textarea>
+        <textarea id="description_question" data-url="{{ route('upload.summernote') }}" name="description_question"></textarea>
       </div>
 
       <div class="col-2 mx-auto mb-3">
         <table>
           <tr>
             <th>
-              <a href="#" class="btn btn-secondary">Отмена</a>
+              <a href="{{ route('CategoriesController.show', {id: idCategory}) }}" class="btn btn-secondary">Отмена</a>
             </th>
             <th>
               <button class="btn btn-success" id="btnSend">Добавить</button>

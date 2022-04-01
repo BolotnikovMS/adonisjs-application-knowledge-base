@@ -63,10 +63,8 @@
               &hellip;
             </button>
             <ul class="dropdown-menu">
-              {{--  <li><a class="dropdown-item" href="#"><i class="fas fa-eye m-1"></i>Просмотр</a></li>  --}}
               <li><a class="dropdown-item" href="{{ route('working_directions.edit', {id: working.id}) }}" title="Редактировать"><i class="fas fa-pen m-1"></i>Редактировать</a></li>
               <li><a class="dropdown-item delete" href="{{ route('working_directions.destroy', {id: working.id}) }}" title="Удалить"><i class="fas fa-trash m-1"></i>Удалить</a></li>
-              {{--  <li><a class="dropdown-item delete" href="#"><i class="fas fa-trash m-1"></i>Удалить</a></li>  --}}
             </ul>
           </div>
         </li>
@@ -84,4 +82,5 @@
   placeholderText: 'Введите название направления'
 })
 
+<script src="{{ '/js/test.js' }}"></script>
 @endsection

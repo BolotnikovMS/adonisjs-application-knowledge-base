@@ -26,9 +26,9 @@ Route.get('/', async ({ view }) => {
 
 Route.group(() => {
   Route.get('/', 'WorkingDirectionsController.index').as('working_directions.index')
-  Route.get('/new', 'WorkingDirectionsController.create').as('working_directions.create')
+  // Route.get('/new', 'WorkingDirectionsController.create').as('working_directions.create')
   Route.post('/store', 'WorkingDirectionsController.store').as('working_directions.store')
-  Route.get('/categories/:id', 'WorkingDirectionsController.show').as('working_directions.show')
+  Route.get('/:id/categories', 'WorkingDirectionsController.show').as('working_directions.show')
   Route.get('/edit/:id', 'WorkingDirectionsController.edit').as('working_directions.edit')
   Route.post('/edit/:id', 'WorkingDirectionsController.update').as('working_directions.update')
   Route.get('/delete/:id', 'WorkingDirectionsController.destroy').as('working_directions.destroy')
@@ -36,9 +36,9 @@ Route.group(() => {
 
 Route.group(() => {
   // Route.get('/', 'CategoriesController.index').as('index.categories')
-  Route.get('/new/:workingDirId', 'CategoriesController.create').as('category.create')
+  // Route.get('/new/:workingDirId', 'CategoriesController.create').as('category.create')
   Route.post('/store/:workingDirId', 'CategoriesController.store').as('category.store')
-  Route.get('/questions/:id', 'CategoriesController.show').as('category.show')
+  Route.get('/:id/questions', 'CategoriesController.show').as('category.show')
   Route.get('/edit/:id', 'CategoriesController.edit').as('category.edit')
   Route.post('/edit/:id', 'CategoriesController.update').as('category.update')
   Route.get('/delete/:id', 'CategoriesController.destroy').as('category.destroy')
@@ -46,7 +46,9 @@ Route.group(() => {
 
 Route.group(() => {
   Route.get('/show-one/:id', 'QuestionsController.show').as('question.show')
-  Route.get('/new', 'QuestionsController.create').as('question.create')
+  Route.get('/category/:id', 'QuestionsController.create').as('question.create')
+  Route.post('/category/:id', 'QuestionsController.store').as('question.store')
+  Route.post('/summernote-upload', 'QuestionsController.upload').as('upload.summernote')
 }).prefix('questions')
 
 Route.group(() => {
@@ -57,7 +59,7 @@ Route.group(() => {
   // Route.get('/', 'ArticlesController.index').as('index.article')
   Route.get('/show/:id/new-article', 'ArticlesController.create').as('create.article')
   Route.post('/show/:id/new-article', 'ArticlesController.store').as('store.article')
-  Route.post('/summernote-upload', 'ArticlesController.upload').as('upload.summernote')
+  // Route.post('/summernote-upload', 'ArticlesController.upload').as('upload.summernote')
   Route.get('/show/:id', 'ArticlesController.show').as('show.question.article')
   Route.get('edit/:id', 'ArticlesController.edit').as('edit.question.article')
   Route.post('edit/:id', 'ArticlesController.update').as('update.question.article')

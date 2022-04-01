@@ -10,7 +10,7 @@ export default class Question extends BaseModel {
   public category_id: number
 
   @column()
-  public topic_question: string
+  public question: string
 
   @column()
   public description_question: string

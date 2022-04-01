@@ -25,12 +25,13 @@ export default class RequestQuestionValidator {
 	 *    ```
 	 */
   public schema = schema.create({
-    description_question: schema.string({
+    question: schema.string({
         trim: true,
         escape: true,
       },
-      [rules.minLength(2), rules.maxLength(700)]
-    )
+      [rules.minLength(2), rules.maxLength(10000)]
+    ),
+    description_question: schema.string.optional()
   })
 
 	/**
@@ -45,9 +46,9 @@ export default class RequestQuestionValidator {
 	 *
 	 */
   public messages = {
-    'description_question.required': 'Поле "Тема" является обязательным.',
-    'description_question.minLength': 'Минимальная длинна поля 2 символа.',
-    'description_question.maxLength': 'Максимальная длинна поля 700 символов.',
+    'question.required': 'Поле "Описание вопроса" является обязательным.',
+    'question.minLength': 'Минимальная длинна поля 2 символа.',
+    'question.maxLength': 'Максимальная длинна поля 700 символов.',
 
   }
 }
