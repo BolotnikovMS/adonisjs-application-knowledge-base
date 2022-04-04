@@ -31,24 +31,36 @@ export default class QuestionsController {
       const validatedFile = await request.validate(RequestFileValidator)
       let path
 
-      if (validatedFile.file?.type === 'application') {
-        path = 'uploads/article/file'
-      } else if (validatedFile.file?.type === 'image') {
-        path = 'uploads/article/img'
+      if (validatedFile.file !== undefined) {
+        if (validatedFile.file.type === 'application') {
+          path = 'uploads/article/file'
+        } else if (validatedFile.file.type === 'image') {
+          path = 'uploads/article/img'
+        } else {
+          path = 'uploads/article/other'
+        }
+
+        await validatedFile.file.move(Application.publicPath(path), {
+          name: `${cuid()}.${validatedFile.file.extname}`,
+        })
+
+        return { fileName: validatedFile.file.fileName, clientName: validatedFile.file.clientName }
       } else {
-        path = 'uploads/article/other'
+        console.log('File is undefined')
       }
-
-      await validatedFile.file?.move(Application.publicPath(path), {
-        name: `${cuid()}.${validatedFile.file.extname}`,
-      })
-
-      return { fileName: validatedFile.file?.fileName, clientName: validatedFile.file?.clientName }
     }
   }
 
-  public async show ({request, view, params}: HttpContextContract) {
-    const question = await Question.findOrFail(params.id)
+  public async show ({request, response, view, params, session}: HttpContextContract) {
+    const question = await Question.find(params.id)
+
+    if (question === null) {
+      session.flash(
+        'dangermessage',
+        'Такого вопроса нет!'
+      )
+      return response.redirect().toRoute('WorkingDirectionsController.index')
+    }
 
     if (request.headers().referer) {
       question.url = request.headers().referer
@@ -57,7 +69,7 @@ export default class QuestionsController {
     }
 
     return view.render('pages/questions/show', {
-      title: `Просмотр статьи "${question.question.slice(0, 10)}"`,
+      title: `Просмотр статьи "${question.question.slice(0, 20)}"`,
       question,
     })
   }
@@ -68,6 +80,25 @@ export default class QuestionsController {
   public async update ({}: HttpContextContract) {
   }
 
-  public async destroy ({}: HttpContextContract) {
+  public async destroy ({params, response, view, session}: HttpContextContract) {
+    const question = await Question.find(params.id)
+
+    if (question !== null) {
+      await question.delete()
+
+      session.flash(
+        'successmessage',
+        `Вопрос ${question.question.slice(0, 60) + '...'} был удален!`
+      )
+      response.redirect('back')
+
+      console.log(question.description_question)
+    } else {
+      response.status(404)
+
+      return view.render('pages/error/404', {
+        title: 'Error 404',
+      })
+    }
   }
 }

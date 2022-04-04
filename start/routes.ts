@@ -49,6 +49,7 @@ Route.group(() => {
   Route.get('/category/:id', 'QuestionsController.create').as('question.create')
   Route.post('/category/:id', 'QuestionsController.store').as('question.store')
   Route.post('/summernote-upload', 'QuestionsController.upload').as('upload.summernote')
+  Route.get('/delete/:id', 'QuestionsController.destroy').as('question.destroy')
 }).prefix('questions')
 
 Route.group(() => {

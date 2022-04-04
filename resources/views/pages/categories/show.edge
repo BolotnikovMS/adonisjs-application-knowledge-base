@@ -43,7 +43,7 @@
                   Редактировать
                   <i class="fas fa-pen"></i>
                 </a>
-                <a href="#" class="btn btn-danger" title="Удалить">
+                <a href="{{ route('question.destroy', {id: question.id}) }}" class="btn btn-danger" title="Удалить">
                   Удалить
                   <i class="fas fa-trash-alt"></i>
                 </a>
