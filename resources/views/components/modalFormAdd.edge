@@ -6,7 +6,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form class="row form-add" action="{{route(routeParams, workingDirId)}}" method="POST">
+        <form class="row form-add" action="{{route(formAction, workingDirId)}}" method="POST">
           <div class="mb-2 row">
               <div class="input-group mb-2">
                 <span class="input-group-text col-sm-3" id="name">Название:</span>
@@ -22,7 +22,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-            <button id="testBtn" class="btn btn-success" type="submit">{{operationType}}</button>
+            <button id="testBtn" class="btn btn-success" type="submit">{{operationTypeBtn}}</button>
           </div>
         </form>
       </div>

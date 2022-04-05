@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
   <h3 class="mt-2 mb-4">{{ title }}</h3>
-    <form class="row" action="{{route(settings.route, {id: settings.workingId})}}" method="POST">
+    <form class="row" action="{{route(settings.route, settings.paramsId)}}" method="POST">
       <div class="mb-2 row">
         <div class="col-sm-4">
           <div class="input-group mb-2">
@@ -13,7 +13,7 @@
               class="form-control" placeholder="Введите название категории"
               name="name" aria-label="name"
               aria-describedby="name"
-              value="{{ working ? working.name : '' }}"
+              value="{{ content ? content.name : '' }}"
             />
           </div>
             @if(flashMessages.has('errors.name'))
@@ -25,10 +25,10 @@
         <table>
           <tr>
             <th>
-              <a href="{{ route('working_directions.index') }}" class="btn btn-secondary">Отмена</a>
+              <a href="{{ route(routeBack, {id: settings.paramsId.workingDirId}) }}" class="btn btn-secondary">Отмена</a>
             </th>
             <th>
-              <button class="btn btn-success" type="submit">{{settings.operationType}}</button>
+              <button class="btn btn-success" type="submit">{{settings.operationTypeBtn}}</button>
             </th>
           </tr>
         </table>

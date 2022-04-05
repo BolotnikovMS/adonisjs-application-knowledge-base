@@ -18,9 +18,10 @@ export default class WorkingDirectionsController {
     return view.render('pages/workingdir/form', {
       title: 'Добавить направление',
       settings: {
-        route:  'working_directions.store',
-        operationType: 'Добавить'
-      }
+        route: 'working_directions.store',
+        operationTypeBtn: 'Добавить'
+      },
+      routeBack: 'working_directions.index'
     })
   }
 
@@ -64,10 +65,13 @@ export default class WorkingDirectionsController {
         title: 'Редактирование',
         settings: {
           route: 'working_directions.update',
-          workingId: params.id,
-          operationType: 'Сохранить'
+          paramsId: {
+            id: params.id,
+          },
+          operationTypeBtn: 'Сохранить'
         },
-        working
+        content: working,
+        routeBack: 'working_directions.index'
       })
     } else {
       return view.render('pages/error/404', {title: 'Error 404'})

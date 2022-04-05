@@ -22,12 +22,9 @@
       <a href="{{ route('working_directions.index')}}" class="btn btn-secondary" title="Обратно к списку направлений">
         <i class="fas fa-chevron-left"></i>
       </a>
-      {{--  <a href="{{ route('category.create', {workingDirId: workingId})}}" class="btn btn-success" title="Добавить тему">
+      <a href="{{ route('category.create', {workingDirId: workingId})}}" class="btn btn-success" title="Добавить тему">
         <i class="fas fa-plus"></i>
-      </a>  --}}
-      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalForm" title="Добавить тему">
-        <i class="fas fa-plus"></i>
-      </button>
+      </a>
     </div>
 
     @if(categories.length > 0)
@@ -62,16 +59,6 @@
       <p class="text-center mt-5">Пока нет добавленных пунктов.</p>
     @endif
 </div>
-
-<!-- Modal -->
-@!component('components/modalFormAdd', {
-  routeParams: 'category.store',
-  workingDirId: {
-    workingDirId: workingId
-  },
-  operationType: 'Добавить',
-  placeholderText: 'Введите название категории'
-})
 
 <script src="{{ '/js/test.js' }}"></script>
 @endsection

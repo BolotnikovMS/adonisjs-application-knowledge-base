@@ -9,15 +9,16 @@ export default class CategoriesController {
   }
 
   public async create ({view, params}: HttpContextContract) {
-    return view.render('pages/categories/form', {
+    return view.render('pages/workingdir/form', {
       title: 'Добавить категорию',
       settings: {
         route: 'category.store',
-        operationType: 'Добавить',
+        operationTypeBtn: 'Добавить',
         paramsId: {
           workingDirId: params.workingDirId
         }
-      }
+      },
+      routeBack: 'working_directions.show'
     })
   }
 
@@ -61,17 +62,18 @@ export default class CategoriesController {
 
     // return category
     if (category) {
-      return view.render('pages/categories/form', {
+      return view.render('pages/workingdir/form', {
         title: 'Редактирование',
         settings: {
           route: 'category.update',
-          operationType: 'Сохранить',
+          operationTypeBtn: 'Сохранить',
           paramsId: {
             id: params.id,
             workingDirId: category?.working_direction_id
           }
         },
-        category
+        content: category,
+        routeBack: 'working_directions.show'
       })
     }
   }

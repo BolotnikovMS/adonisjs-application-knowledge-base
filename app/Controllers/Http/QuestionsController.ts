@@ -12,7 +12,16 @@ export default class QuestionsController {
   }
 
   public async create ({view, params}: HttpContextContract) {
-    return view.render('pages/questions/create', {title: 'Добавить новый вопрос', idCategory: params.id})
+    return view.render('pages/questions/formQuestion', {
+      title: 'Добавить новый вопрос',
+      settings: {
+        formAction: 'question.store',
+        operationTypeBtn: 'Добавить',
+        paramsId: {
+          idCategory: params.id
+        }
+      }
+    })
   }
 
   public async store ({request, response, params, session}: HttpContextContract) {
@@ -74,10 +83,53 @@ export default class QuestionsController {
     })
   }
 
-  public async edit ({}: HttpContextContract) {
+  public async edit ({response, view, params}: HttpContextContract) {
+    const question = await Question.find(params.id)
+
+    if (question) {
+      return view.render('pages/questions/formQuestion', {
+        title: 'Редактирование',
+        settings: {
+          formAction: 'question.update',
+          operationTypeBtn: 'Сохранить',
+          paramsId: {
+            idQuestion: params.id,
+            idCategory: question.category_id
+          }
+        },
+        question
+      })
+
+    } else {
+      response.status(404)
+
+      return view.render('pages/error/404', {
+        title: 'Error 404',
+      })
+    }
   }
 
-  public async update ({}: HttpContextContract) {
+  public async update ({request, response, params, view, session}: HttpContextContract) {
+    const question = await Question.find(params.id)
+
+    if (question) {
+      const validatedData = await request.validate(RequestQuestionValidator)
+
+      question.question = validatedData.question
+      question.description_question = validatedData.description_question
+
+      await question.save()
+
+      session.flash('successmessage', `Данные "${question.question}" успешно обновлены.`)
+      response.redirect().toRoute('CategoriesController.show', {id: question.category_id})
+
+    } else {
+      response.status(404)
+
+      return view.render('pages/error/404', {
+        title: 'Error 404',
+      })
+    }
   }
 
   public async destroy ({params, response, view, session}: HttpContextContract) {
@@ -91,8 +143,6 @@ export default class QuestionsController {
         `Вопрос ${question.question.slice(0, 60) + '...'} был удален!`
       )
       response.redirect('back')
-
-      console.log(question.description_question)
     } else {
       response.status(404)
 
