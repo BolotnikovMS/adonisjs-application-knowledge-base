@@ -21,17 +21,19 @@
             @endif
         </div>
       </div>
-      <div class="col-2 mx-auto mb-3">
-        <table>
-          <tr>
-            <th>
-              <a href="{{ route(routeBack, {id: settings.paramsId.workingDirId}) }}" class="btn btn-secondary">Отмена</a>
-            </th>
-            <th>
-              <button class="btn btn-success" type="submit">{{settings.operationTypeBtn}}</button>
-            </th>
-          </tr>
-        </table>
+
+      <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+        @!buttons.link({
+          routes: settings.paramsId ? route(routeBack, {id: settings.paramsId.workingDirId}) : route(routeBack),
+          classBtn: 'btn btn-secondary',
+          titleBtn: 'Отмена',
+          text: 'Отмена'
+        })
+        @!buttons.button({
+          classBtn: 'btn btn-primary',
+          typeBtn: 'submit',
+          text: settings.operationTypeBtn
+        })
       </div>
     </form>
   </div>

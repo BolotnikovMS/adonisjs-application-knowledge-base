@@ -18,17 +18,18 @@
         <textarea id="description_question" data-url="{{ route('upload.summernote') }}" name="description_question">{{ question ? question.description_question : '' }}</textarea>
       </div>
 
-      <div class="col-2 mx-auto mb-3">
-        <table>
-          <tr>
-            <th>
-              <a href="{{ route('category.show', {id: settings.paramsId.idCategory}) }}" class="btn btn-secondary">Отмена</a>
-            </th>
-            <th>
-              <button class="btn btn-success" id="btnSend">{{ settings.operationTypeBtn }}</button>
-            </th>
-          </tr>
-        </table>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+        @!buttons.link({
+          routes: route('category.show', {id: settings.paramsId.idCategory}),
+          classBtn: 'btn btn-secondary',
+          titleBtn: 'Отмена',
+          text: 'Отмена'
+        })
+        @!buttons.button({
+          classBtn: 'btn btn-primary',
+          typeBtn: 'submit',
+          text: settings.operationTypeBtn
+        })
       </div>
     </form>
   </div>

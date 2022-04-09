@@ -1,0 +1,11 @@
+@if(flashMessages.has('successmessage'))
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ flashMessages.get('successmessage') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+@elseif(flashMessages.has('dangermessage'))
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+  {{ flashMessages.get('dangermessage') }}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+@endif

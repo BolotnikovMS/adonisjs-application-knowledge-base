@@ -9,6 +9,16 @@ export default class CategoriesController {
   }
 
   public async create ({view, params}: HttpContextContract) {
+    // return {
+    //   settings: {
+    //     route: 'category.store',
+    //     operationTypeBtn: 'Добавить',
+    //     paramsId: {
+    //       workingDirId: params.workingDirId
+    //     }
+    //   },
+    //   routeBack: 'working_directions.show'
+    // }
     return view.render('pages/workingdir/form', {
       title: 'Добавить категорию',
       settings: {

@@ -3,62 +3,58 @@
 @section('content')
 <div class="container">
   {{--  Вывод сообщения  --}}
-  @if(flashMessages.has('successmessage'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-      {{ flashMessages.get('successmessage') }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-  @elseif(flashMessages.has('dangermessage'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-      {{ flashMessages.get('dangermessage') }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-  @endif
+  @include('includes/messages')
 
   <h3 class="mt-2 mb-4">{{ title }}</h3>
 
   <div class="row">
     <div class="col-7 mb-2">
-      <a href="{{ route('working_directions.index')}}" class="btn btn-secondary" title="Обратно к списку направлений">
-        <i class="fas fa-chevron-left"></i>
-      </a>
-      <a href="{{ route('category.create', {workingDirId: workingId})}}" class="btn btn-success" title="Добавить тему">
-        <i class="fas fa-plus"></i>
-      </a>
+      @!buttons.link({
+        routes: route('working_directions.index'),
+        classBtn: 'btn btn-secondary',
+        titleBtn: 'Обратно к списку направлений',
+        text: '<i class="fas fa-chevron-left"></i>'
+      })
+      @!buttons.link({
+        routes: route('category.create', {workingDirId: workingId}),
+        classBtn: 'btn btn-primary',
+        titleBtn: 'Добавить категорию',
+        text: '<i class="fa-solid fa-circle-plus"></i>'
+      })
     </div>
+  </div>
 
-    @if(categories.length > 0)
-    <ol class="list-group list-group-numbered mb-5">
-      @each((category , i) in categories)
-        <li class="list-group-item d-flex justify-content-between align-items-start">
-          <div class="ms-2 me-auto col-10">
-            <a href="{{ route('category.show', {id: category.id}) }}" class="linkSt" title="Просмотр">
-              <div class="fw-bold">
-                {{ category.name }}
-              </div>
-            </a>
-          </div>
-          <div class="ms-2">
-            <span class="badge bg-primary rounded-pill" title="Количество вопросов">
-            {{ category.questions.length }}
-            </span>
-          </div>
-          <div class="btn-group ms-2">
-            <button class="btn-menu-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              &hellip;
-            </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{{ route('category.edit', {id: category.id}) }}" title="Редактировать"><i class="fas fa-pen m-1"></i>Редактировать</a></li>
-              <li><a class="dropdown-item delete" href="{{ route('category.destroy', {id: category.id}) }}" title="Удалить"><i class="fas fa-trash m-1"></i>Удалить</a></li>
-            </ul>
-          </div>
-        </li>
-      @endeach
-    </ol>
-    @else
-      <p class="text-center mt-5">Пока нет добавленных пунктов.</p>
-    @endif
-</div>
+  @if(categories.length > 0)
+  <ol class="list-group list-group-numbered mb-5">
+    @each((category , i) in categories)
+      <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto col-10">
+          <a href="{{ route('category.show', {id: category.id}) }}" class="linkSt" title="Просмотр">
+            <div class="fw-bold">
+              {{ category.name }}
+            </div>
+          </a>
+        </div>
+        <div class="ms-2">
+          <span class="badge bg-primary rounded-pill" title="Количество вопросов">
+          {{ category.questions.length }}
+          </span>
+        </div>
+        <div class="btn-group ms-2">
+          <button class="btn-menu-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-ellipsis-vertical"></i>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{{ route('category.edit', {id: category.id}) }}" title="Редактировать"><i class="fas fa-pen m-1"></i>Редактировать</a></li>
+            <li><a class="dropdown-item delete" href="{{ route('category.destroy', {id: category.id}) }}" title="Удалить"><i class="fas fa-trash m-1"></i>Удалить</a></li>
+          </ul>
+        </div>
+      </li>
+    @endeach
+  </ol>
+  @else
+    <p class="text-center mt-5">Пока нет добавленных пунктов.</p>
+  @endif
 
 <script src="{{ '/js/test.js' }}"></script>
 @endsection
