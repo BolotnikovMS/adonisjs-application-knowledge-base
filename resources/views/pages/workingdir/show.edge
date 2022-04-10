@@ -1,64 +1,63 @@
 @layout('layout/master')
 
 @section('content')
-<div class="container">
-  {{--  Вывод сообщения  --}}
-  @include('includes/messages')
+{{--  Вывод сообщения  --}}
+@include('includes/messages')
 
-  <h3 class="mt-2 mb-4">{{ title }}</h3>
+<h3 class="mt-2 mb-4">{{ title }}</h3>
 
-  <div class="row">
-    <div class="col-7 mb-2">
-      @!buttons.link({
-        routes: route('working_directions.index'),
-        classBtn: 'btn btn-secondary',
-        titleBtn: 'Обратно к списку направлений',
-        text: '<i class="fas fa-chevron-left"></i>'
-      })
-      @!buttons.link({
-        routes: route('category.create', {workingDirId: workingId}),
-        classBtn: 'btn btn-primary',
-        titleBtn: 'Добавить категорию',
-        text: '<i class="fa-solid fa-circle-plus"></i>'
-      })
-    </div>
+<div class="row">
+  <div class="col-7 mb-2">
+    @!buttons.link({
+      routes: route('working_directions.index'),
+      classBtn: 'btn btn-secondary',
+      titleBtn: 'Обратно к списку направлений',
+      text: '<i class="fas fa-chevron-left"></i>'
+    })
+    @!buttons.link({
+      routes: route('category.create', {workingDirId: workingId}),
+      classBtn: 'btn btn-primary',
+      titleBtn: 'Добавить категорию',
+      text: '<i class="fa-solid fa-circle-plus"></i>'
+    })
   </div>
+</div>
 
-  @if(categories.length > 0)
-    <ol class="list-group">
-      @each((category , i) in categories)
-        <li class="list-group-item d-flex justify-content-between">
-          <div class="ms-1 me-auto col-10">
-            <span class="badge bg-primary rounded-pill" title="Количество вопросов">
-              {{ category.questions.length }}
-            </span>
-            <a class="linkSt fw-bold" href="{{ route('category.show', {id: category.id}) }}" title="Просмотр">
-              {{ category.name }}
-            </a>
-          </div>
-          <div class="btn-group ms-2">
-            <button class="btn-menu-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="fa-solid fa-ellipsis-vertical"></i>
-            </button>
-            <ul class="dropdown-menu">
-              <li>
-                <a class="dropdown-item" href="{{ route('category.edit', {id: category.id}) }}" title="Редактировать">
-                  <i class="fas fa-pen m-1"></i>Редактировать
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item delete" href="{{ route('category.destroy', {id: category.id}) }}" title="Удалить">
-                  <i class="fas fa-trash m-1"></i>Удалить
-                </a>
-              </li>
-            </ul>
-          </div>
-        </li>
-      @endeach
-    </ol>
-  @else
-    <p class="text-center mt-5">Пока нет добавленных категорий.</p>
-  @endif
+@if(categories.length > 0)
+  <ol class="list-group">
+    @each((category , i) in categories)
+      <li class="list-group-item d-flex justify-content-between">
+        <div class="ms-1 me-auto col-10">
+          <span class="badge bg-primary rounded-pill" title="Количество вопросов">
+            {{ category.questions.length }}
+          </span>
+          <a class="linkSt fw-bold" href="{{ route('category.show', {id: category.id}) }}" title="Просмотр">
+            {{ category.name }}
+          </a>
+        </div>
+        <div class="btn-group ms-2">
+          <button class="btn-menu-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-ellipsis-vertical"></i>
+          </button>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" href="{{ route('category.edit', {id: category.id}) }}" title="Редактировать">
+                <i class="fas fa-pen m-1"></i>Редактировать
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item delete" href="{{ route('category.destroy', {id: category.id}) }}" title="Удалить">
+                <i class="fas fa-trash m-1"></i>Удалить
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+    @endeach
+  </ol>
+@else
+  <p class="text-center mt-5">Пока нет добавленных категорий.</p>
+@endif
 
 <script src="{{ '/js/test.js' }}"></script>
 @endsection

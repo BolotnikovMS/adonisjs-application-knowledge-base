@@ -1,41 +1,38 @@
 @layout('layout/master')
 
 @section('content')
-<div class="container">
-  <h3 class="mt-2 mb-4">{{ title }}</h3>
-    <form class="row" action="{{route(settings.route, settings.paramsId)}}" method="POST">
-      <div class="mb-2 row">
-        <div class="col-sm-4">
-          <div class="input-group mb-2">
-            <span class="input-group-text col-sm-3" id="name">Название:</span>
-            <input
-              type="text"
-              class="form-control" placeholder="Введите название категории"
-              name="name" aria-label="name"
-              aria-describedby="name"
-              value="{{ content ? content.name : '' }}"
-            />
-          </div>
-            @if(flashMessages.has('errors.name'))
-              <span class="text-danger">{{ flashMessages.get('errors.name') }}</span>
-            @endif
-        </div>
+<h3 class="mt-2 mb-4">{{ title }}</h3>
+<form class="row" action="{{route(settings.route, settings.paramsId)}}" method="POST">
+  <div class="mb-2 row">
+    <div class="col-sm-4">
+      <div class="input-group mb-2">
+        <span class="input-group-text col-sm-3" id="name">Название:</span>
+        <input
+          type="text"
+          class="form-control" placeholder="Введите название категории"
+          name="name" aria-label="name"
+          aria-describedby="name"
+          value="{{ content ? content.name : '' }}"
+        />
       </div>
-
-      <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-        @!buttons.link({
-          routes: settings.paramsId ? route(routeBack, {id: settings.paramsId.workingDirId}) : route(routeBack),
-          classBtn: 'btn btn-secondary',
-          titleBtn: 'Отмена',
-          text: 'Отмена'
-        })
-        @!buttons.button({
-          classBtn: 'btn btn-primary',
-          typeBtn: 'submit',
-          text: settings.operationTypeBtn
-        })
-      </div>
-    </form>
+        @if(flashMessages.has('errors.name'))
+          <span class="text-danger">{{ flashMessages.get('errors.name') }}</span>
+        @endif
+    </div>
   </div>
-</div>
+
+  <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+    @!buttons.link({
+      routes: settings.paramsId ? route(routeBack, {id: settings.paramsId.workingDirId}) : route(routeBack),
+      classBtn: 'btn btn-secondary',
+      titleBtn: 'Отмена',
+      text: 'Отмена'
+    })
+    @!buttons.button({
+      classBtn: 'btn btn-primary',
+      typeBtn: 'submit',
+      text: settings.operationTypeBtn
+    })
+  </div>
+</form>
 @endsection
