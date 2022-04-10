@@ -25,35 +25,39 @@
   </div>
 
   @if(categories.length > 0)
-  <ol class="list-group list-group-numbered mb-5">
-    @each((category , i) in categories)
-      <li class="list-group-item d-flex justify-content-between align-items-start">
-        <div class="ms-2 me-auto col-10">
-          <a href="{{ route('category.show', {id: category.id}) }}" class="linkSt" title="Просмотр">
-            <div class="fw-bold">
+    <ol class="list-group">
+      @each((category , i) in categories)
+        <li class="list-group-item d-flex justify-content-between">
+          <div class="ms-1 me-auto col-10">
+            <span class="badge bg-primary rounded-pill" title="Количество вопросов">
+              {{ category.questions.length }}
+            </span>
+            <a class="linkSt fw-bold" href="{{ route('category.show', {id: category.id}) }}" title="Просмотр">
               {{ category.name }}
-            </div>
-          </a>
-        </div>
-        <div class="ms-2">
-          <span class="badge bg-primary rounded-pill" title="Количество вопросов">
-          {{ category.questions.length }}
-          </span>
-        </div>
-        <div class="btn-group ms-2">
-          <button class="btn-menu-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fa-solid fa-ellipsis-vertical"></i>
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{{ route('category.edit', {id: category.id}) }}" title="Редактировать"><i class="fas fa-pen m-1"></i>Редактировать</a></li>
-            <li><a class="dropdown-item delete" href="{{ route('category.destroy', {id: category.id}) }}" title="Удалить"><i class="fas fa-trash m-1"></i>Удалить</a></li>
-          </ul>
-        </div>
-      </li>
-    @endeach
-  </ol>
+            </a>
+          </div>
+          <div class="btn-group ms-2">
+            <button class="btn-menu-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-solid fa-ellipsis-vertical"></i>
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" href="{{ route('category.edit', {id: category.id}) }}" title="Редактировать">
+                  <i class="fas fa-pen m-1"></i>Редактировать
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item delete" href="{{ route('category.destroy', {id: category.id}) }}" title="Удалить">
+                  <i class="fas fa-trash m-1"></i>Удалить
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      @endeach
+    </ol>
   @else
-    <p class="text-center mt-5">Пока нет добавленных пунктов.</p>
+    <p class="text-center mt-5">Пока нет добавленных категорий.</p>
   @endif
 
 <script src="{{ '/js/test.js' }}"></script>
