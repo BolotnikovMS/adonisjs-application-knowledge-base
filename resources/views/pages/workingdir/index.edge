@@ -68,5 +68,9 @@
   <p class="text-center mt-5">Пока нет добавленных направлений.</p>
 @endif
 
+@!pagination({
+  content: workings
+})
+
 <script src="{{ '/js/test.js' }}"></script>
 @endsection

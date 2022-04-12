@@ -59,5 +59,9 @@
   <p class="text-center mt-5">Пока нет добавленных категорий.</p>
 @endif
 
+@!pagination({
+  content: categories
+})
+
 <script src="{{ '/js/test.js' }}"></script>
 @endsection

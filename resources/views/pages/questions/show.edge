@@ -1,51 +1,49 @@
 @layout('layout/master')
 
 @section('content')
-<div class="container">
-  <div class="mb-2 row">
-    <div class="m-2 border border-1 rounded">
-      <div class="card-body d-flex">
-        <div class="me-auto col-10">
-          <h5>{{ question.question }}</h5>
-          <small class="text-muted" id="time">{{ question.updatedAt }}</small>
-        </div>
-        <div class="btn-group">
-          <button class="btn-menu-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fa-solid fa-ellipsis-vertical"></i>
-          </button>
-          <ul class="dropdown-menu">
-            <li>
-              <a class="dropdown-item" href="{{ route('question.edit', {id: question.id}) }}" title="Редактировать">
-                <i class="fas fa-pen m-1"></i>Редактировать
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item delete" href="{{ route('question.destroy', {id: question.id}) }}" title="Удалить">
-                <i class="fas fa-trash m-1"></i>Удалить
-              </a>
-            </li>
-          </ul>
-        </div>
+<div class="mb-2 row mt-2 p-1">
+  <div class="border border-1 rounded">
+    <div class="card-body d-flex">
+      <div class="me-auto col-10">
+        <h5>{{ question.question }}</h5>
+        <small class="text-muted" id="time">{{ question.updatedAt }}</small>
       </div>
-      <hr>
-      <div class="m-2 p-2">
-        @if(question.description_question)
-          {{{ question.description_question }}}
-        @else
-          <p class="text-center mt-5">Пока нет описания решения проблемы. :(</p>
-        @endif
+      <div class="btn-group">
+        <button class="btn-menu-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fa-solid fa-ellipsis-vertical"></i>
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a class="dropdown-item" href="{{ route('question.edit', {id: question.id}) }}" title="Редактировать">
+              <i class="fas fa-pen m-1"></i>Редактировать
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item delete" href="{{ route('question.destroy', {id: question.id}) }}" title="Удалить">
+              <i class="fas fa-trash m-1"></i>Удалить
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
+    <hr>
+    <div class="m-2 p-2">
+      @if(question.description_question)
+        {{{ question.description_question }}}
+      @else
+        <p class="text-center mt-5">Пока нет описания решения проблемы. :(</p>
+      @endif
+    </div>
   </div>
+</div>
 
-  <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-    @!buttons.link({
-      routes: question.url,
-      classBtn: 'btn btn-secondary',
-      titleBtn: 'Вернуться обратно',
-      text: 'Вернуться обратно'
-    })
-  </div>
+<div class="d-grid gap-2 d-md-flex justify-content-md-center">
+  @!buttons.link({
+    routes: question.url,
+    classBtn: 'btn btn-secondary',
+    titleBtn: 'Вернуться обратно',
+    text: 'Вернуться обратно'
+  })
 </div>
 
 <script src="{{ '/js/formatData.js' }}"></script>

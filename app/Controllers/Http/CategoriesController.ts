@@ -3,22 +3,13 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import WorkingDirectionValidator from 'App/Validators/WorkingDirectionValidator'
 
 import Category from 'App/Models/Category'
+import Question from 'App/Models/Question'
 
 export default class CategoriesController {
   public async index ({}: HttpContextContract) {
   }
 
   public async create ({view, params}: HttpContextContract) {
-    // return {
-    //   settings: {
-    //     route: 'category.store',
-    //     operationTypeBtn: 'Добавить',
-    //     paramsId: {
-    //       workingDirId: params.workingDirId
-    //     }
-    //   },
-    //   routeBack: 'working_directions.show'
-    // }
     return view.render('pages/workingdir/form', {
       title: 'Добавить категорию',
       settings: {
@@ -48,16 +39,20 @@ export default class CategoriesController {
     }
   }
 
-  public async show ({response, params, view}: HttpContextContract) {
-    // const category = await Category.query().where('id', '=', params.id).preload('questions')
+  public async show ({request, response, params, view}: HttpContextContract) {
+    const page = request.input('page', 1)
+    const limit = 15
     const category = await Category.find(params.id)
+    const questions = await Question.query()
+      .where('category_id ', '=', params.id)
+      .paginate(page, limit)
+
+    questions.baseUrl(`/categories/${params.id}/questions/`)
 
     if (category) {
-      await category.load('questions')
-
-      // return category
       return view.render('pages/categories/show', {
         title: `Список вопросов по теме: "${category.name}"`,
+        questions,
         category
       })
     } else {

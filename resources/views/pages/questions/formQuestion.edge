@@ -1,38 +1,38 @@
 @layout('layout/master')
 
 @section('content')
-    <h3 class="mt-2 mb-4">{{ title }}</h3>
+  <h3 class="mt-2 mb-4">{{ title }}</h3>
 
-    <form action="{{ route(settings.formAction, {id: settings.paramsId.idQuestion ? settings.paramsId.idQuestion : settings.paramsId.idCategory}) }}" method="POST" enctype="multipart/form-data">
-      <div class="mb-3">
-        <div class="form-floating">
-          <textarea class="form-control" name="question" id="question" style="height: 100px">{{ question ? question.question : '' }}</textarea>
-          <label for="question">Описание вопроса</label>
-        </div>
-        @if(flashMessages.has('errors.question'))
-          <span class="text-danger">{{ flashMessages.get('errors.question') }}</span>
-        @endif
+  <form action="{{ route(settings.formAction, {id: settings.paramsId.idQuestion ? settings.paramsId.idQuestion : settings.paramsId.idCategory}) }}" method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      <div class="form-floating">
+        <textarea class="form-control" name="question" id="question" style="height: 100px">{{ question ? question.question : '' }}</textarea>
+        <label for="question">Описание вопроса</label>
       </div>
+      @if(flashMessages.has('errors.question'))
+        <span class="text-danger">{{ flashMessages.get('errors.question') }}</span>
+      @endif
+    </div>
 
-      <div class="form-floating mb-4">
-        <textarea id="description_question" data-url="{{ route('upload.summernote') }}" name="description_question">{{ question ? question.description_question : '' }}</textarea>
-      </div>
+    <div class="form-floating mb-4">
+      <textarea id="description_question" data-url="{{ route('upload.summernote') }}" name="description_question">{{ question ? question.description_question : '' }}</textarea>
+    </div>
 
-      <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-        @!buttons.link({
-          routes: route('category.show', {id: settings.paramsId.idCategory}),
-          classBtn: 'btn btn-secondary',
-          titleBtn: 'Отмена',
-          text: 'Отмена'
-        })
-        @!buttons.button({
-          classBtn: 'btn btn-primary',
-          typeBtn: 'submit',
-          text: settings.operationTypeBtn
-        })
-      </div>
-    </form>
-  </div>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+      @!buttons.link({
+        routes: route('category.show', {id: settings.paramsId.idCategory}),
+        classBtn: 'btn btn-secondary',
+        titleBtn: 'Отмена',
+        text: 'Отмена'
+      })
+      @!buttons.button({
+        classBtn: 'btn btn-primary',
+        typeBtn: 'submit',
+        text: settings.operationTypeBtn
+      })
+    </div>
+  </form>
+</div>
 
 <script src="/js/jquery/jquery-3.6.0.min.js"></script>
 <script src="/js/summernote/summernote-lite.min.js"></script>

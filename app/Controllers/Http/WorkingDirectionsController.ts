@@ -3,10 +3,15 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import WorkingDirectionValidator from 'App/Validators/WorkingDirectionValidator'
 
 import WorkingDirection from 'App/Models/WorkingDirection'
+import Category from 'App/Models/Category'
 
 export default class WorkingDirectionsController {
-  public async index ({view}: HttpContextContract) {
-    const workings = await WorkingDirection.query().preload('categories')
+  public async index ({request, view}: HttpContextContract) {
+    const page = request.input('page', 1)
+    const limit = 15
+    const workings = await WorkingDirection.query().preload('categories').paginate(page, limit)
+
+    workings.baseUrl('/working-directions/')
 
     return view.render('pages/workingdir/index', {
       title: 'Направления',
@@ -36,18 +41,18 @@ export default class WorkingDirectionsController {
     }
   }
 
-  public async show ({response, view, params}: HttpContextContract) {
+  public async show ({request, response, view, params}: HttpContextContract) {
+    const page = request.input('page', 1)
+    const limit = 15
+    const categories = await Category.query().where('working_direction_id ', '=', params.id).preload('questions').paginate(page, limit)
     const working = await WorkingDirection.find(params.id)
 
-    if (working) {
-      await working.load('categories', (questionsQuery) => {
-        questionsQuery.preload('questions')
-      })
-      // return working
+    categories.baseUrl(`/working-directions/${params.id}/categories/`)
 
+    if (categories) {
       return view.render('pages/workingdir/show', {
         title: `Направление ${working.name}. Список тем.`,
-        categories: working.categories,
+        categories,
         workingId: working.id
       })
     } else {

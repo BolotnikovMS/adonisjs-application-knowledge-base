@@ -22,8 +22,8 @@
     })
   </div>
 </div>
-@if(category.questions.length > 0)
-  @each(question in category.questions)
+@if(questions.length > 0)
+  @each(question in questions)
     <div class="card mb-2">
       <div class="card-body d-flex justify-content-between">
         <div class="ms-2 me-auto col-10">
@@ -57,6 +57,10 @@
 @else
   <p class="text-center mt-5">Пока нет записей.</p>
 @endif
+
+@!pagination({
+  content: questions
+})
 
 <script src="{{ '/js/formatData.js' }}"></script>
 @endsection
