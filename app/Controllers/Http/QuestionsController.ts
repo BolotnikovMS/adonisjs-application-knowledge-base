@@ -50,7 +50,7 @@ export default class QuestionsController {
         }
 
         await validatedFile.file.move(Application.publicPath(path), {
-          name: `${cuid()}.${validatedFile.file.extname}`,
+          name: `${cuid().substring(1, 25)}.${validatedFile.file.extname}`,
         })
 
         return { fileName: validatedFile.file.fileName, clientName: validatedFile.file.clientName }

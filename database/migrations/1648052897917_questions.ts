@@ -14,7 +14,7 @@ export default class Questions extends BaseSchema {
         .references('categories.id')
         .onDelete('CASCADE')
       table.string('question', 255).notNullable()
-      table.text('description_question').nullable()
+      table.text('description_question', 'longtext').nullable()
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

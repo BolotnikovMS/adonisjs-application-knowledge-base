@@ -23,7 +23,7 @@
   </div>
 </div>
 
-@if(categories.length > 0)
+{{--  @if(categories.length > 0)
   <ol class="list-group">
     @each((category , i) in categories)
       <li class="list-group-item d-flex justify-content-between">
@@ -57,7 +57,15 @@
   </ol>
 @else
   <p class="text-center mt-5">Пока нет добавленных категорий.</p>
-@endif
+@endif  --}}
+
+@!listContent({
+  contents: categories,
+  routeShow: 'category.show',
+  routeEdit: 'category.edit',
+  routeDelete: 'category.destroy',
+  textIfNoContent: 'Пока нет добавленных категорий.'
+})
 
 @!pagination({
   content: categories

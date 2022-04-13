@@ -1,0 +1,35 @@
+@if(contents.length > 0)
+  <ol class="list-group">
+    @each((content , i) in contents)
+      <li class="list-group-item d-flex justify-content-between">
+        <div class="ms-1 me-auto col-10">
+          <span class="badge bg-primary rounded-pill" title="Количество тем">
+            {{ content.categories ? content.categories.length : content.questions.length }}
+          </span>
+          <a class="linkSt fw-bold" href="{{ route(routeShow, {id: content.id})}}"  title="Подробнее">
+            {{ content.name }}
+          </a>
+        </div>
+        <div class="btn-group ms-2">
+          <button class="btn-menu-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-ellipsis-vertical"></i>
+          </button>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" href="{{ route(routeEdit, {id: content.id}) }}" title="Редактировать">
+                <i class="fas fa-pen m-1"></i>Редактировать
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item delete" href="{{ route(routeDelete, {id: content.id}) }}" title="Удалить">
+                <i class="fas fa-trash m-1"></i>Удалить
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+    @endeach
+  </ol>
+@else
+  <p class="text-center mt-5">{{ textIfNoContent }}</p>
+@endif
