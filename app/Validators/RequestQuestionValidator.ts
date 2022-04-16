@@ -31,7 +31,8 @@ export default class RequestQuestionValidator {
       },
       [rules.minLength(2), rules.maxLength(10000)]
     ),
-    description_question: schema.string.optional()
+    description_question: schema.string.optional(),
+    status: schema.string.optional()
   })
 
 	/**

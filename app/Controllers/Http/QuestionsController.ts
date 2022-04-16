@@ -29,6 +29,7 @@ export default class QuestionsController {
     const validatedDataQuestion = await request.validate(RequestQuestionValidator)
     validatedDataQuestion.category_id = idCategory
 
+    // console.log(validatedDataQuestion)
     await Question.create(validatedDataQuestion)
 
     session.flash('successmessage',`Вопрос "${validatedDataQuestion.question}" успешно добавлен.`)
@@ -116,7 +117,12 @@ export default class QuestionsController {
       const validatedData = await request.validate(RequestQuestionValidator)
 
       question.question = validatedData.question
-      question.description_question = validatedData.description_question
+      if (validatedData.description_question !== undefined) {
+        question.description_question = validatedData.description_question
+      } else {
+        question.description_question = 'null'
+      }
+      if (validatedData.status) question.status = validatedData.status
 
       await question.save()
 

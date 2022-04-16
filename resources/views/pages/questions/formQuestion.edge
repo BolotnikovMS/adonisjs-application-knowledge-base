@@ -4,7 +4,7 @@
   <h3 class="mt-2 mb-4">{{ title }}</h3>
 
   <form action="{{ route(settings.formAction, {id: settings.paramsId.idQuestion ? settings.paramsId.idQuestion : settings.paramsId.idCategory}) }}" method="POST" enctype="multipart/form-data">
-    <div class="mb-3">
+    <div class="mb-2">
       <div class="form-floating">
         <textarea class="form-control" name="question" id="question" style="height: 100px">{{ question ? question.question : '' }}</textarea>
         <label for="question">Описание вопроса</label>
@@ -12,6 +12,16 @@
       @if(flashMessages.has('errors.question'))
         <span class="text-danger">{{ flashMessages.get('errors.question') }}</span>
       @endif
+    </div>
+    <div class="col-sm-3">
+      <div class="input-group mb-2">
+        <span class="input-group-text col-sm-3" id="status">Статус:</span>
+        <select name="status" class="form-select" aria-label="Default select">
+          <option value="in_work" {{ question !== undefined && question.status === 'in_work' ? 'selected' : ''}}>В работе</option>
+          <option value="actual" {{ question !== undefined && question.status === 'actual' ? 'selected' : ''}}>Актуально</option>
+          <option value="not_relevant" {{ question !== undefined && question.status === 'not_relevant' ? 'selected' : ''}}>Неактуально</option>
+        </select>
+      </div>
     </div>
 
     <div class="form-floating mb-4">

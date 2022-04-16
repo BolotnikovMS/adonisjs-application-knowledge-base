@@ -15,6 +15,9 @@ export default class Question extends BaseModel {
   @column()
   public description_question: string
 
+  @column()
+  public status: string
+
   @column.dateTime({
     autoCreate: true,
     serialize: (value?: DateTime) => {

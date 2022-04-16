@@ -15,7 +15,7 @@
       text: '<i class="fa-solid fa-circle-plus"></i>'
     })
   </div>
-  {{--  <div class="col-5 mb-2">
+  <div class="col-5 mb-2">
     <form action="" method="GET">
       <div class="input-group">
         <span class="input-group-text">
@@ -28,44 +28,8 @@
         <span class="text-danger">{{ flashMessages.get('errors.search') }}</span>
       @endif
     </form>
-  </div>  --}}
+  </div>
 </div>
-
-{{--  @if(workings.length > 0)
-  <ol class="list-group">
-    @each((working , i) in workings)
-      <li class="list-group-item d-flex justify-content-between">
-        <div class="ms-1 me-auto col-10">
-          <span class="badge bg-primary rounded-pill" title="Количество тем">
-            {{working.categories.length}}
-          </span>
-          <a class="linkSt fw-bold" href="{{ route('working_directions.show', {id: working.id})}}"  title="Подробнее">
-            {{ working.name }}
-          </a>
-        </div>
-        <div class="btn-group ms-2">
-          <button class="btn-menu-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fa-solid fa-ellipsis-vertical"></i>
-          </button>
-          <ul class="dropdown-menu">
-            <li>
-              <a class="dropdown-item" href="{{ route('working_directions.edit', {id: working.id}) }}" title="Редактировать">
-                <i class="fas fa-pen m-1"></i>Редактировать
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item delete" href="{{ route('working_directions.destroy', {id: working.id}) }}" title="Удалить">
-                <i class="fas fa-trash m-1"></i>Удалить
-              </a>
-            </li>
-          </ul>
-        </div>
-      </li>
-    @endeach
-  </ol>
-@else
-  <p class="text-center mt-5">Пока нет добавленных направлений.</p>
-@endif  --}}
 
 @!listContent({
   contents: workings,
