@@ -1,11 +1,19 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-import ProgramList from 'App/Models/ProgramList'
-import Question from 'App/Models/Question'
+import WorkingDirection from 'App/Models/WorkingDirection'
 
 import RequestSearchValidator from 'App/Validators/RequestSearchValidator'
 
 export default class SearchesController {
+  public async searchInWorking({request}: HttpContextContract) {
+    console.log(request.qs())
+
+
+    // const working = await WorkingDirection.query().where('name', 'like', `%${request.qs().search}%`)
+    //
+    // console.log(working)
+  }
+
   public async searchInProgram({ request, response, session, view }: HttpContextContract) {
     const validatedData = await request.validate(RequestSearchValidator)
 

@@ -55,18 +55,5 @@ Route.group(() => {
 }).prefix('questions')
 
 Route.group(() => {
-   Route.get('/search', 'SearchesController.searchInProgram').as('search.program')
-}).prefix('list-program')
-
-Route.group(() => {
-  // Route.get('/', 'ArticlesController.index').as('index.article')
-  Route.get('/show/:id/new-article', 'ArticlesController.create').as('create.article')
-  Route.post('/show/:id/new-article', 'ArticlesController.store').as('store.article')
-  // Route.post('/summernote-upload', 'ArticlesController.upload').as('upload.summernote')
-  Route.get('/show/:id', 'ArticlesController.show').as('show.question.article')
-  Route.get('edit/:id', 'ArticlesController.edit').as('edit.question.article')
-  Route.post('edit/:id', 'ArticlesController.update').as('update.question.article')
-  Route.get('/delete/:id', 'ArticlesController.destroy').as('destroy.question.article')
-
-  Route.get('/search', 'SearchesController.searchInQuestion').as('search.question')
-}).prefix('article')
+   Route.get('/search', 'SearchesController.searchInWorking').as('working.search')
+})
