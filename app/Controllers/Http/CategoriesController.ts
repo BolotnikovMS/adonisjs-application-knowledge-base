@@ -19,6 +19,7 @@ export default class CategoriesController {
           workingDirId: params.workingDirId
         }
       },
+      placeholder: 'Введите название категории',
       routeBack: 'working_directions.show'
     })
   }
@@ -77,6 +78,7 @@ export default class CategoriesController {
             workingDirId: category?.working_direction_id
           }
         },
+        placeholder: 'Введите название категории',
         content: category,
         routeBack: 'working_directions.show'
       })

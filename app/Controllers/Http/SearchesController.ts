@@ -1,17 +1,42 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import WorkingDirection from 'App/Models/WorkingDirection'
+import Category from 'App/Models/Category'
+import Question from 'App/Models/Question'
 
 import RequestSearchValidator from 'App/Validators/RequestSearchValidator'
 
 export default class SearchesController {
-  public async searchInWorking({request}: HttpContextContract) {
-    console.log(request.qs())
+  public async searchInWorking({request, response, session, view}: HttpContextContract) {
+    const validatedData = await request.validate(RequestSearchValidator)
 
+    if (validatedData.searchSetting === 'course') {
+      const searchResults = await WorkingDirection.query().where('name', 'like', `%${validatedData.search}%`)
 
-    // const working = await WorkingDirection.query().where('name', 'like', `%${request.qs().search}%`)
-    //
-    // console.log(working)
+      return view.render('pages/searchresults', {
+        title: 'Результаты поиска',
+        searchResults
+      })
+    } else if (validatedData.searchSetting === 'category') {
+      const searchResults = await Category.query().where('name', 'like', `%${validatedData.search}%`)
+
+      return view.render('pages/searchresults', {
+        title: 'Результаты поиска',
+        searchResults
+      })
+    } else if (validatedData.searchSetting === 'question') {
+      const searchResults = await Question.query().where('name', 'like', `%${validatedData.search}%`)
+
+      return view.render('pages/searchresults', {
+        title: 'Результаты поиска',
+        searchResults
+      })
+    } else {
+      console.log('Invalid search parameter')
+
+      session.flash('dangermessage', `Некорректный параметр поиска.`)
+      response.redirect().toRoute('WorkingDirectionsController.index')
+    }
   }
 
   public async searchInProgram({ request, response, session, view }: HttpContextContract) {

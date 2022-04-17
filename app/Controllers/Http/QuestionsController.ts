@@ -37,7 +37,10 @@ export default class QuestionsController {
   }
 
   public async upload({ request }: HttpContextContract) {
+    console.log(request.body())
     if (request.ajax()) {
+
+
       const validatedFile = await request.validate(RequestFileValidator)
       let path
 

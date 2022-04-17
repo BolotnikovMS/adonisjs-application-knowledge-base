@@ -7,12 +7,13 @@ export default class RequestSearchValidator {
 
   public schema = schema.create({
     search: schema.string({trim: true, escape: true}, [
-      rules.minLength(3)
-    ])
+      rules.minLength(2)
+    ]),
+    searchSetting: schema.string()
   })
 
   public messages = {
     'search.required': 'Поле является обязательным.',
-    'search.minLength': 'Минимальная длинна поля 3 символа.',
+    'search.minLength': 'Минимальная длинна поля 2 символа.',
   }
 }

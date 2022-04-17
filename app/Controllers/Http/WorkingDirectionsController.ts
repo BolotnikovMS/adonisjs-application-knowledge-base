@@ -26,6 +26,7 @@ export default class WorkingDirectionsController {
         route: 'working_directions.store',
         operationTypeBtn: 'Добавить'
       },
+      placeholder: 'Введите название направления',
       routeBack: 'working_directions.index'
     })
   }
@@ -75,6 +76,7 @@ export default class WorkingDirectionsController {
           },
           operationTypeBtn: 'Сохранить'
         },
+        placeholder: 'Введите название направления',
         content: working,
         routeBack: 'working_directions.index'
       })

@@ -1,0 +1,37 @@
+@layout('layout/master')
+
+@section('content')
+  <h3 class="mt-2 mb-4">{{ title }}</h3>
+  @if(searchResults.length > 0)
+    <ol class="list-group">
+      @each((result , i) in searchResults)
+        <li class="list-group-item d-flex justify-content-between">
+          <div class="ms-1 me-auto col-10">
+            <a class="linkSt fw-bold" href="#"  title="Подробнее">
+              {{ result.name }}
+            </a>
+          </div>
+          <div class="btn-group ms-2">
+            <button class="btn-menu-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-solid fa-ellipsis-vertical"></i>
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" href="#" title="Редактировать">
+                  <i class="fas fa-pen m-1"></i>Редактировать
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item delete" href="#" title="Удалить">
+                  <i class="fas fa-trash m-1"></i>Удалить
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      @endeach
+    </ol>
+  @else
+    <p class="text-center mt-5">По запросу ничего не найдено...</p>
+  @endif
+@endsection
