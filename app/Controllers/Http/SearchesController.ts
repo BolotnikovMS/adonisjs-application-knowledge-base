@@ -11,25 +11,49 @@ export default class SearchesController {
     const validatedData = await request.validate(RequestSearchValidator)
 
     if (validatedData.searchSetting === 'course') {
-      const searchResults = await WorkingDirection.query().where('name', 'like', `%${validatedData.search}%`)
+      const searchResultArray: object[] = []
+      const searchArray = await validatedData.search.split(' ')
 
-      return view.render('pages/searchresults', {
-        title: 'Результаты поиска',
-        searchResults
-      })
-    } else if (validatedData.searchSetting === 'category') {
-      const searchResults = await Category.query().where('name', 'like', `%${validatedData.search}%`)
-
-      return view.render('pages/searchresults', {
-        title: 'Результаты поиска',
-        searchResults
-      })
-    } else if (validatedData.searchSetting === 'question') {
-      const searchResults = await Question.query().where('question', 'like', `%${validatedData.search}%`)
+      for (let i = 0; i < searchArray.length; i++) {
+        searchResultArray.push(await WorkingDirection.query().select('id', 'name').where('name', 'like', `%${searchArray[i]}%`))
+      }
 
       return view.render('pages/searchresults', {
         title: `Результаты поиска по: '${validatedData.search}'`,
-        searchResults
+        searchResults: searchResultArray.flat()
+      })
+    } else if (validatedData.searchSetting === 'category') {
+      const searchResultArray: object[] = []
+      const searchArray = await validatedData.search.split(' ')
+
+      for (let i = 0; i < searchArray.length; i++) {
+        searchResultArray.push(await Category.query().select('id', 'name').where('name', 'like', `%${searchArray[i]}%`))
+      }
+
+      // const searchResults = await Category.query().where('name', 'like', `%${validatedData.search}%`)
+
+      return view.render('pages/searchresults', {
+        title: `Результаты поиска по: '${validatedData.search}'`,
+        searchResults: searchResultArray.flat()
+      })
+    } else if (validatedData.searchSetting === 'question') {
+      const searchResultArray: object[] = []
+      const searchArray = await validatedData.search.split(' ')
+
+      for (let i = 0; i < searchArray.length; i++) {
+        searchResultArray.push(await Question.query().select('id', 'question').where('question', 'like', `%${searchArray[i]}%`).orWhere('description_question', 'like', `%${searchArray[i]}%`))
+      }
+
+      // const filterArr = new Map()
+      // searchResultArray.flat().map(item => filterArr.set(item.id, item))
+      //
+      // return {
+      //   searchResults: [...filterArr]
+      // }
+return searchResultArray.flat()
+      return view.render('pages/searchresults', {
+        title: `Результаты поиска по: '${validatedData.search}'`,
+        searchResults: searchResultArray.flat()
       })
     } else {
       console.log('Invalid search parameter')
