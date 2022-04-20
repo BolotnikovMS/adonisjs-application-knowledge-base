@@ -25,10 +25,10 @@ export default class SearchesController {
         searchResults
       })
     } else if (validatedData.searchSetting === 'question') {
-      const searchResults = await Question.query().where('name', 'like', `%${validatedData.search}%`)
+      const searchResults = await Question.query().where('question', 'like', `%${validatedData.search}%`)
 
       return view.render('pages/searchresults', {
-        title: 'Результаты поиска',
+        title: `Результаты поиска по: '${validatedData.search}'`,
         searchResults
       })
     } else {

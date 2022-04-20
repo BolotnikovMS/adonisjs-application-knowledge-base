@@ -8,7 +8,7 @@
         <li class="list-group-item d-flex justify-content-between">
           <div class="ms-1 me-auto col-10">
             <a class="linkSt fw-bold" href="#"  title="Подробнее">
-              {{ result.name }}
+              {{ result.name ? result.name : result.question }}
             </a>
           </div>
           <div class="btn-group ms-2">
