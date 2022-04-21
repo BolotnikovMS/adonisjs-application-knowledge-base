@@ -15,45 +15,57 @@ export default class SearchesController {
       const searchArray = await validatedData.search.split(' ')
 
       for (let i = 0; i < searchArray.length; i++) {
-        searchResultArray.push(await WorkingDirection.query().select('id', 'name').where('name', 'like', `%${searchArray[i]}%`))
+        let reqResult = await WorkingDirection.query().select('id', 'name').where('name', 'like', `%${searchArray[i]}%`)
+
+        if (searchResultArray.length === 0) {
+          searchResultArray.push(reqResult)
+        }
       }
 
       return view.render('pages/searchresults', {
         title: `Результаты поиска по: '${validatedData.search}'`,
-        searchResults: searchResultArray.flat()
+        searchResults: searchResultArray.flat(),
+        urlSetting: 'working_directions.show'
       })
     } else if (validatedData.searchSetting === 'category') {
       const searchResultArray: object[] = []
       const searchArray = await validatedData.search.split(' ')
 
       for (let i = 0; i < searchArray.length; i++) {
-        searchResultArray.push(await Category.query().select('id', 'name').where('name', 'like', `%${searchArray[i]}%`))
+        let reqResult = await Category.query().select('id', 'name').where('name', 'like', `%${searchArray[i]}%`)
+
+        if (searchResultArray.length === 0) {
+          searchResultArray.push(reqResult)
+        }
       }
 
       // const searchResults = await Category.query().where('name', 'like', `%${validatedData.search}%`)
 
       return view.render('pages/searchresults', {
         title: `Результаты поиска по: '${validatedData.search}'`,
-        searchResults: searchResultArray.flat()
+        searchResults: searchResultArray.flat(),
+        urlSetting: 'category.show'
       })
     } else if (validatedData.searchSetting === 'question') {
       const searchResultArray: object[] = []
       const searchArray = await validatedData.search.split(' ')
 
       for (let i = 0; i < searchArray.length; i++) {
-        searchResultArray.push(await Question.query().select('id', 'question').where('question', 'like', `%${searchArray[i]}%`).orWhere('description_question', 'like', `%${searchArray[i]}%`))
+        let reqResult = await Question.query().select('id', 'question').where('question', 'like', `%${searchArray[i]}%`).orWhere('description_question', 'like', `%${searchArray[i]}%`)
+
+        if (searchResultArray.length === 0) {
+          searchResultArray.push(reqResult)
+        }
+
+        // console.log(searchResultArray.flat())
+        // searchResultArray.push(await Question.query().select('id', 'question').where('question', 'like', `%${searchArray[i]}%`).orWhere('description_question', 'like', `%${searchArray[i]}%`))
       }
 
-      // const filterArr = new Map()
-      // searchResultArray.flat().map(item => filterArr.set(item.id, item))
-      //
-      // return {
-      //   searchResults: [...filterArr]
-      // }
-return searchResultArray.flat()
+      // return searchResultArray.flat()
       return view.render('pages/searchresults', {
         title: `Результаты поиска по: '${validatedData.search}'`,
-        searchResults: searchResultArray.flat()
+        searchResults: searchResultArray.flat(),
+        urlSetting: 'question.show'
       })
     } else {
       console.log('Invalid search parameter')

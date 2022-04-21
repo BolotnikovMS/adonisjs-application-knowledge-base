@@ -29,18 +29,21 @@
       @endif
       <div class="input-group mt-2">
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="searchSetting" id="course" value="course" checked>
+          <input class="form-check-input" type="radio" name="searchSetting" id="course" value="course" {{flashMessages.get('searchSetting') === 'course' ? 'checked' : ''}}>
           <label class="form-check-label" for="course">Направление</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="searchSetting" id="category" value="category">
+          <input class="form-check-input" type="radio" name="searchSetting" id="category" value="category" {{flashMessages.get('searchSetting') === 'category' ? 'checked' : ''}}>
           <label class="form-check-label" for="category">Категория</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="searchSetting" id="question" value="question">
+          <input class="form-check-input" type="radio" name="searchSetting" id="question" value="question" {{flashMessages.get('searchSetting') === 'question' ? 'checked' : ''}}>
           <label class="form-check-label" for="question">Вопрос</label>
         </div>
       </div>
+      @if(flashMessages.has('errors.searchSetting'))
+        <span class="text-danger">{{ flashMessages.get('errors.searchSetting') }}</span>
+      @endif
     </form>
   </div>
 </div>

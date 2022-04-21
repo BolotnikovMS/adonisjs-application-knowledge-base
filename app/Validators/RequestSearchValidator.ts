@@ -15,5 +15,6 @@ export default class RequestSearchValidator {
   public messages = {
     'search.required': 'Поле является обязательным.',
     'search.minLength': 'Минимальная длинна поля 2 символа.',
+    'searchSetting.required': 'Фильтр поиска обязательный'
   }
 }
