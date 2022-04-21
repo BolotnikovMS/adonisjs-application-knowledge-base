@@ -50,7 +50,7 @@ export default class WorkingDirectionsController {
 
     categories.baseUrl(`/working-directions/${params.id}/categories/`)
 
-    if (categories) {
+    if (categories && working) {
       return view.render('pages/workingdir/show', {
         title: `Направление ${working.name}. Список тем.`,
         categories,
