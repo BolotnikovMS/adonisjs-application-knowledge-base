@@ -32,7 +32,10 @@ export default class WorkingsDirectionsController {
      const validatedData = await request.validate(WorkingDirectionValidator)
 
      logger.info(`Adding a New Work Direction: ${validatedData.name}.`)
-     console.log(validatedData)
+
+     await WorkingDirection.create(validatedData)
+
+     return validatedData
    } catch (error) {
      logger.error(`Error: ${error.messages.name}`)
      response.badRequest(error.messages)
