@@ -42,7 +42,23 @@ export default class WorkingsDirectionsController {
    }
   }
 
-  public async show ({}: HttpContextContract) {
+  public async show ({response, params, logger}: HttpContextContract) {
+    try {
+      const working = await WorkingDirection.find(params.id)
+
+      if (working) {
+        await working.load('categories')
+
+        logger.info('Data by direction and category received.')
+        return working
+      } else {
+        logger.error('The object you are looking for does not exist...')
+        response.badRequest({error: 'The object you are looking for does not exist...'})
+      }
+    } catch (error) {
+      logger.error(error.messages)
+      response.badRequest(error.messages)
+    }
   }
 
   public async edit ({}: HttpContextContract) {
