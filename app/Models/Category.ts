@@ -13,9 +13,6 @@ export default class Category extends BaseModel {
   @column()
   public name: string
 
-  @column()
-  public description: null
-
   @column.dateTime({
     autoCreate: true,
     serialize: (value?: DateTime) => {

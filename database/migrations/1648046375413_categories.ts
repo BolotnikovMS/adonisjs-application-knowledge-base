@@ -14,7 +14,6 @@ export default class Categories extends BaseSchema {
         .references('working_directions.id')
         .onDelete('CASCADE')
       table.string('name', 255).notNullable()
-      table.string('description', 255).nullable()
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
