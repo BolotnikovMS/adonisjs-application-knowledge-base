@@ -35,7 +35,8 @@ export default class WorkingsDirectionsController {
 
      await WorkingDirection.create(validatedData)
 
-     return validatedData
+     response.created(validatedData)
+     // return response.send(validatedData)
    } catch (error) {
      logger.error(`Error: ${error.messages.name}`)
      response.badRequest(error.messages)
@@ -64,7 +65,26 @@ export default class WorkingsDirectionsController {
   public async edit ({}: HttpContextContract) {
   }
 
-  public async update ({}: HttpContextContract) {
+  public async update ({request, response, params, logger}: HttpContextContract) {
+    const working = await WorkingDirection.find(params.id)
+
+    if (working) {
+      try {
+        const validatedData = await request.validate(WorkingDirectionValidator)
+
+        working.name = validatedData.name
+        if (await working.save()) {
+          await working.load('categories')
+
+          response.ok(working)
+        }
+      } catch (error) {
+        logger.error(`Error: ${error.messages.name}`)
+        response.badRequest(error.messages)
+      }
+    } else {
+      response.notFound({error: 'Not found'})
+    }
   }
 
   public async destroy ({}: HttpContextContract) {
