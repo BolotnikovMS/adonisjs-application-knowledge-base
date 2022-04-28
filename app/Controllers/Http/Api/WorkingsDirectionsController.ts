@@ -87,8 +87,8 @@ export default class WorkingsDirectionsController {
         response.badRequest(error.messages)
       }
     } else {
-      logger.warn(`Error: Not found`)
-      response.notFound({error: 'Not found'})
+      logger.warn(`Error: Not found.`)
+      response.notFound({error: 'Not found.'})
     }
   }
 
@@ -96,14 +96,14 @@ export default class WorkingsDirectionsController {
     const working = await WorkingDirection.find(params.id)
 
     if (working) {
-      logger.info(`Entry: ${working} removed`)
+      logger.info(`Entry: ${working} removed.`)
 
       await working.delete()
 
-      response.ok('Entry removed')
+      response.ok('Entry removed.')
     } else {
-      logger.warn(`Error: Not found`)
-      response.notFound({error: 'Not found'})
+      logger.warn(`Error: Not found.`)
+      response.notFound({error: 'Not found.'})
     }
   }
 }
