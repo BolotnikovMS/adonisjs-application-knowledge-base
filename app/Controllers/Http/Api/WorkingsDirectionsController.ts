@@ -38,7 +38,7 @@ export default class WorkingsDirectionsController {
      response.created(validatedData)
      // return response.send(validatedData)
    } catch (error) {
-     logger.error(`Error: ${error.messages.name}`)
+     logger.warn(`Error: ${error.messages.name}`)
      response.badRequest(error.messages)
    }
   }
@@ -53,7 +53,7 @@ export default class WorkingsDirectionsController {
         logger.info('Data by direction and category received.')
         return working
       } else {
-        logger.error('The object you are looking for does not exist...')
+        logger.warn('The object you are looking for does not exist...')
         response.badRequest({error: 'The object you are looking for does not exist...'})
       }
     } catch (error) {
@@ -73,20 +73,37 @@ export default class WorkingsDirectionsController {
         const validatedData = await request.validate(WorkingDirectionValidator)
 
         working.name = validatedData.name
+
+        logger.info(`Updated to: ${validatedData.name}`)
         if (await working.save()) {
           await working.load('categories')
 
           response.ok(working)
         }
+
+        return
       } catch (error) {
         logger.error(`Error: ${error.messages.name}`)
         response.badRequest(error.messages)
       }
     } else {
+      logger.warn(`Error: Not found`)
       response.notFound({error: 'Not found'})
     }
   }
 
-  public async destroy ({}: HttpContextContract) {
+  public async destroy ({response, params, logger}: HttpContextContract) {
+    const working = await WorkingDirection.find(params.id)
+
+    if (working) {
+      logger.info(`Entry: ${working} removed`)
+
+      await working.delete()
+
+      response.ok('Entry removed')
+    } else {
+      logger.warn(`Error: Not found`)
+      response.notFound({error: 'Not found'})
+    }
   }
 }
