@@ -35,20 +35,38 @@ export default class CategoriesController {
     }
   }
 
-  public async showOneCategory({response, params, logger}: HttpContextContract) {
+  public async show({request, response, params, logger}: HttpContextContract) {
     const category = await Category.find(params.idCategory)
+    const urlParams = request.qs()
 
-    if (category) {
-      logger.info(`Category data received: ${category}.`)
+    if (!Object.keys(urlParams).length) {
+      if (category) {
+        logger.info(`Category data received: ${category}.`)
 
-      return response.send(category)
+        return response.send(category)
+      } else {
+        logger.error('The category you are trying to get does not exist...')
+        return response.badRequest({error: 'The category you are trying to get does not exist...'})
+      }
+    } else if (urlParams.question === 'true') {
+      console.log(urlParams)
+      if (category) {
+        logger.info(`Category and questions data received: ${category}.`)
+
+        await category.load('questions', (query) => {
+          query.limit(1)
+        })
+
+
+        return response.send(category)
+      } else {
+        logger.error('The category you are trying to get does not exist...')
+        return response.badRequest({error: 'The category you are trying to get does not exist...'})
+      }
     } else {
-      logger.error('The category you are trying to get does not exist...')
-      return response.badRequest({error: 'The category you are trying to get does not exist...'})
+      logger.error('Incorrect params.')
+      return response.badRequest({error: 'Incorrect params.'})
     }
-  }
-
-  public async showCategoryQuestions ({}: HttpContextContract) {
   }
 
   public async edit ({}: HttpContextContract) {

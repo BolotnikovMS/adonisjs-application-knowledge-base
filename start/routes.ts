@@ -74,7 +74,7 @@ Route.group(() => {
     .prefix('workings-directions')
 
   Route.group(() => {
-    Route.get('/:idCategory', 'CategoriesController.showOneCategory')
+    Route.get('/:idCategory', 'CategoriesController.show')
   })
     .prefix('categories')
 })
