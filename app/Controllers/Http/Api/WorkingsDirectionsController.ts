@@ -47,21 +47,16 @@ export default class WorkingsDirectionsController {
   }
 
   public async show ({response, params, logger}: HttpContextContract) {
-    try {
-      const working = await WorkingDirection.find(params.idWorking)
+    const working = await WorkingDirection.find(params.idWorking)
 
-      if (working) {
-        await working.load('categories')
+    if (working) {
+      await working.load('categories')
 
-        logger.info('Data by direction and category received.')
-        return response.send(working)
-      } else {
-        logger.warn('The direction you are trying to get does not exist...')
-        return response.badRequest({error: 'The direction you are trying to get does not exist...'})
-      }
-    } catch (error) {
-      logger.error(error.messages)
-      return response.badRequest(error.messages)
+      logger.info('Data by direction and category received.')
+      return response.send(working)
+    } else {
+      logger.warn('The direction you are trying to get does not exist...')
+      return response.badRequest({error: 'The direction you are trying to get does not exist...'})
     }
   }
 
