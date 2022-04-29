@@ -56,8 +56,8 @@ export default class WorkingsDirectionsController {
         logger.info('Data by direction and category received.')
         return response.send(working)
       } else {
-        logger.warn('The object you are looking for does not exist...')
-        return response.badRequest({error: 'The object you are looking for does not exist...'})
+        logger.warn('The direction you are trying to get does not exist...')
+        return response.badRequest({error: 'The direction you are trying to get does not exist...'})
       }
     } catch (error) {
       logger.error(error.messages)

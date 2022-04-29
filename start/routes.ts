@@ -70,7 +70,13 @@ Route.group(() => {
     Route.delete('/:idWorking', 'WorkingsDirectionsController.destroy')
 
     Route.post('/:idWorking/new-category', 'CategoriesController.store')
-  }).prefix('workings-directions')
+  })
+    .prefix('workings-directions')
+
+  Route.group(() => {
+    Route.get('/:idCategory', 'CategoriesController.showOneCategory')
+  })
+    .prefix('categories')
 })
   .namespace('App/Controllers/Http/Api')
   .prefix('api/v1.0')
