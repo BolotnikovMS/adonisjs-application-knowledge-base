@@ -6,21 +6,25 @@ import {checkObjectProperty} from '../../../../utils/helpersFunc'
 import WorkingDirectionValidator from 'App/Validators/WorkingDirectionValidator'
 
 export default class WorkingsDirectionsController {
-  public async index ({request, logger}: HttpContextContract) {
+  public async index ({request, response, logger}: HttpContextContract) {
     const urlParams = request.qs()
 
     if (!Object.keys(urlParams).length) {
       logger.info('Receiving all data on directions on request.')
 
-      return WorkingDirection.query().preload('categories')
+      const working = await WorkingDirection.query().preload('categories')
+
+      return response.status(200).json(working)
     } else {
       logger.info(`Getting all data about directions on request with parameters: limit ${urlParams.limit ? urlParams.limit : '--'}, offset ${urlParams.offset ? urlParams.offset : '--'}  .`)
 
-      return WorkingDirection
+      const working = await WorkingDirection
         .query()
         .preload('categories')
         .limit(checkObjectProperty(urlParams, 'limit') ? +urlParams.limit : 100)
         .offset(checkObjectProperty(urlParams, 'offset') ? +urlParams.offset : 0)
+
+      return response.status(200).json(working)
     }
   }
 
@@ -35,30 +39,29 @@ export default class WorkingsDirectionsController {
 
      await WorkingDirection.create(validatedData)
 
-     response.created(validatedData)
-     // return response.send(validatedData)
+     return response.created(validatedData)
    } catch (error) {
      logger.warn(`Error: ${error.messages.name}`)
-     response.badRequest(error.messages)
+     return response.badRequest(error.messages)
    }
   }
 
   public async show ({response, params, logger}: HttpContextContract) {
     try {
-      const working = await WorkingDirection.find(params.id)
+      const working = await WorkingDirection.find(params.idWorking)
 
       if (working) {
         await working.load('categories')
 
         logger.info('Data by direction and category received.')
-        return working
+        return response.send(working)
       } else {
         logger.warn('The object you are looking for does not exist...')
-        response.badRequest({error: 'The object you are looking for does not exist...'})
+        return response.badRequest({error: 'The object you are looking for does not exist...'})
       }
     } catch (error) {
       logger.error(error.messages)
-      response.badRequest(error.messages)
+      return response.badRequest(error.messages)
     }
   }
 
@@ -66,7 +69,7 @@ export default class WorkingsDirectionsController {
   }
 
   public async update ({request, response, params, logger}: HttpContextContract) {
-    const working = await WorkingDirection.find(params.id)
+    const working = await WorkingDirection.find(params.idWorking)
 
     if (working) {
       try {
@@ -74,11 +77,11 @@ export default class WorkingsDirectionsController {
 
         working.name = validatedData.name
 
-        logger.info(`Updated to: ${validatedData.name}`)
+        logger.info(`Updated to: '${validatedData.name}'`)
         if (await working.save()) {
           await working.load('categories')
 
-          response.ok(working)
+          return response.ok(working)
         }
 
         return
@@ -88,22 +91,22 @@ export default class WorkingsDirectionsController {
       }
     } else {
       logger.warn(`Error: Not found.`)
-      response.notFound({error: 'Not found.'})
+      return response.notFound({error: 'Not found.'})
     }
   }
 
   public async destroy ({response, params, logger}: HttpContextContract) {
-    const working = await WorkingDirection.find(params.id)
+    const working = await WorkingDirection.find(params.idWorking)
 
     if (working) {
       logger.info(`Entry: ${working} removed.`)
 
       await working.delete()
 
-      response.ok('Entry removed.')
+      return response.ok('Entry removed.')
     } else {
       logger.warn(`Error: Not found.`)
-      response.notFound({error: 'Not found.'})
+      return response.notFound({error: 'Not found.'})
     }
   }
 }

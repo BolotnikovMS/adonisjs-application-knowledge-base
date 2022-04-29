@@ -62,7 +62,15 @@ Route.group(() => {
 })
 
 Route.group(() => {
-  Route.resource('workings-directions', 'WorkingsDirectionsController').apiOnly()
+  Route.group(() => {
+    Route.get('/', 'WorkingsDirectionsController.index')
+    Route.post('/', 'WorkingsDirectionsController.store')
+    Route.get('/:idWorking/categories', 'WorkingsDirectionsController.show')
+    Route.patch('/:idWorking', 'WorkingsDirectionsController.update')
+    Route.delete('/:idWorking', 'WorkingsDirectionsController.destroy')
+
+    Route.post('/:idWorking/new-category', 'CategoriesController.store')
+  }).prefix('workings-directions')
 })
   .namespace('App/Controllers/Http/Api')
   .prefix('api/v1.0')
