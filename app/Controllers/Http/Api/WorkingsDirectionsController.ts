@@ -29,7 +29,7 @@ export default class WorkingsDirectionsController {
 
      return response.created(validatedData)
    } catch (error) {
-     logger.warn(`Error: ${error.messages.name}`)
+     logger.warn(`Warn: ${error.messages.name}`)
      return response.badRequest(error.messages)
    }
   }
@@ -66,11 +66,11 @@ export default class WorkingsDirectionsController {
 
         return
       } catch (error) {
-        logger.error(`Error: ${error.messages.name}`)
+        logger.warn(`Warn: ${error.messages.name}`)
         response.badRequest(error.messages)
       }
     } else {
-      logger.warn(`Error: Not found.`)
+      logger.error(`Error: Not found.`)
       return response.notFound({error: 'Not found.'})
     }
   }
@@ -83,9 +83,9 @@ export default class WorkingsDirectionsController {
 
       await working.delete()
 
-      return response.ok('Entry removed.')
+      return response.ok({message: 'Entry removed.'})
     } else {
-      logger.warn(`Error: Not found.`)
+      logger.error(`Error: Not found.`)
       return response.notFound({error: 'Not found.'})
     }
   }
