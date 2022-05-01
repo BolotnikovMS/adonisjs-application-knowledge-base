@@ -9,25 +9,14 @@ export default class WorkingsDirectionsController {
   public async index ({request, response, logger}: HttpContextContract) {
     const urlParams = request.qs()
 
-    if (!Object.keys(urlParams).length) {
-      const working = await WorkingDirection.query().preload('categories')
-
-      logger.info('Receiving all data on directions on request.')
-      return response.status(200).json(working)
-    } else {
-      const working = await WorkingDirection
-        .query()
-        .preload('categories')
-        .limit(checkObjectProperty(urlParams, 'limit') ? +urlParams.limit : 100)
-        .offset(checkObjectProperty(urlParams, 'offset') ? +urlParams.offset : 0)
+    const working = await WorkingDirection.query()
+      .preload('categories')
+      .limit(checkObjectProperty(urlParams, 'limit') ? +urlParams.limit : 50)
+      .offset(checkObjectProperty(urlParams, 'offset') ? +urlParams.offset : 0)
 
       logger.info(`Getting all data about directions on request with parameters: limit ${urlParams.limit ? urlParams.limit : '--'}, offset ${urlParams.offset ? urlParams.offset : '--'}  .`)
 
       return response.status(200).json(working)
-    }
-  }
-
-  public async create ({}: HttpContextContract) {
   }
 
   public async store ({request, response, logger}: HttpContextContract) {
@@ -54,12 +43,9 @@ export default class WorkingsDirectionsController {
       logger.info('Data by direction and category received.')
       return response.send(working)
     } else {
-      logger.warn('The direction you are trying to get does not exist...')
-      return response.badRequest({error: 'The direction you are trying to get does not exist...'})
+      logger.error('The direction you are trying to get does not exist...')
+      return response.status(404).json({error: 'The direction you are trying to get does not exist...'})
     }
-  }
-
-  public async edit ({}: HttpContextContract) {
   }
 
   public async update ({request, response, params, logger}: HttpContextContract) {

@@ -3,12 +3,10 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import WorkingDirectionValidator from 'App/Validators/WorkingDirectionValidator'
 
 import Category from 'App/Models/Category'
+import {checkObjectProperty} from '../../../../utils/helpersFunc'
 
 export default class CategoriesController {
   public async index ({}: HttpContextContract) {
-  }
-
-  public async create ({}: HttpContextContract) {
   }
 
   public async store ({request, response, params, logger}: HttpContextContract) {
@@ -39,37 +37,26 @@ export default class CategoriesController {
     const category = await Category.find(params.idCategory)
     const urlParams = request.qs()
 
-    if (!Object.keys(urlParams).length) {
-      if (category) {
-        logger.info(`Category data received: ${category}.`)
-
-        return response.send(category)
-      } else {
-        logger.error('The category you are trying to get does not exist...')
-        return response.badRequest({error: 'The category you are trying to get does not exist...'})
-      }
-    } else if (urlParams.question === 'true') {
-      console.log(urlParams)
-      if (category) {
-        logger.info(`Category and questions data received: ${category}.`)
-
-        await category.load('questions', (query) => {
-          query.limit(1)
+    if (category) {
+      if (checkObjectProperty(urlParams, 'questions') && urlParams.questions === 'true') {
+        await category.load('questions', query => {
+          query
+            .limit(checkObjectProperty(urlParams, 'limit') ? +urlParams.limit : 50)
+            .offset(checkObjectProperty(urlParams, 'offset') ? +urlParams.offset : 0)
         })
 
+        logger.info(`Getting all the data about the category and related questions. Request parameters: limit ${urlParams.limit ? urlParams.limit : '--'}, offset ${urlParams.offset ? urlParams.offset : '--'}  .`)
 
         return response.send(category)
-      } else {
-        logger.error('The category you are trying to get does not exist...')
-        return response.badRequest({error: 'The category you are trying to get does not exist...'})
       }
-    } else {
-      logger.error('Incorrect params.')
-      return response.badRequest({error: 'Incorrect params.'})
-    }
-  }
 
-  public async edit ({}: HttpContextContract) {
+      logger.info(`Getting all the data about the category and related questions.`)
+
+      return response.send(category)
+    } else {
+      logger.error('The category you are trying to get does not exist...')
+      return response.status(404).json({error: 'The category you are trying to get does not exist...'})
+    }
   }
 
   public async update ({}: HttpContextContract) {
