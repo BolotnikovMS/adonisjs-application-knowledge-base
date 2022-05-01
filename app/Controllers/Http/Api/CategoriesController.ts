@@ -62,6 +62,18 @@ export default class CategoriesController {
   public async update ({}: HttpContextContract) {
   }
 
-  public async destroy ({}: HttpContextContract) {
+  public async destroy ({response, params, logger}: HttpContextContract) {
+    const category = await Category.find(params.idCategory)
+
+    if (category) {
+      logger.info(`Entry: ${category} removed.`)
+
+      await category.delete()
+
+      return response.ok({message: 'Entry removed.'})
+    } else {
+      logger.error(`Error: Not found.`)
+      return response.notFound({error: 'Not found.'})
+    }
   }
 }
