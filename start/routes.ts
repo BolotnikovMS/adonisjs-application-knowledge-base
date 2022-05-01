@@ -75,6 +75,7 @@ Route.group(() => {
 
   Route.group(() => {
     Route.get('/:idCategory', 'CategoriesController.show')
+    Route.delete('/:idCategory', 'CategoriesController.destroy')
   })
     .prefix('categories')
 })
