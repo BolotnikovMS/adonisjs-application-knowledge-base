@@ -10,19 +10,18 @@ export default class WorkingsDirectionsController {
     const urlParams = request.qs()
 
     if (!Object.keys(urlParams).length) {
-      logger.info('Receiving all data on directions on request.')
-
       const working = await WorkingDirection.query().preload('categories')
 
+      logger.info('Receiving all data on directions on request.')
       return response.status(200).json(working)
     } else {
-      logger.info(`Getting all data about directions on request with parameters: limit ${urlParams.limit ? urlParams.limit : '--'}, offset ${urlParams.offset ? urlParams.offset : '--'}  .`)
-
       const working = await WorkingDirection
         .query()
         .preload('categories')
         .limit(checkObjectProperty(urlParams, 'limit') ? +urlParams.limit : 100)
         .offset(checkObjectProperty(urlParams, 'offset') ? +urlParams.offset : 0)
+
+      logger.info(`Getting all data about directions on request with parameters: limit ${urlParams.limit ? urlParams.limit : '--'}, offset ${urlParams.offset ? urlParams.offset : '--'}  .`)
 
       return response.status(200).json(working)
     }
