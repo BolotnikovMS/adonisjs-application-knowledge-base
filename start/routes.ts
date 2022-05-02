@@ -71,6 +71,7 @@ Route.group(() => {
 
   Route.group(() => {
     Route.get('/:idCategory', 'CategoriesController.show')
+    Route.patch('/:idCategory', 'CategoriesController.update')
     Route.delete('/:idCategory', 'CategoriesController.destroy')
   }).prefix('categories')
 })
