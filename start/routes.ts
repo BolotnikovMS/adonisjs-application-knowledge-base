@@ -74,6 +74,10 @@ Route.group(() => {
     Route.patch('/:idCategory', 'CategoriesController.update')
     Route.delete('/:idCategory', 'CategoriesController.destroy')
   }).prefix('categories')
+
+  Route.group(() => {
+    Route.get('/:idQuestion', 'QuestionsController.show')
+  }).prefix('questions')
 })
   .namespace('App/Controllers/Http/Api')
   .prefix('api/v1.0')
