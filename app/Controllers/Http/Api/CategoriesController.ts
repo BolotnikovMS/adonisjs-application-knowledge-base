@@ -7,8 +7,6 @@ import { checkObjectProperty } from '../../../../utils/helpersFunc'
 import WorkingDirection from 'App/Models/WorkingDirection'
 
 export default class CategoriesController {
-  public async index({}: HttpContextContract) {}
-
   public async store({ request, response, params, logger }: HttpContextContract) {
     if (params.idWorking) {
       const working = await WorkingDirection.find(params.idWorking)
