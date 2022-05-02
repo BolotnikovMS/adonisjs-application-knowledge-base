@@ -2,11 +2,11 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import WorkingDirection from 'App/Models/WorkingDirection'
 
-import {checkObjectProperty} from '../../../../utils/helpersFunc'
+import { checkObjectProperty } from '../../../../utils/helpersFunc'
 import WorkingDirectionValidator from 'App/Validators/WorkingDirectionValidator'
 
 export default class WorkingsDirectionsController {
-  public async index ({request, response, logger}: HttpContextContract) {
+  public async index({ request, response, logger }: HttpContextContract) {
     const urlParams = request.qs()
 
     const working = await WorkingDirection.query()
@@ -14,27 +14,31 @@ export default class WorkingsDirectionsController {
       .limit(checkObjectProperty(urlParams, 'limit') ? +urlParams.limit : 50)
       .offset(checkObjectProperty(urlParams, 'offset') ? +urlParams.offset : 0)
 
-      logger.info(`Getting all data about directions on request with parameters: limit ${urlParams.limit ? urlParams.limit : '--'}, offset ${urlParams.offset ? urlParams.offset : '--'}  .`)
+    logger.info(
+      `Getting all data about directions on request with parameters: limit ${
+        urlParams.limit ? urlParams.limit : '--'
+      }, offset ${urlParams.offset ? urlParams.offset : '--'}.`
+    )
 
-      return response.status(200).json(working)
+    return response.status(200).json(working)
   }
 
-  public async store ({request, response, logger}: HttpContextContract) {
-   try {
-     const validatedData = await request.validate(WorkingDirectionValidator)
+  public async store({ request, response, logger }: HttpContextContract) {
+    try {
+      const validatedData = await request.validate(WorkingDirectionValidator)
 
-     logger.info(`Adding a New Work Direction: ${validatedData.name}.`)
+      logger.info(`Adding a New Work Direction: ${validatedData.name}.`)
 
-     await WorkingDirection.create(validatedData)
+      await WorkingDirection.create(validatedData)
 
-     return response.created(validatedData)
-   } catch (error) {
-     logger.warn(`Warn: ${error.messages.name}`)
-     return response.badRequest(error.messages)
-   }
+      return response.created(validatedData)
+    } catch (error) {
+      logger.warn(`Warn: ${error.messages.name}`)
+      return response.badRequest(error.messages)
+    }
   }
 
-  public async show ({response, params, logger}: HttpContextContract) {
+  public async show({ response, params, logger }: HttpContextContract) {
     const working = await WorkingDirection.find(params.idWorking)
 
     if (working) {
@@ -44,11 +48,13 @@ export default class WorkingsDirectionsController {
       return response.send(working)
     } else {
       logger.error('The direction you are trying to get does not exist...')
-      return response.status(404).json({error: 'The direction you are trying to get does not exist...'})
+      return response
+        .status(404)
+        .json({ error: 'The direction you are trying to get does not exist...' })
     }
   }
 
-  public async update ({request, response, params, logger}: HttpContextContract) {
+  public async update({ request, response, params, logger }: HttpContextContract) {
     const working = await WorkingDirection.find(params.idWorking)
 
     if (working) {
@@ -71,11 +77,11 @@ export default class WorkingsDirectionsController {
       }
     } else {
       logger.error(`Error: Not found.`)
-      return response.notFound({error: 'Not found.'})
+      return response.notFound({ error: 'Not found.' })
     }
   }
 
-  public async destroy ({response, params, logger}: HttpContextContract) {
+  public async destroy({ response, params, logger }: HttpContextContract) {
     const working = await WorkingDirection.find(params.idWorking)
 
     if (working) {
@@ -83,10 +89,10 @@ export default class WorkingsDirectionsController {
 
       await working.delete()
 
-      return response.ok({message: 'Entry removed.'})
+      return response.ok({ message: 'Entry removed.' })
     } else {
       logger.error(`Error: Not found.`)
-      return response.notFound({error: 'Not found.'})
+      return response.notFound({ error: 'Not found.' })
     }
   }
 }

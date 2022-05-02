@@ -32,8 +32,7 @@ Route.group(() => {
   Route.get('/edit/:id', 'WorkingDirectionsController.edit').as('working_directions.edit')
   Route.post('/edit/:id', 'WorkingDirectionsController.update').as('working_directions.update')
   Route.get('/delete/:id', 'WorkingDirectionsController.destroy').as('working_directions.destroy')
-})
-  .prefix('workings-directions')
+}).prefix('workings-directions')
 
 Route.group(() => {
   // Route.get('/', 'CategoriesController.index').as('index.categories')
@@ -43,8 +42,7 @@ Route.group(() => {
   Route.get('/edit/:id', 'CategoriesController.edit').as('category.edit')
   Route.post('/edit/:id', 'CategoriesController.update').as('category.update')
   Route.get('/delete/:id', 'CategoriesController.destroy').as('category.destroy')
-})
-  .prefix('categories')
+}).prefix('categories')
 
 Route.group(() => {
   Route.get('/show-one/:id', 'QuestionsController.show').as('question.show')
@@ -54,11 +52,10 @@ Route.group(() => {
   Route.post('/category/question/edit/:id', 'QuestionsController.update').as('question.update')
   Route.post('/summernote-upload', 'QuestionsController.upload').as('upload.summernote')
   Route.get('/delete/:id', 'QuestionsController.destroy').as('question.destroy')
-})
-  .prefix('questions')
+}).prefix('questions')
 
 Route.group(() => {
-   Route.get('/search', 'SearchesController.searchInWorking').as('working.search')
+  Route.get('/search', 'SearchesController.searchInWorking').as('working.search')
 })
 
 Route.group(() => {
@@ -70,14 +67,12 @@ Route.group(() => {
     Route.delete('/:idWorking', 'WorkingsDirectionsController.destroy')
 
     Route.post('/:idWorking/new-category', 'CategoriesController.store')
-  })
-    .prefix('workings-directions')
+  }).prefix('workings-directions')
 
   Route.group(() => {
     Route.get('/:idCategory', 'CategoriesController.show')
     Route.delete('/:idCategory', 'CategoriesController.destroy')
-  })
-    .prefix('categories')
+  }).prefix('categories')
 })
   .namespace('App/Controllers/Http/Api')
   .prefix('api/v1.0')
