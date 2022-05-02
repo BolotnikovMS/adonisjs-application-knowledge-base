@@ -74,7 +74,28 @@ export default class CategoriesController {
     }
   }
 
-  public async update({request, response, params, logger}: HttpContextContract) {}
+  public async update({ request, response, params, logger }: HttpContextContract) {
+    const category = await Category.find(params.idCategory)
+
+    if (category) {
+      try {
+        const validatedData = await request.validate(WorkingDirectionValidator)
+
+        category.name = validatedData.name
+
+        logger.info(`Updated to: '${validatedData.name}'`)
+        await category.save()
+
+        return response.ok(category)
+      } catch (error) {
+        logger.warn(`Warn: ${error.messages.name}`)
+        response.badRequest(error.messages)
+      }
+    } else {
+      logger.error(`Error: Not found.`)
+      return response.notFound({ error: 'Not found.' })
+    }
+  }
 
   public async destroy({ response, params, logger }: HttpContextContract) {
     const category = await Category.find(params.idCategory)
