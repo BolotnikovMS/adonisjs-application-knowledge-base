@@ -37,7 +37,7 @@ export default class QuestionsController {
       }
     } else {
       logger.error('Category id not passed.')
-      return response.badRequest({error: 'Category id not passed.'})
+      return response.badRequest({ error: 'Category id not passed.' })
     }
   }
 
@@ -49,7 +49,9 @@ export default class QuestionsController {
       return response.send(question)
     } else {
       logger.error('The question you are trying to get does not exist...')
-      return response.status(404).json({error: 'The question you are trying to get does not exist...'})
+      return response
+        .status(404)
+        .json({ error: 'The question you are trying to get does not exist...' })
     }
   }
 
@@ -63,7 +65,7 @@ export default class QuestionsController {
 
       await question.delete()
 
-      return response.ok({message: 'Entry removed.'})
+      return response.ok({ message: 'Entry removed.' })
     } else {
       logger.error(`Error: Not found.`)
       return response.notFound({ error: 'Not found.' })
