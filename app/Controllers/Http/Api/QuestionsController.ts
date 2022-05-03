@@ -1,10 +1,11 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+
 import Question from 'App/Models/Question'
 
 export default class QuestionsController {
   public async index({}: HttpContextContract) {}
 
-  public async store({}: HttpContextContract) {}
+  public async store({ request, response, params, logger }: HttpContextContract) {}
 
   public async show({ response, params, logger }: HttpContextContract) {
     const question = await Question.find(params.idQuestion)

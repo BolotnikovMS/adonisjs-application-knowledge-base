@@ -3,8 +3,9 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import WorkingDirectionValidator from 'App/Validators/WorkingDirectionValidator'
 
 import Category from 'App/Models/Category'
-import { checkObjectProperty } from '../../../../utils/helpersFunc'
 import WorkingDirection from 'App/Models/WorkingDirection'
+
+import { checkObjectProperty } from '../../../../utils/helpersFunc'
 
 export default class CategoriesController {
   public async store({ request, response, params, logger }: HttpContextContract) {
