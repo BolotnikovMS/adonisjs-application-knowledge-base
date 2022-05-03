@@ -16,15 +16,15 @@ export default class CategoriesController {
         try {
           const validatedData = await request.validate(WorkingDirectionValidator)
 
-          logger.info(`Adding a new category: ${validatedData.name}.`)
-
-          const category = {
+          const newCategory = {
             working_direction_id: params.idWorking,
             ...validatedData,
           }
 
-          await Category.create(category)
-          return response.created(category)
+          await Category.create(newCategory)
+
+          logger.info(`Adding a new category: ${newCategory}.`)
+          return response.created(newCategory)
         } catch (error) {
           logger.warn(`Error: ${error.messages.name}`)
           return response.badRequest(error.messages)
