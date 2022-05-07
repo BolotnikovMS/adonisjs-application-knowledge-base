@@ -55,7 +55,7 @@ export default class QuestionsController {
     }
   }
 
-  public async update({}: HttpContextContract) {}
+  public async update({ request }: HttpContextContract) {}
 
   public async destroy({ response, params, logger }: HttpContextContract) {
     const question = await Question.find(params.idQuestion)
