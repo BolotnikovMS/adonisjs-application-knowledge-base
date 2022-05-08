@@ -55,7 +55,30 @@ export default class QuestionsController {
     }
   }
 
-  public async update({ request }: HttpContextContract) {}
+  public async update({ request, response, params, logger }: HttpContextContract) {
+    const question = await Question.find(params.idQuestion)
+
+    if (question) {
+      try {
+        const validatedData = await request.validate(RequestQuestionValidator)
+
+        question.question = validatedData.question
+        question.description_question = validatedData.description_question ? validatedData.description_question : question.description_question
+        question.status = validatedData.status ? validatedData.status : question.status
+
+        await question.save()
+
+        logger.info(`Updated to: '${question}'`)
+        return response.ok(question)
+      } catch (error) {
+        logger.warn(`Warn: ${error.messages}`)
+        response.badRequest(error.messages)
+      }
+    } else {
+      logger.error(`Error: Not found.`)
+      return response.notFound({ error: 'Not found.' })
+    }
+  }
 
   public async destroy({ response, params, logger }: HttpContextContract) {
     const question = await Question.find(params.idQuestion)

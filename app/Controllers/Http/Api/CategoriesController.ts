@@ -82,9 +82,9 @@ export default class CategoriesController {
 
         category.name = validatedData.name
 
-        logger.info(`Updated to: '${validatedData.name}'`)
         await category.save()
 
+        logger.info(`Updated to: '${category}'`)
         return response.ok(category)
       } catch (error) {
         logger.warn(`Warn: ${error.messages.name}`)
