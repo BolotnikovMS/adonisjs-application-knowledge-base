@@ -79,6 +79,7 @@ Route.group(() => {
 
   Route.group(() => {
     Route.get('/:idQuestion', 'QuestionsController.show')
+    Route.patch('/:idQuestion', 'QuestionsController.update')
     Route.delete('/:idQuestion', 'QuestionsController.destroy')
   }).prefix('questions')
 })
