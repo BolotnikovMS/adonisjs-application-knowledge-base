@@ -4,7 +4,7 @@ import WorkingDirection from 'App/Models/WorkingDirection'
 
 import WorkingDirectionValidator from 'App/Validators/WorkingDirectionValidator'
 
-import { checkObjectProperty } from '../../../../utils/helpersFunc'
+import { checkObjectProperty } from '../../../../../utils/helpersFunc'
 
 export default class WorkingsDirectionsController {
   public async index({ request, response, logger }: HttpContextContract) {

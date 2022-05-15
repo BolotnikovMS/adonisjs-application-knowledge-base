@@ -5,7 +5,7 @@ import WorkingDirectionValidator from 'App/Validators/WorkingDirectionValidator'
 import Category from 'App/Models/Category'
 import WorkingDirection from 'App/Models/WorkingDirection'
 
-import { checkObjectProperty } from '../../../../utils/helpersFunc'
+import { checkObjectProperty } from '../../../../../utils/helpersFunc'
 
 export default class CategoriesController {
   public async store({ request, response, params, logger }: HttpContextContract) {
