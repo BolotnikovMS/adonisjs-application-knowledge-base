@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300');
+
+body {
+  padding-top: 55px;
+}
+
+a:focus,
+a:active,
+button:focus {
+  outline: 0!important;
+  outline-color: transparent!important;
+  outline-width: 0!important;
+  outline-style: none!important;
+  box-shadow: 0 0 0 0 rgba(0,123,255,0)!important;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+.linkSt {
+  color: black;
+}
+
+.linkSt:hover {
+  color: rgb(53, 146, 253);
+}
+
+details summary {
+  cursor: pointer;
+}
+
+details div {
+  padding: 5px;
+  margin-top: 10px;
+}
+
+details[open] div {
+  animation: slide .5s ease-in-out;
+}
+
+@keyframes slide {
+  0% {
+    opacity: 0;
+    transform: translate(0, -20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+.btn-menu-dropdown {
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 50px;
+  margin-right: 10px;
+  background-color: #ffffff;
+}
+
+.btn-menu-dropdown:hover {
+  background-color: #d8d8d8;
+}

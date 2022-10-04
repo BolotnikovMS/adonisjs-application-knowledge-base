@@ -4,7 +4,6 @@ import Question from 'App/Models/Question'
 
 import RequestQuestionValidator from 'App/Validators/RequestQuestionValidator'
 import RequestFileValidator from 'App/Validators/RequestFileValidator'
-import Application from '@ioc:Adonis/Core/Application'
 import {cuid} from '@ioc:Adonis/Core/Helpers'
 
 export default class QuestionsController {
@@ -29,7 +28,6 @@ export default class QuestionsController {
     const validatedDataQuestion = await request.validate(RequestQuestionValidator)
     validatedDataQuestion.category_id = idCategory
 
-    // console.log(validatedDataQuestion)
     await Question.create(validatedDataQuestion)
 
     session.flash('successmessage',`Вопрос "${validatedDataQuestion.question}" успешно добавлен.`)
